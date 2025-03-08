@@ -12,8 +12,26 @@ CMakeFiles/Matrices.dir/src/Matrix/matrix.c.obj: D:/Programming/OpenGL/Graphics/
   c:/mingw/lib/gcc/mingw32/6.3.0/include/stdarg.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/stddef.h
 
+CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj: D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/Matrix/transformations.c \
+  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/matrix.h \
+  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/transformations.h \
+  c:/mingw/include/_mingw.h \
+  c:/mingw/include/math.h \
+  c:/mingw/include/msvcrtver.h \
+  c:/mingw/include/sdkddkver.h \
+  c:/mingw/include/w32api.h
+
 CMakeFiles/Matrices.dir/src/main.c.obj: D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/main.c \
-  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/matrix.h
+  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/matrix.h \
+  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/transformations.h \
+  c:/mingw/include/_mingw.h \
+  c:/mingw/include/msvcrtver.h \
+  c:/mingw/include/sdkddkver.h \
+  c:/mingw/include/stdio.h \
+  c:/mingw/include/sys/types.h \
+  c:/mingw/include/w32api.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/stdarg.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/stddef.h
 
 
 D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/Matrix/matrix.c:
@@ -35,5 +53,11 @@ c:/mingw/include/w32api.h:
 c:/mingw/lib/gcc/mingw32/6.3.0/include/stdarg.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/stddef.h:
+
+D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/Matrix/transformations.c:
+
+D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/transformations.h:
+
+c:/mingw/include/math.h:
 
 D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/main.c:

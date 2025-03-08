@@ -152,6 +152,30 @@ src/Matrix/matrix.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Matrices.dir\build.make CMakeFiles/Matrices.dir/src/Matrix/matrix.c.s
 .PHONY : src/Matrix/matrix.c.s
 
+src/Matrix/transformations.obj: src/Matrix/transformations.c.obj
+.PHONY : src/Matrix/transformations.obj
+
+# target to build an object file
+src/Matrix/transformations.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Matrices.dir\build.make CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj
+.PHONY : src/Matrix/transformations.c.obj
+
+src/Matrix/transformations.i: src/Matrix/transformations.c.i
+.PHONY : src/Matrix/transformations.i
+
+# target to preprocess a source file
+src/Matrix/transformations.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Matrices.dir\build.make CMakeFiles/Matrices.dir/src/Matrix/transformations.c.i
+.PHONY : src/Matrix/transformations.c.i
+
+src/Matrix/transformations.s: src/Matrix/transformations.c.s
+.PHONY : src/Matrix/transformations.s
+
+# target to generate assembly for a file
+src/Matrix/transformations.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Matrices.dir\build.make CMakeFiles/Matrices.dir/src/Matrix/transformations.c.s
+.PHONY : src/Matrix/transformations.c.s
+
 src/main.obj: src/main.c.obj
 .PHONY : src/main.obj
 
@@ -188,6 +212,9 @@ help:
 	@echo ... src/Matrix/matrix.obj
 	@echo ... src/Matrix/matrix.i
 	@echo ... src/Matrix/matrix.s
+	@echo ... src/Matrix/transformations.obj
+	@echo ... src/Matrix/transformations.i
+	@echo ... src/Matrix/transformations.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Matrices.dir/src/Matrix/matrix.c.obj"
   "CMakeFiles/Matrices.dir/src/Matrix/matrix.c.obj.d"
+  "CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj"
+  "CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj.d"
   "CMakeFiles/Matrices.dir/src/main.c.obj"
   "CMakeFiles/Matrices.dir/src/main.c.obj.d"
   "Matrices.exe"

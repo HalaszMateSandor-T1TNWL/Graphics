@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/Matrix/matrix.c" "CMakeFiles/Matrices.dir/src/Matrix/matrix.c.obj" "gcc" "CMakeFiles/Matrices.dir/src/Matrix/matrix.c.obj.d"
+  "D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/Matrix/transformations.c" "CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj" "gcc" "CMakeFiles/Matrices.dir/src/Matrix/transformations.c.obj.d"
   "D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/src/main.c" "CMakeFiles/Matrices.dir/src/main.c.obj" "gcc" "CMakeFiles/Matrices.dir/src/main.c.obj.d"
   )
 

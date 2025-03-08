@@ -1,6 +1,7 @@
 CMakeFiles/Matrices.dir/src/main.c.obj: \
  D:\Programming\OpenGL\Graphics\gyakorlatok\Matrices\src\main.c \
  D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/matrix.h \
+ D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/include/Matrix/transformations.h \
  c:\mingw\include\stdio.h c:\mingw\include\_mingw.h \
  c:\mingw\include\msvcrtver.h c:\mingw\include\w32api.h \
  c:\mingw\include\sdkddkver.h \
