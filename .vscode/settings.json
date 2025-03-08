@@ -1,9 +1,0 @@
-{
-    "C_Cpp.default.compilerPath": "c:\\Users\\au091451\\OneDrive\\me-courses\\c_sdk_220203\\MinGW\\bin\\gcc.exe",
-    "files.associations": {
-        "sdl.h": "c",
-        "gl.h": "c"
-    },
-    "cmake.sourceDirectory": "D:/Programming/OpenGL/Graphics/AdvancedSDL",
-    "makefile.makefilePath": ""
-}
