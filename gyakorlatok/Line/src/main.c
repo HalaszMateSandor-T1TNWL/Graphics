@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include <GL/gl.h>
 #include "LineH/line.h"
 #include "Color/color.h"
@@ -8,6 +9,7 @@ int WinMain(int argc, char** argv[]){
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Event event;
+
     Line line;
     Color colorC;
     colorC.R = 135;
@@ -92,6 +94,7 @@ int WinMain(int argc, char** argv[]){
     }
 
     CLEANUP_AND_QUIT:
+        if(glContext) SDL_GL_DeleteContext(glContext);
         if(renderer) SDL_DestroyRenderer(renderer);
         if(window) SDL_DestroyWindow(window);
 
