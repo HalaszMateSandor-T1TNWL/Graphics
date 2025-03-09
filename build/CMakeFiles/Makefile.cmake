@@ -98,9 +98,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindOpenGL.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageMessage.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCLinkerInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake"
@@ -123,11 +120,11 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Windows-windres.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/WindowsPaths.cmake"
-  "D:/Programming/OpenGL/Graphics/gyakorlatok/Line/CMakeLists.txt"
   "CMakeFiles/4.0.0-rc2/CMakeCCompiler.cmake"
   "CMakeFiles/4.0.0-rc2/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.0.0-rc2/CMakeRCCompiler.cmake"
   "CMakeFiles/4.0.0-rc2/CMakeSystem.cmake"
+  "D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -149,5 +146,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Line.dir/DependInfo.cmake"
+  "CMakeFiles/Cuboid.dir/DependInfo.cmake"
   )

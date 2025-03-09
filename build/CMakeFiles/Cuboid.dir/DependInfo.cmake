@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/Programming/OpenGL/Graphics/gyakorlatok/AdvancedSDL/src/main.c" "CMakeFiles/AdvancedSDL.dir/src/main.c.obj" "gcc" "CMakeFiles/AdvancedSDL.dir/src/main.c.obj.d"
+  "D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/src/Brick/brick.c" "CMakeFiles/Cuboid.dir/src/Brick/brick.c.obj" "gcc" "CMakeFiles/Cuboid.dir/src/Brick/brick.c.obj.d"
+  "D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/src/main.c" "CMakeFiles/Cuboid.dir/src/main.c.obj" "gcc" "CMakeFiles/Cuboid.dir/src/main.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL
+CMAKE_SOURCE_DIR = D:\Programming\OpenGL\Graphics\gyakorlatok\Cuboid
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL\build
+CMAKE_BINARY_DIR = D:\Programming\OpenGL\Graphics\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL\build\CMakeFiles D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\OpenGL\Graphics\build\CMakeFiles D:\Programming\OpenGL\Graphics\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Programming\OpenGL\Graphics\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -116,24 +116,48 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named AdvancedSDL
+# Target rules for targets named Cuboid
 
 # Build rule for target.
-AdvancedSDL: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 AdvancedSDL
-.PHONY : AdvancedSDL
+Cuboid: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Cuboid
+.PHONY : Cuboid
 
 # fast build rule for target.
-AdvancedSDL/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedSDL.dir\build.make CMakeFiles/AdvancedSDL.dir/build
-.PHONY : AdvancedSDL/fast
+Cuboid/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/build
+.PHONY : Cuboid/fast
+
+src/Brick/brick.obj: src/Brick/brick.c.obj
+.PHONY : src/Brick/brick.obj
+
+# target to build an object file
+src/Brick/brick.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/Brick/brick.c.obj
+.PHONY : src/Brick/brick.c.obj
+
+src/Brick/brick.i: src/Brick/brick.c.i
+.PHONY : src/Brick/brick.i
+
+# target to preprocess a source file
+src/Brick/brick.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/Brick/brick.c.i
+.PHONY : src/Brick/brick.c.i
+
+src/Brick/brick.s: src/Brick/brick.c.s
+.PHONY : src/Brick/brick.s
+
+# target to generate assembly for a file
+src/Brick/brick.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/Brick/brick.c.s
+.PHONY : src/Brick/brick.c.s
 
 src/main.obj: src/main.c.obj
 .PHONY : src/main.obj
 
 # target to build an object file
 src/main.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedSDL.dir\build.make CMakeFiles/AdvancedSDL.dir/src/main.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/main.c.obj
 .PHONY : src/main.c.obj
 
 src/main.i: src/main.c.i
@@ -141,7 +165,7 @@ src/main.i: src/main.c.i
 
 # target to preprocess a source file
 src/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedSDL.dir\build.make CMakeFiles/AdvancedSDL.dir/src/main.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/main.c.i
 .PHONY : src/main.c.i
 
 src/main.s: src/main.c.s
@@ -149,7 +173,7 @@ src/main.s: src/main.c.s
 
 # target to generate assembly for a file
 src/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedSDL.dir\build.make CMakeFiles/AdvancedSDL.dir/src/main.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Cuboid.dir\build.make CMakeFiles/Cuboid.dir/src/main.c.s
 .PHONY : src/main.c.s
 
 # Help Target
@@ -160,7 +184,10 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... AdvancedSDL
+	@echo ... Cuboid
+	@echo ... src/Brick/brick.obj
+	@echo ... src/Brick/brick.i
+	@echo ... src/Brick/brick.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

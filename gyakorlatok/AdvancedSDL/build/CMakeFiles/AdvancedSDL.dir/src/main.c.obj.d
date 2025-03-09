@@ -1,5 +1,6 @@
 CMakeFiles/AdvancedSDL.dir/src/main.c.obj: \
- D:\Programming\OpenGL\Graphics\AdvancedSDL\src\main.c \
+ D:\Programming\OpenGL\Graphics\gyakorlatok\AdvancedSDL\src\main.c \
+ D:/Programming/OpenGL/Graphics/gyakorlatok/AdvancedSDL/include/screen/screen.h \
  c:\mingw\include\sdl2\sdl.h c:\mingw\include\sdl2\SDL_main.h \
  c:\mingw\include\sdl2\SDL_stdinc.h c:\mingw\include\sdl2\SDL_config.h \
  c:\mingw\include\sdl2\SDL_platform.h c:\mingw\include\sdl2\begin_code.h \
@@ -69,4 +70,4 @@ CMakeFiles/AdvancedSDL.dir/src/main.c.obj: \
  c:\mingw\include\sdl2\SDL_render.h c:\mingw\include\sdl2\SDL_shape.h \
  c:\mingw\include\sdl2\SDL_system.h c:\mingw\include\sdl2\SDL_timer.h \
  c:\mingw\include\sdl2\SDL_version.h c:\mingw\include\sdl2\SDL_locale.h \
- c:\mingw\include\sdl2\SDL_misc.h
+ c:\mingw\include\sdl2\SDL_misc.h c:\mingw\include\gl\gl.h

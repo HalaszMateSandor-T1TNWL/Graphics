@@ -69,6 +69,18 @@ CMakeFiles/Line.dir/src/main.c.obj: \
  c:\mingw\include\sdl2\SDL_render.h c:\mingw\include\sdl2\SDL_shape.h \
  c:\mingw\include\sdl2\SDL_system.h c:\mingw\include\sdl2\SDL_timer.h \
  c:\mingw\include\sdl2\SDL_version.h c:\mingw\include\sdl2\SDL_locale.h \
- c:\mingw\include\sdl2\SDL_misc.h c:\mingw\include\gl\gl.h \
+ c:\mingw\include\sdl2\SDL_misc.h c:\mingw\include\sdl2\sdl_opengl.h \
+ c:\mingw\include\windows.h c:\mingw\include\windef.h \
+ c:\mingw\include\winnt.h c:\mingw\include\winerror.h \
+ c:\mingw\include\string.h c:\mingw\include\strings.h \
+ c:\mingw\include\wchar.h c:\mingw\include\basetsd.h \
+ c:\mingw\include\pshpack4.h c:\mingw\include\poppack.h \
+ c:\mingw\include\wincon.h c:\mingw\include\winbase.h \
+ c:\mingw\include\wingdi.h c:\mingw\include\winuser.h \
+ c:\mingw\include\dbt.h c:\mingw\include\winnls.h \
+ c:\mingw\include\winver.h c:\mingw\include\winnetwk.h \
+ c:\mingw\include\winreg.h c:\mingw\include\winsvc.h \
+ c:\mingw\include\sdl2\SDL_opengl_glext.h c:\mingw\include\inttypes.h \
+ c:\mingw\include\gl\gl.h \
  D:/Programming/OpenGL/Graphics/gyakorlatok/Line/include/LineH/line.h \
  D:/Programming/OpenGL/Graphics/gyakorlatok/Line/include/Color/color.h
