@@ -129,7 +129,9 @@ Going3D.exe: CMakeFiles/Going3D.dir/src/main.c.obj
 Going3D.exe: CMakeFiles/Going3D.dir/src/Window/render.c.obj
 Going3D.exe: CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj
 Going3D.exe: CMakeFiles/Going3D.dir/build.make
+Going3D.exe: C:/msys64/mingw64/lib/libSDL2main.a
 Going3D.exe: C:/msys64/mingw64/lib/libSDL2.dll.a
+Going3D.exe: C:/msys64/mingw64/lib/libSDL2_image.dll.a
 Going3D.exe: CMakeFiles/Going3D.dir/linkLibs.rsp
 Going3D.exe: CMakeFiles/Going3D.dir/objects1.rsp
 Going3D.exe: CMakeFiles/Going3D.dir/link.txt

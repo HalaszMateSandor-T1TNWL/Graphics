@@ -306,6 +306,7 @@ CMakeFiles/Going3D.dir/src/Window/render.c.obj: D:/Programming/OpenGL/Graphics/g
   C:/msys64/mingw64/include/SDL2/SDL_haptic.h \
   C:/msys64/mingw64/include/SDL2/SDL_hidapi.h \
   C:/msys64/mingw64/include/SDL2/SDL_hints.h \
+  C:/msys64/mingw64/include/SDL2/SDL_image.h \
   C:/msys64/mingw64/include/SDL2/SDL_joystick.h \
   C:/msys64/mingw64/include/SDL2/SDL_keyboard.h \
   C:/msys64/mingw64/include/SDL2/SDL_keycode.h \
@@ -871,6 +872,8 @@ D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/src/Window/render.c:
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/xtestintrin.h:
 
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/xsaveintrin.h:
+
+C:/msys64/mingw64/include/SDL2/SDL_image.h:
 
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/xsavecintrin.h:
 

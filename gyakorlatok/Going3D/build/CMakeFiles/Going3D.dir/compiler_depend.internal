@@ -308,6 +308,7 @@ CMakeFiles/Going3D.dir/src/Window/render.c.obj
  C:/msys64/mingw64/include/SDL2/SDL_haptic.h
  C:/msys64/mingw64/include/SDL2/SDL_hidapi.h
  C:/msys64/mingw64/include/SDL2/SDL_hints.h
+ C:/msys64/mingw64/include/SDL2/SDL_image.h
  C:/msys64/mingw64/include/SDL2/SDL_joystick.h
  C:/msys64/mingw64/include/SDL2/SDL_keyboard.h
  C:/msys64/mingw64/include/SDL2/SDL_keycode.h

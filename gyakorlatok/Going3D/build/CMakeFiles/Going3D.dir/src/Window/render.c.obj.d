@@ -266,6 +266,7 @@ CMakeFiles/Going3D.dir/src/Window/render.c.obj: \
  C:/msys64/mingw64/include/winsvc.h C:/msys64/mingw64/include/mcx.h \
  C:/msys64/mingw64/include/imm.h \
  C:/msys64/mingw64/include/SDL2/SDL_opengl_glext.h \
- C:/msys64/mingw64/include/GL/gl.h C:/msys64/mingw64/include/GL/glu.h \
- C:/msys64/mingw64/include/GL/glext.h \
+ C:/msys64/mingw64/include/SDL2/SDL_image.h \
+ C:/msys64/mingw64/include/SDL2/SDL.h C:/msys64/mingw64/include/GL/gl.h \
+ C:/msys64/mingw64/include/GL/glu.h C:/msys64/mingw64/include/GL/glext.h \
  D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/include/Window/window.h

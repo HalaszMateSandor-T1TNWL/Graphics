@@ -46,6 +46,10 @@ int main(int argc, char* argv[])
                         windowed = !windowed;
                         SDL_SetWindowFullscreen(window, windowed ? SDL_FALSE : SDL_TRUE);
                     }
+                    if (event.key.keysym.sym == SDLK_ESCAPE){
+                        should_quit = true;
+                        break;
+                    }
                     break;
             }
         }
