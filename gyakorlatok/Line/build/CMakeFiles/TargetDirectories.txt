@@ -1,0 +1,3 @@
+D:/Programming/OpenGL/Graphics/gyakorlatok/Line/build/CMakeFiles/Line.dir
+D:/Programming/OpenGL/Graphics/gyakorlatok/Line/build/CMakeFiles/edit_cache.dir
+D:/Programming/OpenGL/Graphics/gyakorlatok/Line/build/CMakeFiles/rebuild_cache.dir

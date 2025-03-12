@@ -1,0 +1,3 @@
+D:/Programming/OpenGL/Graphics/BasicSDL/build/CMakeFiles/BasicSDL.dir
+D:/Programming/OpenGL/Graphics/BasicSDL/build/CMakeFiles/edit_cache.dir
+D:/Programming/OpenGL/Graphics/BasicSDL/build/CMakeFiles/rebuild_cache.dir

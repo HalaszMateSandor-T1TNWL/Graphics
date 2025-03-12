@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.14.0)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project(BasicSDL)
+
+add_executable(BasicSDL src/main.c)
+
+target_link_libraries(BasicSDL PUBLIC SDL2 SDL2main mingw32)

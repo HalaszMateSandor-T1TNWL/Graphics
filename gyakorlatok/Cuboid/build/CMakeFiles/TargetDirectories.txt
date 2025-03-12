@@ -1,0 +1,3 @@
+D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/build/CMakeFiles/Cuboid.dir
+D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/build/CMakeFiles/edit_cache.dir
+D:/Programming/OpenGL/Graphics/gyakorlatok/Cuboid/build/CMakeFiles/rebuild_cache.dir
