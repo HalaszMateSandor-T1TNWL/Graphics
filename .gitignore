@@ -1,5 +1,7 @@
 *.json
 
+*.cmake
+
 /build/*
 
 *.exe
