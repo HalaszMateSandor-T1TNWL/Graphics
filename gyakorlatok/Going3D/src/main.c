@@ -51,6 +51,26 @@ int main(int argc, char* argv[])
                         break;
                     }
                     break;
+
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym){
+                        case SDLK_w:
+                            printf("Forward\n");
+                            break;
+                        case SDLK_s:
+                            printf("Backwards\n");
+                            break;
+                        case SDLK_a:
+                            printf("Left\n");
+                            break;
+                        case SDLK_d:
+                            printf("Right\n");
+                            break;
+                    }
+                    break;
+                    
+
+                    
             }
         }
         renderObject();

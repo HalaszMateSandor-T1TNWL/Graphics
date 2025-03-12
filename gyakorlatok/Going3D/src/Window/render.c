@@ -49,7 +49,7 @@ GLuint LoadTexture(const char* filename){
 }
 
 void initTexture(){
-    textureID = LoadTexture("C:/Users/halas/Desktop/Aestethic/Hoofs.png");
+    textureID = LoadTexture("../textures/Hoofs.png");
 }
 
 void renderObject() {
