@@ -1,3 +1,0 @@
-D:/Programming/OpenGL/Graphics/gyakorlatok/AdvancedSDL/build/CMakeFiles/AdvancedSDL.dir
-D:/Programming/OpenGL/Graphics/gyakorlatok/AdvancedSDL/build/CMakeFiles/edit_cache.dir
-D:/Programming/OpenGL/Graphics/gyakorlatok/AdvancedSDL/build/CMakeFiles/rebuild_cache.dir
