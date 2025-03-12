@@ -1,6 +1,6 @@
 *.json
 
-build/*
+/build/*
 
 *.exe
 
