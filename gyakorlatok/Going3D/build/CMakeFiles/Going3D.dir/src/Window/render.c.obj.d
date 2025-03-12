@@ -1,5 +1,5 @@
-CMakeFiles/Going3D.dir/src/main.c.obj: \
- D:\Programming\OpenGL\Graphics\gyakorlatok\Going3D\src\main.c \
+CMakeFiles/Going3D.dir/src/Window/render.c.obj: \
+ D:\Programming\OpenGL\Graphics\gyakorlatok\Going3D\src\Window\render.c \
  C:/msys64/mingw64/include/SDL2/SDL.h \
  C:/msys64/mingw64/include/SDL2/SDL_main.h \
  C:/msys64/mingw64/include/SDL2/SDL_stdinc.h \
@@ -268,5 +268,4 @@ CMakeFiles/Going3D.dir/src/main.c.obj: \
  C:/msys64/mingw64/include/SDL2/SDL_opengl_glext.h \
  C:/msys64/mingw64/include/GL/gl.h C:/msys64/mingw64/include/GL/glu.h \
  C:/msys64/mingw64/include/GL/glext.h \
- C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdbool.h \
  D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/include/Window/window.h

@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj"
   "CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj.d"
+  "CMakeFiles/Going3D.dir/src/Window/render.c.obj"
+  "CMakeFiles/Going3D.dir/src/Window/render.c.obj.d"
   "CMakeFiles/Going3D.dir/src/main.c.obj"
   "CMakeFiles/Going3D.dir/src/main.c.obj.d"
   "Going3D.exe"

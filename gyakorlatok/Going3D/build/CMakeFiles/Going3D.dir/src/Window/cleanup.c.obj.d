@@ -1,5 +1,6 @@
 CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj: \
  D:\Programming\OpenGL\Graphics\gyakorlatok\Going3D\src\Window\cleanup.c \
+ C:/msys64/mingw64/include/SDL2/SDL.h \
  C:/msys64/mingw64/include/SDL2/SDL_main.h \
  C:/msys64/mingw64/include/SDL2/SDL_stdinc.h \
  C:/msys64/mingw64/include/SDL2/SDL_config.h \
@@ -43,8 +44,7 @@ CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj: \
  C:/msys64/mingw64/include/stdint.h C:/msys64/mingw64/include/ctype.h \
  C:/msys64/mingw64/include/math.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/float.h \
- C:/msys64/mingw64/include/float.h C:/msys64/mingw64/include/SDL2/SDL.h \
- C:/msys64/mingw64/include/SDL2/SDL_main.h \
+ C:/msys64/mingw64/include/float.h \
  C:/msys64/mingw64/include/SDL2/SDL_assert.h \
  C:/msys64/mingw64/include/SDL2/SDL_atomic.h \
  C:/msys64/mingw64/include/SDL2/SDL_audio.h \
@@ -197,8 +197,8 @@ CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj: \
  C:/msys64/mingw64/include/SDL2/SDL_version.h \
  C:/msys64/mingw64/include/SDL2/SDL_locale.h \
  C:/msys64/mingw64/include/SDL2/SDL_misc.h \
- C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdbool.h \
- C:/msys64/mingw64/include/GL/gl.h C:/msys64/mingw64/include/windows.h \
+ C:/msys64/mingw64/include/SDL2/SDL_opengl.h \
+ C:/msys64/mingw64/include/windows.h \
  C:/msys64/mingw64/include/sdkddkver.h C:/msys64/mingw64/include/excpt.h \
  C:/msys64/mingw64/include/windef.h \
  C:/msys64/mingw64/include/winapifamily.h \
@@ -261,49 +261,9 @@ CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj: \
  C:/msys64/mingw64/include/winver.h C:/msys64/mingw64/include/winreg.h \
  C:/msys64/mingw64/include/reason.h C:/msys64/mingw64/include/winnetwk.h \
  C:/msys64/mingw64/include/wnnc.h C:/msys64/mingw64/include/virtdisk.h \
- C:/msys64/mingw64/include/cderr.h C:/msys64/mingw64/include/dde.h \
- C:/msys64/mingw64/include/ddeml.h C:/msys64/mingw64/include/dlgs.h \
- C:/msys64/mingw64/include/lzexpand.h \
- C:/msys64/mingw64/include/mmsystem.h \
- C:/msys64/mingw64/include/mmsyscom.h C:/msys64/mingw64/include/mciapi.h \
- C:/msys64/mingw64/include/mmiscapi.h \
- C:/msys64/mingw64/include/mmiscapi2.h \
- C:/msys64/mingw64/include/playsoundapi.h \
- C:/msys64/mingw64/include/mmeapi.h C:/msys64/mingw64/include/timeapi.h \
- C:/msys64/mingw64/include/joystickapi.h C:/msys64/mingw64/include/nb30.h \
- C:/msys64/mingw64/include/rpc.h C:/msys64/mingw64/include/rpcdce.h \
- C:/msys64/mingw64/include/rpcdcep.h C:/msys64/mingw64/include/rpcnsi.h \
- C:/msys64/mingw64/include/rpcnterr.h \
- C:/msys64/mingw64/include/rpcasync.h \
- C:/msys64/mingw64/include/shellapi.h C:/msys64/mingw64/include/winperf.h \
- C:/msys64/mingw64/include/winsock.h C:/msys64/mingw64/include/_timeval.h \
- C:/msys64/mingw64/include/_bsd_types.h \
- C:/msys64/mingw64/include/inaddr.h \
- C:/msys64/mingw64/include/psdk_inc/_socket_types.h \
- C:/msys64/mingw64/include/psdk_inc/_fd_types.h \
- C:/msys64/mingw64/include/psdk_inc/_ip_types.h \
- C:/msys64/mingw64/include/psdk_inc/_ip_mreq1.h \
- C:/msys64/mingw64/include/psdk_inc/_wsadata.h \
- C:/msys64/mingw64/include/psdk_inc/_xmitfile.h \
- C:/msys64/mingw64/include/psdk_inc/_wsa_errnos.h \
- C:/msys64/mingw64/include/wincrypt.h C:/msys64/mingw64/include/bcrypt.h \
- C:/msys64/mingw64/include/ncrypt.h C:/msys64/mingw64/include/dpapi.h \
- C:/msys64/mingw64/include/winefs.h C:/msys64/mingw64/include/winscard.h \
- C:/msys64/mingw64/include/wtypes.h C:/msys64/mingw64/include/rpcndr.h \
- C:/msys64/mingw64/include/rpcnsip.h C:/msys64/mingw64/include/rpcsal.h \
- C:/msys64/mingw64/include/ole2.h C:/msys64/mingw64/include/objbase.h \
- C:/msys64/mingw64/include/combaseapi.h \
- C:/msys64/mingw64/include/wtypesbase.h \
- C:/msys64/mingw64/include/unknwnbase.h \
- C:/msys64/mingw64/include/objidlbase.h C:/msys64/mingw64/include/cguid.h \
- C:/msys64/mingw64/include/objidl.h C:/msys64/mingw64/include/unknwn.h \
- C:/msys64/mingw64/include/urlmon.h C:/msys64/mingw64/include/oleidl.h \
- C:/msys64/mingw64/include/servprov.h C:/msys64/mingw64/include/msxml.h \
- C:/msys64/mingw64/include/oaidl.h C:/msys64/mingw64/include/propidl.h \
- C:/msys64/mingw64/include/oleauto.h C:/msys64/mingw64/include/winioctl.h \
- C:/msys64/mingw64/include/winsmcrd.h \
- C:/msys64/mingw64/include/winspool.h C:/msys64/mingw64/include/prsht.h \
- C:/msys64/mingw64/include/commdlg.h C:/msys64/mingw64/include/stralign.h \
+ C:/msys64/mingw64/include/stralign.h \
  C:/msys64/mingw64/include/sec_api/stralign_s.h \
  C:/msys64/mingw64/include/winsvc.h C:/msys64/mingw64/include/mcx.h \
- C:/msys64/mingw64/include/imm.h
+ C:/msys64/mingw64/include/imm.h \
+ C:/msys64/mingw64/include/SDL2/SDL_opengl_glext.h \
+ D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/include/Window/window.h

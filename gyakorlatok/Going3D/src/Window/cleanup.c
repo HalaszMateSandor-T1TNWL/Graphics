@@ -1,11 +1,13 @@
 #include <SDL2/SDL.h>
-#include <GL/gl.h>
+#include <SDL2/SDL_opengl.h>
+#include "Window/window.h"
 
-void CleanUpAndQuit(SDL_Window* window, SDL_GLContext glContext){
-    if (glContext)
+void cleanup(SDL_Window* window, SDL_GLContext glContext){
+    if (glContext){
         SDL_GL_DeleteContext(glContext);
-        glClear(GL_COLOR_BUFFER_BIT);
-    if (window)
+    }
+    if (window){
         SDL_DestroyWindow(window);
-    SDL_Quit();
+    }
+    SDL_Quit();    
 }
