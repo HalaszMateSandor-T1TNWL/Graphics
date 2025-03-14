@@ -128,30 +128,6 @@ Going3D/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Going3D.dir\build.make CMakeFiles/Going3D.dir/build
 .PHONY : Going3D/fast
 
-src/Window/cleanup.obj: src/Window/cleanup.c.obj
-.PHONY : src/Window/cleanup.obj
-
-# target to build an object file
-src/Window/cleanup.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Going3D.dir\build.make CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj
-.PHONY : src/Window/cleanup.c.obj
-
-src/Window/cleanup.i: src/Window/cleanup.c.i
-.PHONY : src/Window/cleanup.i
-
-# target to preprocess a source file
-src/Window/cleanup.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Going3D.dir\build.make CMakeFiles/Going3D.dir/src/Window/cleanup.c.i
-.PHONY : src/Window/cleanup.c.i
-
-src/Window/cleanup.s: src/Window/cleanup.c.s
-.PHONY : src/Window/cleanup.s
-
-# target to generate assembly for a file
-src/Window/cleanup.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Going3D.dir\build.make CMakeFiles/Going3D.dir/src/Window/cleanup.c.s
-.PHONY : src/Window/cleanup.c.s
-
 src/Window/render.obj: src/Window/render.c.obj
 .PHONY : src/Window/render.obj
 
@@ -209,9 +185,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Going3D
-	@echo ... src/Window/cleanup.obj
-	@echo ... src/Window/cleanup.i
-	@echo ... src/Window/cleanup.s
 	@echo ... src/Window/render.obj
 	@echo ... src/Window/render.i
 	@echo ... src/Window/render.s
