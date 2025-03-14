@@ -4,33 +4,28 @@
 
 #include <math.h>
 
-void camera()
-{
-    void initCamera(Camera* camera){
-        camera->position.x = 0.0;
-        camera->poistion.y = 0.0;
-        camera->position.z = 1.0;
+void initCamera(Camera* camera){
+    camera->position.x = 0.0;
+    camera->position.y = 0.0;
+    camera->position.z = 1.0;
 
-        camera->rotation.x = 0.0;
-        camera->rotation.y = 0.0;
-        camera->rotation.z = 0.0;
+    camera->rotation.x = 0.0;
+    camera->rotation.y = 0.0;
+    camera->rotation.z = 0.0;
 
-        camera->speed.x = 0.0;
-        camera->speed.y = 0.0;
-        camera->speed.z = 0.0;
+    camera->speed.x = 0.0;
+    camera->speed.y = 0.0;
+    camera->speed.z = 0.0;
 
-        camera->is_preview_visible = false;
-    }
+    camera->is_preview_visible = false;
+}
 
-    void updateCamera(Camera* camera, double time){
-        double angle;
-        double side_angle;
+void updateCamera(Camera* camera, double time){
+    double angle;
+    double side_angle;
 
-        angle = degreeToRadian(camera->rotation.z);
-        side_angle = degreeToRadian(camera->rotation.z + 90.0);
+    angle = degreeToRadian(camera->rotation.z);
+    side_angle = degreeToRadian(camera->rotation.z + 90.0);
 
-        
-    }
-
-
+    
 }

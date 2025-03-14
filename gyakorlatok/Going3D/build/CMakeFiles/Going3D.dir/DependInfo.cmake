@@ -8,9 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/src/Window/cleanup.c" "CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj" "gcc" "CMakeFiles/Going3D.dir/src/Window/cleanup.c.obj.d"
-  "D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/src/Window/render.c" "CMakeFiles/Going3D.dir/src/Window/render.c.obj" "gcc" "CMakeFiles/Going3D.dir/src/Window/render.c.obj.d"
-  "D:/Programming/OpenGL/Graphics/gyakorlatok/Going3D/src/main.c" "CMakeFiles/Going3D.dir/src/main.c.obj" "gcc" "CMakeFiles/Going3D.dir/src/main.c.obj.d"
+  "/home/yagi/Graphics/gyakorlatok/Going3D/src/Window/render.c" "CMakeFiles/Going3D.dir/src/Window/render.c.o" "gcc" "CMakeFiles/Going3D.dir/src/Window/render.c.o.d"
+  "/home/yagi/Graphics/gyakorlatok/Going3D/src/main.c" "CMakeFiles/Going3D.dir/src/main.c.o" "gcc" "CMakeFiles/Going3D.dir/src/main.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

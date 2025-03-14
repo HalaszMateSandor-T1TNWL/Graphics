@@ -84,7 +84,7 @@ void renderObject() {
     glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
 
     // Draw a triangle
-    glRotatef(angle, 0.0f, 0.2f, 0.0f);
+    glRotatef(angle, 0.0f, 1.0f, 0.0f);
 
     glBegin(GL_TRIANGLES);
 
@@ -122,7 +122,7 @@ void renderObject() {
 
 void update()
 {
-    angle += 1;
+    angle += 10;
     if(angle > 360) angle -= 360;
 }
 
