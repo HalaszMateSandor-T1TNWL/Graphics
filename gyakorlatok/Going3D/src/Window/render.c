@@ -122,7 +122,7 @@ void renderObject() {
 
 void update()
 {
-    angle += 10;
+    angle += 1;
     if(angle > 360) angle -= 360;
 }
 
