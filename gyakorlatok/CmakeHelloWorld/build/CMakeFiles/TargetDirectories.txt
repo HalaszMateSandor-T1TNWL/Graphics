@@ -1,3 +1,0 @@
-D:/Programming/OpenGL/Graphics/CmakeHelloWorld/build/CMakeFiles/CmakeHelloWorld.dir
-D:/Programming/OpenGL/Graphics/CmakeHelloWorld/build/CMakeFiles/edit_cache.dir
-D:/Programming/OpenGL/Graphics/CmakeHelloWorld/build/CMakeFiles/rebuild_cache.dir

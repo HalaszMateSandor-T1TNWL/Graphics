@@ -84,7 +84,7 @@ void renderObject() {
     glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
 
     // Draw a triangle
-    glRotatef(angle, 0.0f, 0.2f, 0.0f);
+    glRotatef(angle, 0.0f, 1.0f, 0.0f);
 
     glBegin(GL_TRIANGLES);
 

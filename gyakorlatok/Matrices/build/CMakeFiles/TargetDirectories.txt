@@ -1,3 +1,0 @@
-D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/build/CMakeFiles/Matrices.dir
-D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/build/CMakeFiles/edit_cache.dir
-D:/Programming/OpenGL/Graphics/gyakorlatok/Matrices/build/CMakeFiles/rebuild_cache.dir
