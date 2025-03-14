@@ -1,3 +1,0 @@
-/home/yagi/Graphics/gyakorlatok/Going3D/build/CMakeFiles/Going3D.dir
-/home/yagi/Graphics/gyakorlatok/Going3D/build/CMakeFiles/edit_cache.dir
-/home/yagi/Graphics/gyakorlatok/Going3D/build/CMakeFiles/rebuild_cache.dir

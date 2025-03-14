@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/Going3D.dir/src/main.c.o CMakeFiles/Going3D.dir/src/Window/render.c.o -o Going3D   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib /usr/local/lib/libSDL2.so /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libGLU.so /usr/lib/x86_64-linux-gnu/libSDL2_image.so 
