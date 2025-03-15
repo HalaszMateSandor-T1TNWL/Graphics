@@ -2,8 +2,7 @@
 
 *.cmake
 
-build/*
-CMakeFiles/
+build/
 
 *.exe
 
