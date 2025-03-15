@@ -6,10 +6,15 @@
 #include <GL/glext.h>
 #include "Window/window.h"
 
-float angle = 0.0f;
+/* global variable for the pyramid's rotation angle */
+float triRotationAngle = 0;
+
+/* global variable for the texture's texture ID */
 GLuint textureID;
 
+/* Now comes the fun part~ */
 GLuint LoadTexture(const char* filename){
+
     SDL_Surface* surface = IMG_Load(filename);
     if(!surface){
         printf("An error occoured while loading the texture: %s\n ", IMG_GetError());
@@ -20,28 +25,29 @@ GLuint LoadTexture(const char* filename){
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);       //basically clamps the texture to your rendered model's edge
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);       //same as the previous one, just this time not with the S coordinates, but rather T
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);   //for when LOD decides the image should be MINIFIED it sets the algorithm to liniear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);   //same as the previous one, just this time for MAGNIFICATION
 
-    glTexImage2D(GL_TEXTURE_2D,
-                0,
-                GL_RGBA,
-                surface->w,
-                surface->h,
-                0,
-                GL_RGBA,
-                GL_UNSIGNED_BYTE,
-                surface->pixels);
 
-    gluBuild2DMipmaps(GL_TEXTURE_2D, 
-                        4, 
-                        surface->w, 
-                        surface->h, 
-                        GL_RGBA, 
-                        GL_UNSIGNED_BYTE, 
-                        surface->pixels);
+    glTexImage2D(GL_TEXTURE_2D,     //specifies the target texture aka. the image you're loading in
+                0,                  //specifies the level of detail you'll be loading the image in in (in?)
+                GL_RGBA,            //specifies the color components in the image (A stands for Alpha transparency, here)
+                surface->w,         //The width and
+                surface->h,         //height of the image provided
+                0,                  //it just HAS to be 0 (says so in the documentation, don't argue with me D:<)
+                GL_RGBA,            //specifies the format of the pixel data
+                GL_UNSIGNED_BYTE,   //specifies the data TYPE of the pixel data
+                surface->pixels);   //specifies the image pointer 
+
+    gluBuild2DMipmaps(GL_TEXTURE_2D,        //specifies the target texture (has to be GL_TEXTURE_2D for obvious reasons)
+                        4,                  //the internal storage format of the texture image (let that mean, whatever it means, it just has to be 1, 2, 3 or 4)
+                        surface->w,         //the width and
+                        surface->h,         //height of the texture
+                        GL_RGBA,            //and everything else from
+                        GL_UNSIGNED_BYTE,   //here is the same as the
+                        surface->pixels);   //previous one  
 
     SDL_FreeSurface(surface);
 
@@ -82,6 +88,10 @@ void renderObject() {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
     GLfloat material2[] = {1.0, 0.0, 0.0, 1.0};
     glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
+    
+    //Face Culling for performance
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     // Draw a triangle
     glRotatef(angle, 0.0f, 1.0f, 0.0f);
@@ -120,9 +130,9 @@ void renderObject() {
     glEnd();
 }
 
-void update()
+void updateRotation()
 {
-    angle += 1;
+    triRotationAngle += 1;
     if(angle > 360) angle -= 360;
 }
 
