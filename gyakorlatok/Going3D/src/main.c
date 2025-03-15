@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
             }
         }
         renderObject();
-        update();
+        updateRotation();
         SDL_GL_SwapWindow(window);
         modularFramerate();
     }

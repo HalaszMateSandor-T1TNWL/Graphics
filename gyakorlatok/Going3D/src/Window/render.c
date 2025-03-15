@@ -94,7 +94,7 @@ void renderObject() {
     glCullFace(GL_BACK);
 
     // Draw a triangle
-    glRotatef(angle, 0.0f, 1.0f, 0.0f);
+    glRotatef(triRotationAngle, 0.0f, 1.0f, 0.0f);
 
     glBegin(GL_TRIANGLES);
 
@@ -133,7 +133,7 @@ void renderObject() {
 void updateRotation()
 {
     triRotationAngle += 1;
-    if(angle > 360) angle -= 360;
+    if(triRotationAngle > 360) {triRotationAngle -= 360; }
 }
 
 void modularFramerate()

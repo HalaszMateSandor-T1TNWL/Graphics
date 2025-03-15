@@ -3,7 +3,7 @@
 
 void renderObject();
 void modularFramerate();
-void update();
+void updateRotation();
 
 #endif
 
