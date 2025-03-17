@@ -132,8 +132,8 @@ void renderObject() {
 
 void updateRotation()
 {
-    angle += 0.5;
-    if(angle > 360) angle -= 360;
+    triRotationAngle += 0.8;
+    if(triRotationAngle > 360) triRotationAngle -= 360;
 }
 
 void modularFramerate()
