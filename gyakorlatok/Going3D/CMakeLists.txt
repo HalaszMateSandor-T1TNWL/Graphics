@@ -10,7 +10,10 @@ find_package(SDL2_image REQUIRED)
 
 add_executable(Going3D src/main.c src/Window/render.c)
 target_include_directories(Going3D PRIVATE include)
+if(WIN32)
+target_link_libraries(Going3D PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image)
+endif(WIN32)
 
-#target_link_libraries(Going3D PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image)
-
+if(UNIX)
 target_link_libraries(Going3D PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image)
+endif(UNIX)
