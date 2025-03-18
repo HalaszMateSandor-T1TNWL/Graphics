@@ -16,10 +16,3 @@ void updateRotation();
 void cleanup(SDL_Window* window, SDL_GLContext glContext);
 
 #endif
-
-#ifndef CAMERA_H_
-#define CAMERA_H_
-
-void camera();
-
-#endif

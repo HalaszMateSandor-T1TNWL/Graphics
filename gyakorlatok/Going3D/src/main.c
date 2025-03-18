@@ -5,7 +5,6 @@
 #include <GL/glext.h>
 #include <stdbool.h>
 #include "Window/window.h"
-#include "Utils/utils.h"
 
 int main(int argc, char* argv[])
 {
