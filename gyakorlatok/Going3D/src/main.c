@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
                               width,
                               height,
                               SDL_WINDOW_OPENGL);
+    
     if (!window) goto WIPE;
 
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
@@ -68,10 +69,7 @@ int main(int argc, char* argv[])
                             printf("Right\n");
                             break;
                     }
-                    break;
-
-
-                    
+                    break;    
             }
         }
         renderObject();

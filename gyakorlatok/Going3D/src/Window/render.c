@@ -59,8 +59,7 @@ void initTexture(){
 }
 
 void renderObject() {
-
-    //glClearColor(0,0,0,1);
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     initTexture();
@@ -132,7 +131,7 @@ void renderObject() {
 
 void updateRotation()
 {
-    triRotationAngle += 1;
+    triRotationAngle += 10;
     if(triRotationAngle > 360) {triRotationAngle -= 360; }
 }
 

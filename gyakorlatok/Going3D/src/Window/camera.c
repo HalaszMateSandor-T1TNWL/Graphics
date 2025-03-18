@@ -50,17 +50,17 @@ void rotateCamera(Camera* camera, double horizontal, double vertical){
     camera->rotation.z += horizontal;
     camera->rotation.z += vertical;
 
-    if(camera->rotation.z < 0){
+    if(camera->rotation.z < 0.0){
         camera->rotation.z += 360.0;
     }
-    if(camera->rotation.z > 360){
-        camera->rotation.z -= 360;
+    if(camera->rotation.z > 360.0){
+        camera->rotation.z -= 360.0;
     }
-    if(camera->rotation.x < 0){
-        camera->rotation.x += 360;
+    if(camera->rotation.x < 0.0){
+        camera->rotation.x += 360.0;
     }
-    if(camera->rotation.x > 360){
-        camera->rotation.x -=360;
+    if(camera->rotation.x > 360.0){
+        camera->rotation.x -=360.0;
     }
 }
 
