@@ -1,15 +1,18 @@
 #include "Utils/scene.h"
 #include <GL/gl.h>
 
-void init_scene(Scene* scene){}
+void init_scene(Scene* scene)
+{
+}
 
-void update_scene(Scene* scene){}
+void update_scene(Scene* scene)
+{
+}
 
 void render_scene(const Scene* scene)
 {
-
     draw_origin();
-    
+
     glBegin(GL_QUADS);
 
     glColor3f(1, 0, 0);

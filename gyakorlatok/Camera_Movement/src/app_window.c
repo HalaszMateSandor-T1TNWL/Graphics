@@ -4,13 +4,12 @@
 
 void init_window(App_window* appwindow, int width, int height)
 {
-
     int error_code;
     int inited_loaders;
 
     appwindow->is_running = 0;
 
-    error_code = SDL_Init(SDL_INIT_VIDEO);
+    error_code = SDL_Init(SDL_INIT_EVERYTHING);
     if (error_code != 0)
     {
         printf("%s", SDL_GetError());
@@ -21,6 +20,7 @@ void init_window(App_window* appwindow, int width, int height)
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         width, height,
                                         SDL_WINDOW_OPENGL);
+    
     if (appwindow->window == NULL)
     {
         printf("Unable to create a window for the application!\n");
@@ -131,11 +131,11 @@ void eventhandler(App_window* appwindow)
                 break;
             case SDL_SCANCODE_D:
                 printf("Right\n");
-                set_camera_strafe(&(appwindow->camera), 1);
+                set_camera_strafe(&(appwindow->camera), -1);
                 break;
             case SDL_SCANCODE_A:
                 printf("Left\n");
-                set_camera_strafe(&(appwindow->camera), -1);
+                set_camera_strafe(&(appwindow->camera), 1);
             default:
                 break;
             }
@@ -157,17 +157,25 @@ void eventhandler(App_window* appwindow)
             }
             break;
         case SDL_MOUSEBUTTONDOWN:
+            printf("A mouse button has been pressed\n");
             is_mouse_down = 1;
         case SDL_MOUSEMOTION:
+            SDL_SetRelativeMouseMode(SDL_TRUE);
             SDL_GetMouseState( &x, &y );
-            if (is_mouse_down == 1)
+            /*if (is_mouse_down == 1)
             {
                 rotate_camera(&(appwindow->camera), mouse_x - x, mouse_y - y);
+                printf("%d :: %d\n", mouse_x, mouse_y);
             }
             mouse_x = x;
+            mouse_y = y;*/
+            rotate_camera(&(appwindow->camera), mouse_x - x, mouse_y - y);
+            mouse_x = x;
             mouse_y = y;
+            printf("%d :: %d\n", x, y);
             break;
         case SDL_MOUSEBUTTONUP:
+            printf("A mouse button has been released\n");
             is_mouse_down = 0;
             break;
         case SDL_QUIT:

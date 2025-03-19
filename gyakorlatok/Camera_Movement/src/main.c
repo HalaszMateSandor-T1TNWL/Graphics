@@ -9,13 +9,12 @@ int main(int argc, char* argv[])
     int height = 720;
 
     init_window(&appwindow, width, height);
-    
+
     while(appwindow.is_running)
     {
-        render_window(&appwindow);
         eventhandler(&appwindow);
         update_window(&appwindow);
-
+        render_window(&appwindow);
     }
     destroy_window(&appwindow);
 
