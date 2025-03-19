@@ -8,7 +8,7 @@ void init_camera(Camera* camera){
 
     camera->position.x = 0.0f;
     camera->position.y = 0.0f;
-    camera->position.z = 1.0f;
+    camera->position.z = 2.0f;
 
     camera->rotation.x = 0.0f;
     camera->rotation.y = 0.0f;
@@ -30,11 +30,11 @@ void update_camera(Camera* camera, double time){
     angle = degreeToRadian(camera->rotation.z);
     strafe_angle = degreeToRadian(camera->rotation.z + 90.0);
 
-    camera->rotation.x = cos(angle) * camera->speed.x * time; //I mixed these two up, but I'm leaving it
-    camera->rotation.y = sin(angle) * camera->speed.x * time; //like this to see what would happen :]
+    camera->rotation.x = cos(angle) * camera->speed.y * time; 
+    camera->rotation.y = sin(angle) * camera->speed.y * time; 
 
-    camera->rotation.x = cos(strafe_angle) * camera->speed.y * time;
-    camera->rotation.y = sin(strafe_angle) * camera->speed.y * time;
+    camera->rotation.x = cos(strafe_angle) * camera->speed.x * time;
+    camera->rotation.y = sin(strafe_angle) * camera->speed.x * time;
 }
 
 /* Sets which way the camera's currently looking */
@@ -56,17 +56,20 @@ void rotate_camera(Camera* camera, double horizontal, double vertical){
     camera->rotation.z += horizontal;
     camera->rotation.z += vertical;
 
-    if(camera->rotation.z > 360.00){
-        camera->rotation.z -= 360.00;
+    if(camera->rotation.z > 360.0){
+        camera->rotation.z -= 360.0;
     }
+
     if(camera->rotation.z < 0.0){
-        camera->rotation.z += 360.00;
+        camera->rotation.z += 360.0;
     }
-    if(camera->rotation.x > 360.00){
-        camera->rotation.x -= 360.00;
+
+    if(camera->rotation.x > 360.0){
+        camera->rotation.x -= 360.0;
     }
+
     if(camera->rotation.x < 0.0){
-        camera->rotation.x += 360.00;
+        camera->rotation.x += 360.0;
     }
 }
 

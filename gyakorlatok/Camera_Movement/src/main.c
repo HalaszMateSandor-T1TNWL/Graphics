@@ -4,14 +4,20 @@
 
 int main(int argc, char* argv[])
 {
-    App_window* appwindow;
+    App_window appwindow;
     int width = 1080;
     int height = 720;
 
-    init_window(appwindow, width, height);
-    init_opengl();
+    init_window(&appwindow, width, height);
     
-    eventhandler(appwindow);
+    while(appwindow.is_running)
+    {
+        render_window(&appwindow);
+        eventhandler(&appwindow);
+        update_window(&appwindow);
 
-    destroy_window(appwindow);
+    }
+    destroy_window(&appwindow);
+
+    return 0;
 }

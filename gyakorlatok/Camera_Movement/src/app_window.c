@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
-#include <GL/gl.h>
+#include <SDL2/SDL_image.h>
+
 #include "Window/app_window.h"
 
 void init_window(App_window* appwindow, int width, int height)
@@ -7,6 +7,8 @@ void init_window(App_window* appwindow, int width, int height)
 
     int error_code;
     int inited_loaders;
+
+    appwindow->is_running = 0;
 
     error_code = SDL_Init(SDL_INIT_VIDEO);
     if (error_code != 0)
@@ -25,6 +27,12 @@ void init_window(App_window* appwindow, int width, int height)
         return;
     }
     
+    inited_loaders = IMG_Init(IMG_INIT_PNG);
+    if(inited_loaders == 0)
+    {
+        printf("Image initialization failed: %s\n", IMG_GetError());
+        return;
+    }
 
     appwindow->gl_context = SDL_GL_CreateContext(appwindow->window);
     if (appwindow->gl_context == NULL)
@@ -37,9 +45,10 @@ void init_window(App_window* appwindow, int width, int height)
     reshape(width, height);
 
     init_camera(&(appwindow->camera));
-    init_scene(&(appwindow->scene));
+    init_scene(&(appwindow->scene));            
 
     appwindow->is_running = 1;
+    appwindow->uptime = (double)SDL_GetTicks() / 1000;
 }
 
 void init_opengl()
@@ -49,7 +58,7 @@ void init_opengl()
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
 
-    glClearColor(0.1, 0.1, 0.1, 0.1);
+    glClearColor(0.0, 0.6, 0.0, 1.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -57,11 +66,13 @@ void init_opengl()
     glEnable(GL_DEPTH_TEST);
 
     glClearDepth(1.0);
+
+    glLineWidth(5);
 }
 
 void reshape(GLsizei width, GLsizei height)
 {
-    int x, y, z, w, h;
+    int x, y, w, h;
     double ratio;
 
     ratio = (double)width / height;
@@ -99,46 +110,107 @@ void eventhandler(App_window* appwindow)
     int x;
     int y;
 
-    while (appwindow->is_running == 1)
+    while (SDL_PollEvent(&event))
     {
-        while(SDL_PollEvent(&event)){
-
-            switch (event.type)
+        switch (event.type)
+        {
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.scancode)
             {
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.scancode)
-                {
-                case SDL_SCANCODE_ESCAPE:
-                    appwindow->is_running = 0;
-                    break;
-                case SDL_SCANCODE_W:
-                    set_camera_speed(&(appwindow->camera), 1);
-                    printf("Forwards\n");
-                    break;
-                case SDL_SCANCODE_S:
-                    set_camera_speed(&(appwindow->camera), -1);
-                    printf("Backwards\n");
-                    break;
-                case SDL_SCANCODE_A:
-                    set_camera_strafe(&(appwindow->camera), 1);
-                    printf("Left\n");
-                    break;
-                case SDL_SCANCODE_D:
-                    set_camera_strafe(&(appwindow->camera), -1);
-                    printf("Right\n");
-                    break;
-                }
+            case SDL_SCANCODE_ESCAPE:
+                printf("Bye bye\n");
+                appwindow->is_running = 0;
                 break;
-            case SDL_MOUSEMOTION:
-                printf("%d\n", event.motion.x);
-                printf("%d\n", event.motion.y);
+            case SDL_SCANCODE_W:
+                printf("Forwards\n");
+                set_camera_speed(&(appwindow->camera), 1);
+                break;
+            case SDL_SCANCODE_S:
+                printf("Backwards\n");
+                set_camera_speed(&(appwindow->camera), -1);
+                break;
+            case SDL_SCANCODE_D:
+                printf("Right\n");
+                set_camera_strafe(&(appwindow->camera), 1);
+                break;
+            case SDL_SCANCODE_A:
+                printf("Left\n");
+                set_camera_strafe(&(appwindow->camera), -1);
+            default:
+                break;
             }
+            break;
+        case SDL_KEYUP:
+            switch (event.key.keysym.scancode)
+            {
+            case SDL_SCANCODE_W:
+            case SDL_SCANCODE_S:
+                printf("Stop\n");
+                set_camera_speed(&(appwindow->camera), 0);
+                break;
+            case SDL_SCANCODE_A:
+            case SDL_SCANCODE_D:
+                printf("Stop\n");
+                set_camera_strafe(&(appwindow->camera), 0);
+            default:
+                break;
+            }
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            is_mouse_down = 1;
+        case SDL_MOUSEMOTION:
+            SDL_GetMouseState( &x, &y );
+            if (is_mouse_down == 1)
+            {
+                rotate_camera(&(appwindow->camera), mouse_x - x, mouse_y - y);
+            }
+            mouse_x = x;
+            mouse_y = y;
+            break;
+        case SDL_MOUSEBUTTONUP:
+            is_mouse_down = 0;
+            break;
+        case SDL_QUIT:
+            appwindow->is_running = 0;
+            break;
+        default:
+            break;
         }
     }
+}
+
+void render_window(App_window* appwindow)
+{
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+
+    glPushMatrix();
+    set_view(&(appwindow->camera));
+    render_scene(&(appwindow->scene));
+    glPopMatrix();
+
+    SDL_GL_SwapWindow(appwindow->window);
+
+}
+
+void update_window(App_window* appwindow){
+    double current_time;
+    double elapsed_time;
+
+    current_time = (double)SDL_GetTicks() / 1000;
+    elapsed_time = current_time - appwindow->uptime;
+    appwindow->uptime = current_time;
+
+    update_camera(&(appwindow->camera), elapsed_time);
+    update_scene(&(appwindow->scene));
+
 }
 
 void destroy_window(App_window* appwindow)
 {
     SDL_DestroyWindow(appwindow->window);
     SDL_GL_DeleteContext(appwindow->gl_context);
+
+    SDL_Quit();
 }

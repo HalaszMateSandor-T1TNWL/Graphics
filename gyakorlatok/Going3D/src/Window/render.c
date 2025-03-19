@@ -131,7 +131,7 @@ void renderObject() {
 
 void updateRotation()
 {
-    triRotationAngle += 10;
+    triRotationAngle += 1;
     if(triRotationAngle > 360) {triRotationAngle -= 360; }
 }
 

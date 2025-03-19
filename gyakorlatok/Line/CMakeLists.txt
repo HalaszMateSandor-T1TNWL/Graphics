@@ -3,9 +3,16 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(Line)
 
-find_package(OpenGL REQUIRED)
 
 add_executable(Line src/main.c)
 target_include_directories(Line PRIVATE include)
+find_package(OpenGL REQUIRED)
+find_package(SDL2 REQUIRED)
 
-target_link_libraries(Line PUBLIC mingw32 SDL2main SDL2 OpenGL::GL)
+if(WIN32)
+target_link_libraries(Line PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES})
+endif(WIN32)
+
+if(UNIX)
+target_link_libraries(Line PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES})
+endif(UNIX)

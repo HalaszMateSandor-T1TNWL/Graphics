@@ -37,6 +37,9 @@ void eventhandler(App_window* appwindow);
 /* Refreshes the state of the window */
 void update_window(App_window* appwindow);
 
+/* Renders every 1000 seconds */
+void render_window(App_window* appwindow);
+
 /* Will handle the destruction of our window with all of its components, freeing up memory */
 void destroy_window(App_window* appwindow);
 
