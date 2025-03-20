@@ -19,7 +19,7 @@ void init_window(App_window* appwindow, int width, int height)
     appwindow->window = SDL_CreateWindow("Window_Test",
                                         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         width, height,
-                                        SDL_WINDOW_OPENGL);
+                                        SDL_WINDOW_OPENGL | SDL_WINDOW_MOUSE_GRABBED);
     
     if (appwindow->window == NULL)
     {
@@ -45,7 +45,8 @@ void init_window(App_window* appwindow, int width, int height)
     reshape(width, height);
 
     init_camera(&(appwindow->camera));
-    init_scene(&(appwindow->scene));            
+    init_scene(&(appwindow->scene));      
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     appwindow->is_running = 1;
     appwindow->uptime = (double)SDL_GetTicks() / 1000;
@@ -104,6 +105,7 @@ void eventhandler(App_window* appwindow)
     SDL_Event event;
 
     static int is_mouse_down = 0;
+
     static int mouse_x = 0;
     static int mouse_y = 0;
 
@@ -160,19 +162,14 @@ void eventhandler(App_window* appwindow)
             printf("A mouse button has been pressed\n");
             is_mouse_down = 1;
         case SDL_MOUSEMOTION:
-            SDL_SetRelativeMouseMode(SDL_TRUE);
             SDL_GetMouseState( &x, &y );
-            /*if (is_mouse_down == 1)
-            {
-                rotate_camera(&(appwindow->camera), mouse_x - x, mouse_y - y);
-                printf("%d :: %d\n", mouse_x, mouse_y);
-            }
-            mouse_x = x;
-            mouse_y = y;*/
-            rotate_camera(&(appwindow->camera), mouse_x - x, mouse_y - y);
+            
+            rotate_camera(&(appwindow->camera), -x + mouse_x, -y + mouse_y);
+            //using event.motion.xrel/yrel kinda works, but it's also inconsistent and choppy :/
             mouse_x = x;
             mouse_y = y;
-            printf("%d :: %d\n", x, y);
+
+            printf("%d :: %d\n", mouse_x, mouse_y);
             break;
         case SDL_MOUSEBUTTONUP:
             printf("A mouse button has been released\n");
