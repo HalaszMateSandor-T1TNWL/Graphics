@@ -15,12 +15,12 @@ void init_camera(Camera* camera){
     camera->angle_around_player = 0.0f;
 }
 
-void update_camera(){
-    calculate_zoom();
-    set_pitch();
-    calculate_angle_around_player();
-    float horizontal_distance = calculate_horizontal();
-    float vertical_distance = calculate_vertical();
+void update_camera(Camera* camera, float d_wheel, float dy, float dx){
+    calculate_zoom(camera, d_wheel);
+    set_pitch(camera, dy);
+    calculate_angle_around_player(camera, dx);
+    float horizontal_distance = calculate_horizontal(camera);
+    float vertical_distance = calculate_vertical(camera);
 }
 
 void set_view(Camera* camera, float hori_distance, float verti_distance){
