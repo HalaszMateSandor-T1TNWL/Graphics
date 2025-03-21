@@ -1,7 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include "Utils/utils.h"
+#include "../Utils/utils.h"
 
 typedef struct Camera{
 
@@ -18,7 +18,7 @@ typedef struct Camera{
 void init_camera(Camera* camera);
 
 /* For updating the position of the camera */
-void update_camera();
+void update_camera(Camera* camera, float d_wheel, float dy, float dx);
 
 /* Apply the camera settings to the view transformation */
 void set_view(Camera* camera, float hori_distance, float verti_distance);

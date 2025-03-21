@@ -1,4 +1,4 @@
-#include "Utils/camera.h"
+#include "../include/Utils/camera.h"
 
 #include <SDL2/SDL.h>
 
@@ -24,7 +24,7 @@ void update_camera(Camera* camera, float d_wheel, float dy, float dx){
 }
 
 void set_view(Camera* camera, float hori_distance, float verti_distance){
-    
+
 }
 
 

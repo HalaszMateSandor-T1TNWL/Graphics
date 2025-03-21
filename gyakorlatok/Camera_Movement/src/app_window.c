@@ -114,7 +114,7 @@ void eventhandler(App_window* appwindow)
     int x;
     int y;
 
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&event) != 0)
     {
         switch (event.type)
         {
@@ -168,9 +168,7 @@ void eventhandler(App_window* appwindow)
             SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, 0);
             SDL_GetMouseState( &x, &y );
             
-            //rotate_camera(&(appwindow->camera), -x + mouse_x, -y + mouse_y);
-            appwindow->camera.rotation.z += mouse_x - x;
-            appwindow->camera.rotation.x += mouse_y - y;
+            rotate_camera(&(appwindow->camera), -x + mouse_x, -y + mouse_y);
             //using event.motion.xrel/yrel kinda works, but it's also inconsistent and choppy :/
 
             mouse_x = x;

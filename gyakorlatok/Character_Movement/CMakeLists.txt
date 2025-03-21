@@ -8,7 +8,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 find_package(OpenGL REQUIRED)
 find_package(SDL2_image REQUIRED)
 
-add_executable(Character_Movement src/main.c)
+add_executable(Character_Movement src/main.c src/application.c src/camera.c src/scene.c src/utils.c src/player.c)
 target_include_directories(Character_Movement PRIVATE include)
 
 if(WIN32)

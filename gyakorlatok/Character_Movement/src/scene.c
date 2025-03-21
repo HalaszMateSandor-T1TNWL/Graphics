@@ -1,4 +1,4 @@
-#include "Utils/scene.h"
+#include "../include/Utils/scene.h"
 #include <GL/gl.h>
 
 void init_scene(Scene* scene)

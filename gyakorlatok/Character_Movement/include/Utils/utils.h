@@ -23,6 +23,6 @@ typedef struct Material{
     struct Color specular;
 }Material;
 
-double degreeToRadian(double degree);
+double degree_to_radian(double degree);
 
 #endif

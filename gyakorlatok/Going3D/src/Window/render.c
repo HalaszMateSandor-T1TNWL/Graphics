@@ -152,5 +152,5 @@ void cleanup(SDL_Window* window, SDL_GLContext glContext){
         SDL_DestroyWindow(window);
     }
     glDeleteTextures(1, &textureID);
-    SDL_Quit();    
+    SDL_Quit();
 }

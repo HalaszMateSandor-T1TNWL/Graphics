@@ -1,73 +1,87 @@
+#include "../include/Utils/application.h"
 #include <SDL2/SDL.h>
-#include <GL/gl.h>
+#include <stdio.h>
 
-#include "Utils/application.h"
+void init_application(App* app){
+    int error_code;
 
-void init_application(){
-    int is_running = 0;
-    int is_windowed = 1;
-    double uptime;
+    app->is_running = 0;
 
-    Camera* camera;
-    SDL_Window* window;
-    SDL_GLContext gl_context;
-
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
-        printf("Error, please reffer to this error code: %s", SDL_GetError());
+    error_code = SDL_Init(SDL_INIT_EVERYTHING);
+    if(error_code != 0){
+        printf("%s", SDL_GetError());
         return;
     }
 
-    window = SDL_CreateWindow("Character Movement", 
-            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            1080, 720,
-            SDL_WINDOW_OPENGL);
-
-    if(window == NULL){
-        printf("Error, please reffer to this error code: %s", SDL_GetError());
+    app->window = SDL_CreateWindow("Please Work",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+        1080,720,
+        SDL_WINDOW_OPENGL);
+    if(app->window == NULL){
+        printf("%s", SDL_GetError());
         return;
     }
 
-    gl_context = SDL_GL_CreateContext(window);
-    if(gl_context == NULL){
-        printf("Error, please reffer to this error code: %s", SDL_GetError());
+    app->gl_context = SDL_GL_CreateContext(app->window);
+    if(app->gl_context == NULL){
+        printf("%s", SDL_GetError());
         return;
     }
 
-    uptime = (double)SDL_GetTicks() / 1000;
+    init_camera(&(app->camera));
+    init_player(&(app->player));
 
-    init_camera(camera);
-
-    is_running = 1;
+    app->is_running = 1;
+    app->uptime = (double)SDL_GetTicks() / 1000;
 }
 
-void event_handler(){
-    while(is_running){
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-                is_running = 0;
-                destroy_application(window, gl_context);
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE:
-                    is_running = 0;
-                    destroy_application(window, gl_context);
-                    break;
-                
-                default:
-                    break;
-                }
-            
-            case SDL_MOUSEMOTION:
-                
+void event_handler(App* app){
+    SDL_Event event;
 
+    while(SDL_PollEvent(&event)){
+        switch (event.type)
+        {
+        case SDL_KEYDOWN:
+            move(&(app->player), event, get_current_time(app));
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                app->is_running = 0;
+                break;
+            case SDLK_f:
+                app->is_windowed = !app->is_windowed;
+                SDL_SetWindowFullscreen(app->window, app->is_windowed ? SDL_TRUE : SDL_FALSE);
+                break;
             default:
                 break;
             }
+            break;
+        case SDL_QUIT:
+            app->is_running = 0;
+            break;
+        default:
+            break;
         }
-    } 
+    }
+}
+
+double get_current_time(App* app){
+    double current_time = (double)SDL_GetTicks() / 1000;
+    double delta = current_time - app->uptime;
+    app->uptime = delta;
+    return delta;
+}
+
+void update_application(App* app){
+    SDL_GL_SwapWindow(app->window);
+    get_current_time(app);
+}
+
+void destroy_application(App* app)
+{
+    SDL_DestroyWindow(app->window);
+    SDL_GL_DeleteContext(app->gl_context);
+
+    SDL_Quit();
 }
