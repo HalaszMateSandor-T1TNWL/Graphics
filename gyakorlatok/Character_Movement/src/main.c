@@ -6,10 +6,11 @@ int main(int argc, char* argv[]){
     init_application(&app);
 
     while(app.is_running){
-        update_application(&app);
         event_handler(&app);
+        update_application(&app);
+        render_application(&app);
+        modular_framerate();
     }
-
     destroy_application(&app);
     
     return 0;

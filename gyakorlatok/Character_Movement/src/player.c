@@ -1,11 +1,14 @@
 #include "../include/Environment/player.h"
 
-const float RUN_SPEED = 20;
-const float TURN_SPEED = 160;
-const float GRAVITY = -50;
-const float JUMP_POWER = 20;
+const float RUN_SPEED = 20; //
+const float GRAVITY = -50;  //} <- Ticks per second
+const float JUMP_POWER = 20;//
+const float TURN_SPEED = 160; //<- Degrees per second
 const float TERRAIN_HEIGHT = 0;
 
+/*
+*                               Self explenatory really
+*/
 void init_player(Player* player){
     player->move_speed = 0.0f;
     player->turn_speed = 0.0f;
@@ -19,9 +22,18 @@ void init_player(Player* player){
     player->rotation.y = 0.0f;
     player->rotation.z = 0.0f;
 
+    player->is_in_air = false;
+    player->jumped = 0;
+
     player->scale = 1;
 }
 
+
+/*
+*          It's important to set the player's speed to frames per second
+*      otherwise once/IF the game starts lagging or running slower the player
+*                           will move slower as well.
+*/
 void move(Player* player, SDL_Event event, double speed_FPS){
     get_speed(player, event);
 
@@ -32,27 +44,38 @@ void move(Player* player, SDL_Event event, double speed_FPS){
     float dz = distance * cos(degree_to_radian(player->rotation.y));
 
     increase_position(player, dx, 0, dz);
+    printf("player position: %f :: %f\n", player->position.x, player->position.z);
 
     player->upwards_speed += GRAVITY * speed_FPS;
     increase_position(player, 0, player->upwards_speed * speed_FPS, 0);
+    
     if (player->position.y < TERRAIN_HEIGHT){
         player->upwards_speed = 0;
+        player->is_in_air = false;
+        player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
+    printf("player vertical position: %f\n", player->position.y);
 }
 
+/*
+*              Two simple functions of setting the players positionand rotation
+*           (basically just helper functions, so the move function isn't as cramped)
+*/
 void increase_position(Player* player, float dx, float dy, float dz){
     player->position.x += dx;
     player->position.y += dy;
     player->position.z += dz;
 }
-
 void increase_rotation(Player* player, float dx, float dy, float dz){
     player->rotation.x += dx;
     player->rotation.y += dy;
     player->rotation.z += dz;
 }
 
+/*
+*       A function for setting the player's speed depending on which button they press
+*/
 void get_speed(Player* player, SDL_Event event){
     switch (event.key.keysym.sym)
     {
@@ -73,8 +96,14 @@ void get_speed(Player* player, SDL_Event event){
         printf("Right\n");
         break;
     case SDLK_SPACE:
-        player->upwards_speed = JUMP_POWER;
-        printf("Jump!\n");
+        player->is_in_air = true;
+        if(player->jumped < 2){
+            player->upwards_speed = JUMP_POWER;
+            player->jumped ++;
+            printf("Jump!\n");
+            printf("Player has jumped: %d times\n", player->jumped);
+        }
+        break;
     default:
         player->move_speed = 0;
         player->turn_speed = 0;

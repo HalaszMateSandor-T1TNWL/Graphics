@@ -23,11 +23,6 @@ void update_camera(Camera* camera, float d_wheel, float dy, float dx){
     float vertical_distance = calculate_vertical(camera);
 }
 
-void set_view(Camera* camera, float hori_distance, float verti_distance){
-
-}
-
-
 /*
 *  Using the distance of the camera from the player model + angle (pitch) the camera is set in
 *           We can calculate the horizontal and vertical distances using sin and cos :D
@@ -45,10 +40,9 @@ float calculate_vertical(Camera* camera){
 *                 the camera's distance from the player model
 */
 void calculate_zoom(Camera* camera, float d_wheel){
-    float zoom_level = d_wheel * 0.1f; // <- Multiplying it here, because it gives us a HUGE number
+    float zoom_level = d_wheel * 0.1f;          // <- Multiplying it here, because it gives us a HUGE number
     camera->distance_from_player -= zoom_level; // If you want it to zoom OUT when scrolling UP change this to +=
 }
-
 
 /*
 *    Using how much the player moved the mouse in the y direction we can

@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-void init_application(App* app){
+void init_application(App* app) {
     int error_code;
 
     app->is_running = 0;
@@ -13,10 +13,10 @@ void init_application(App* app){
         return;
     }
 
-    app->window = SDL_CreateWindow("Please Work",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        1080,720,
-        SDL_WINDOW_OPENGL);
+    app->window = SDL_CreateWindow("Character Movement",
+                                    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+                                    1080,720,
+                                    SDL_WINDOW_OPENGL);
     if(app->window == NULL){
         printf("%s", SDL_GetError());
         return;
@@ -28,7 +28,11 @@ void init_application(App* app){
         return;
     }
 
+    init_opengl();
+    shape_window(1280, 720);
+
     init_camera(&(app->camera));
+    init_scene(&(app->scene));
     init_player(&(app->player));
 
     app->is_running = 1;
@@ -38,14 +42,12 @@ void init_application(App* app){
 void event_handler(App* app){
     SDL_Event event;
 
-    while(SDL_PollEvent(&event)){
-        switch (event.type)
-        {
+    while(SDL_PollEvent(&event)) {
+        switch (event.type) {
         case SDL_KEYDOWN:
             move(&(app->player), event, get_current_time(app));
         case SDL_KEYUP:
-            switch (event.key.keysym.sym)
-            {
+            switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
                 app->is_running = 0;
                 break;
@@ -66,20 +68,59 @@ void event_handler(App* app){
     }
 }
 
-double get_current_time(App* app){
+double get_current_time(App* app) {
     double current_time = (double)SDL_GetTicks() / 1000;
     double delta = current_time - app->uptime;
     app->uptime = delta;
     return delta;
 }
 
-void update_application(App* app){
-    SDL_GL_SwapWindow(app->window);
-    get_current_time(app);
+void modular_framerate(App* app) {
+    Uint32 frameTime = (Uint32)get_current_time(app);
+    if(frameTime < 16){
+        SDL_Delay(16 - frameTime);
+    }
 }
 
-void destroy_application(App* app)
-{
+void update_application(App* app) {
+    get_current_time(app);
+    update_scene(&(app->scene));
+}
+
+void render_application(App* app) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+
+    glPushMatrix();
+    render_scene(&(app->scene));
+    glPopMatrix();
+
+    SDL_GL_SwapWindow(app->window);
+}
+
+void shape_window(GLsizei width, GLsizei height) {
+    int x, y, w, h;
+    double ratio;
+
+    ratio = (double)width / height;
+    if(ratio > VIEWPORT_RATIO){
+        w = (int)((double)height * VIEWPORT_RATIO);
+        h = height;
+        x = (width - w) / 2;
+        y = 0;
+    } else{
+        w = width;
+        h = (int)((double)width / VIEWPORT_RATIO);
+        x = 0;
+        y = (height - h) / 2;
+    }
+
+    glViewport(x, y, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+}
+
+void destroy_application(App* app) {
     SDL_DestroyWindow(app->window);
     SDL_GL_DeleteContext(app->gl_context);
 

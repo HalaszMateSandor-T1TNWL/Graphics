@@ -1,19 +1,53 @@
 #include "../include/Utils/scene.h"
 #include <GL/gl.h>
 
+/*
+*       These two do basically nothing, but set the values to zero or smth, idk
+*/
 void init_scene(Scene* scene)
 {
 }
-
 void update_scene(Scene* scene)
 {
 }
 
+/*
+*           A function for rendering everything necessary to the world
+*/
 void render_scene(const Scene* scene)
 {
     draw_origin();
 }
 
+/*
+*                  Basic OpenGL settings compacted into one function
+*/
+void init_opengl(){
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_AUTO_NORMAL);
+
+    glClearColor(0.0f, 0.1f, 0.1f, 1.0f);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    
+    glEnable(GL_DEPTH_TEST);
+    glClearDepth(1.0f);
+
+    glBegin(GL_TRIANGLES);
+    glColor3f(1, 0, 0);
+    glVertex2f(0, 0);
+    glColor3f(0, 1, 0);
+    glVertex2f(1, 0);
+    glColor3f(0, 0, 1);
+    glVertex2f(0, 1);
+    glEnd();
+}
+
+/*
+*                   Placeholder, just so I can see something on the screen
+*/
 void draw_origin()
 {
     glBegin(GL_LINES);

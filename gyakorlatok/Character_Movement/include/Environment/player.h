@@ -2,6 +2,7 @@
 #define PLAYER_H_
 
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 #include "../Utils/utils.h"
 
 typedef struct Player
@@ -12,6 +13,8 @@ typedef struct Player
     float move_speed;
     float turn_speed;
     float upwards_speed;
+    int jumped;
+    bool is_in_air;
 
     float scale;
 } Player;
