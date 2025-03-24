@@ -1,11 +1,5 @@
 #include "../include/Environment/player.h"
 
-const float RUN_SPEED = 20; //
-const float GRAVITY = -50;  //} <- Ticks per second
-const float JUMP_POWER = 20;//
-const float TURN_SPEED = 160; //<- Degrees per second
-const float TERRAIN_HEIGHT = 0;
-
 /*
 *                               Self explenatory really
 */

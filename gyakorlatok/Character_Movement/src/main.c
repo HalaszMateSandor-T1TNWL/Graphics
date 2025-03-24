@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
         event_handler(&app);
         update_application(&app);
         render_application(&app);
-        modular_framerate();
+        modular_framerate(&app);
     }
     destroy_application(&app);
     

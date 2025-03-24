@@ -5,6 +5,13 @@
 #include <stdbool.h>
 #include "../Utils/utils.h"
 
+#define RUN_SPEED 20     //
+#define GRAVITY -50      //} <- Ticks per second
+#define JUMP_POWER 20    //
+#define TURN_SPEED 160   //<- Degrees per second
+#define TERRAIN_HEIGHT 0 // This is a placeholder, will implement an actual ground searching algorithm thingamajig
+
+
 typedef struct Player
 {
     vec3 position;
