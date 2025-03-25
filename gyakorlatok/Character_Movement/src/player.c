@@ -4,6 +4,7 @@
 *                               Self explenatory really
 */
 void init_player(Player* player){
+
     player->move_speed = 0.0f;
     player->turn_speed = 0.0f;
     player->upwards_speed = 0.0f;
@@ -20,6 +21,7 @@ void init_player(Player* player){
     player->jumped = 0;
 
     player->scale = 1;
+    
 }
 
 
