@@ -32,3 +32,5 @@ void eventHandler(Helper* helper);
 void updateHelper(Helper* helper);
 
 void destroyHelper(Helper* helper);
+
+#endif /*MAIN_HELPER_H_*/
