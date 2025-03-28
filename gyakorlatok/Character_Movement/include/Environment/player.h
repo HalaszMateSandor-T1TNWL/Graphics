@@ -1,25 +1,29 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include <SDL2/SDL.h>
-#include <stdbool.h>
 #include "../Utils/utils.h"
 
-#define RUN_SPEED 20     //
+#include <obj/load.h>
+#include <SDL2/SDL.h>
+#include <stdbool.h>
+
+#define RUN_SPEED 20     //}
 #define GRAVITY -50      //} <- Ticks per second
-#define JUMP_POWER 20    //
+#define JUMP_POWER 20    //}
 #define TURN_SPEED 160   //<- Degrees per second
 #define TERRAIN_HEIGHT 0 // This is a placeholder, will implement an actual ground searching algorithm thingamajig
 
 
 typedef struct Player
 {
+    Model player_model;
     vec3 position;
     vec3 rotation;
 
     float move_speed;
     float turn_speed;
     float upwards_speed;
+    
     int jumped;
     bool is_in_air;
 
@@ -41,4 +45,7 @@ void increase_rotation(Player* player, float dx, float dy, float dz);
 /* Gets the input and determines how fast the player will be moving */
 void get_speed(Player* player, SDL_Event event);
 
-#endif
+/* Loads in a model for use */
+void load_player_model(Player* player);
+
+#endif /*PLAYER_H_*/

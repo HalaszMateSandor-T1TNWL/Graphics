@@ -11,7 +11,7 @@ void init_player(Player* player){
 
     player->position.x = 0.0f;
     player->position.y = 0.0f;
-    player->position.z = 0.2f;
+    player->position.z = 0.1f;
 
     player->rotation.x = 0.0f;
     player->rotation.y = 0.0f;
@@ -21,7 +21,9 @@ void init_player(Player* player){
     player->jumped = 0;
 
     player->scale = 1;
-    
+
+    init_model(&player->player_model);
+    allocate_model(&player->player_model);
 }
 
 
@@ -105,4 +107,8 @@ void get_speed(Player* player, SDL_Event event){
         player->turn_speed = 0;
         break;
     }
+}
+
+void load_player_model(Player* player){
+    load_model(&player->player_model, "../textures/Hatsune_Miku/HatsuneMiku.obj");
 }

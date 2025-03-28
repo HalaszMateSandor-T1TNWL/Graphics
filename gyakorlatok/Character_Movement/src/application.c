@@ -33,7 +33,6 @@ void init_application(App* app) {
 
     init_camera(&(app->camera));
     init_scene(&(app->scene));
-    init_player(&(app->player));
 
     app->is_running = 1;
     app->uptime = (double)SDL_GetTicks() / 1000;
@@ -45,7 +44,7 @@ void event_handler(App* app){
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_KEYDOWN:
-            move(&(app->player), event, get_current_time(app));
+            move(&(app->scene.player), event, get_current_time(app));
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:

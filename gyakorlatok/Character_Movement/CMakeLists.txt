@@ -16,5 +16,5 @@ target_link_libraries(Character_Movement PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPEN
 endif(WIN32)
 
 if(UNIX)
-target_link_libraries(Character_Movement PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image m)
+target_link_libraries(Character_Movement PUBLIC ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image obj m)
 endif(UNIX)

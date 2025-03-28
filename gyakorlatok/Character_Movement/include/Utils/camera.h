@@ -38,4 +38,4 @@ void calculate_angle_around_player(Camera* camera, float dx);
 /* Apply the camera settings to the view transformation */
 void set_view(Camera* camera, float hori_distance, float verti_distance);
 
-#endif
+#endif /* CAMERA_H_ */

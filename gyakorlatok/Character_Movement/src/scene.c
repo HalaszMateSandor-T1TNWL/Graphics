@@ -1,4 +1,5 @@
 #include "../include/Utils/scene.h"
+
 #include <GL/gl.h>
 
 /*
@@ -23,6 +24,7 @@ void render_scene(const Scene* scene)
 *                  Basic OpenGL settings compacted into one function
 */
 void init_opengl(){
+
     glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
@@ -36,13 +38,16 @@ void init_opengl(){
     glClearDepth(1.0f);
 
     glBegin(GL_TRIANGLES);
-    glColor3f(1, 0, 0);
-    glVertex2f(0, 0);
-    glColor3f(0, 1, 0);
-    glVertex2f(1, 0);
-    glColor3f(0, 0, 1);
-    glVertex2f(0, 1);
+
+        glColor3f(1, 0, 0);
+        glVertex2f(0, 0);
+        glColor3f(0, 1, 0);
+        glVertex2f(1, 0);
+        glColor3f(0, 0, 1);
+        glVertex2f(0, 1);
+        
     glEnd();
+
 }
 
 /*
@@ -52,17 +57,17 @@ void draw_origin()
 {
     glBegin(GL_LINES);
 
-    glColor3f(1, 0, 0);
-    glVertex3f(0, 0, 0);
-    glVertex3f(1, 0, 0);
+        glColor3f(1, 0, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(1, 0, 0);
 
-    glColor3f(0, 1, 0);
-    glVertex3f(0, 0, 0);
-    glVertex3f(0, 1, 0);
+        glColor3f(0, 1, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 1, 0);
 
-    glColor3f(0, 0, 1);
-    glVertex3f(0, 0, 0);
-    glVertex3f(0, 0, 1);
+        glColor3f(0, 0, 1);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 0, 1);
 
     glEnd();
 }

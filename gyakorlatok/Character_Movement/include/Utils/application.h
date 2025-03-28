@@ -1,13 +1,12 @@
 #ifndef APP_H_
 #define APP_H_
 
+#include "camera.h"
+#include "scene.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <stdbool.h>
-
-#include "../Utils/camera.h"
-#include "../Utils/scene.h"
-#include "../Environment/player.h"
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
@@ -23,7 +22,6 @@ typedef struct App
 
     Camera camera;
     Scene scene;
-    Player player;
 } App;
 
 /* Initalizes everything needed for an App structure */
@@ -50,4 +48,4 @@ void shape_window(GLsizei width, GLsizei height);
 /* Frees up memory used by application */
 void destroy_application(App* app);
 
-#endif APP_H_
+#endif /* APP_H_ */
