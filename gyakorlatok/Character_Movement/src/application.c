@@ -1,6 +1,4 @@
 #include "../include/Utils/application.h"
-#include <SDL2/SDL.h>
-#include <stdio.h>
 
 void init_application(App* app) {
     int error_code;
@@ -87,10 +85,12 @@ void update_application(App* app) {
 }
 
 void render_application(App* app) {
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
 
     glPushMatrix();
+    gluLookAt();
     render_scene(&(app->scene));
     glPopMatrix();
 
@@ -120,8 +120,11 @@ void shape_window(GLsizei width, GLsizei height) {
 }
 
 void destroy_application(App* app) {
+
     SDL_DestroyWindow(app->window);
     SDL_GL_DeleteContext(app->gl_context);
+
+    free_model(&app->scene.player.player_model);
 
     SDL_Quit();
 }

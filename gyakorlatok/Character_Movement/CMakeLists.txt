@@ -12,7 +12,7 @@ add_executable(Character_Movement src/main.c src/application.c src/camera.c src/
 target_include_directories(Character_Movement PRIVATE include)
 
 if(WIN32)
-target_link_libraries(Character_Movement PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image)
+target_link_libraries(Character_Movement PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image obj)
 endif(WIN32)
 
 if(UNIX)

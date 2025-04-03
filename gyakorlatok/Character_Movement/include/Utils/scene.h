@@ -3,7 +3,9 @@
 
 #include "../Environment/player.h"
 
+#include <obj/draw.h>
 #include <GL/gl.h>
+#include <GL/glu.h>
 
 typedef struct Scene
 {
@@ -21,5 +23,7 @@ void render_scene(const Scene* scene);
 void init_opengl();
 
 void draw_origin();
+
+void draw_player(const Model* model);
 
 #endif /* SCENE_H_ */

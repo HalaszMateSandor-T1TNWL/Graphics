@@ -11,7 +11,7 @@ void init_player(Player* player){
 
     player->position.x = 0.0f;
     player->position.y = 0.0f;
-    player->position.z = 0.1f;
+    player->position.z = -0.5f;
 
     player->rotation.x = 0.0f;
     player->rotation.y = 0.0f;
