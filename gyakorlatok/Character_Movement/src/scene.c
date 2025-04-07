@@ -6,9 +6,13 @@
 void init_scene(Scene* scene)
 {
     init_player(&scene->player);
+<<<<<<< HEAD
     gluLookAt();
     load_player_model(&scene->player);
+=======
+>>>>>>> bb540b7 (Uhhhhh cheese)
 }
+
 void update_scene(Scene* scene)
 {
 }
@@ -19,13 +23,17 @@ void update_scene(Scene* scene)
 void render_scene(const Scene* scene)
 {
     draw_origin();
+<<<<<<< HEAD
     draw_player(&scene->player.player_model);
+=======
+    draw_model(&scene->player.player_model);
+>>>>>>> bb540b7 (Uhhhhh cheese)
 }
 
 /*
 *                  Basic OpenGL settings compacted into one function
 */
-void init_opengl(){
+void init_opengl() {
 
     glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);

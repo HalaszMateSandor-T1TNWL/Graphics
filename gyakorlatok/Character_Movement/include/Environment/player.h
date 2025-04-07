@@ -4,6 +4,11 @@
 #include "../Utils/utils.h"
 
 #include <obj/load.h>
+#include <obj/draw.h>
+#include <obj/info.h>
+
+#include <GL/gl.h>
+
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
@@ -17,6 +22,8 @@
 typedef struct Player
 {
     Model player_model;
+    GLuint textureID;
+
     vec3 position;
     vec3 rotation;
 

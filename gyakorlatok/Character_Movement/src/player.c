@@ -22,8 +22,8 @@ void init_player(Player* player){
 
     player->scale = 1;
 
-    init_model(&player->player_model);
-    allocate_model(&player->player_model);
+    load_player_model(player);
+    print_model_info(&player->player_model);
 }
 
 

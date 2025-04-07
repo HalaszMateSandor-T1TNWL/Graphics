@@ -10,7 +10,6 @@
 typedef struct Scene
 {
     Player player;
-    GLuint textureID;
 } Scene;
 
 void init_scene(Scene* scene);
