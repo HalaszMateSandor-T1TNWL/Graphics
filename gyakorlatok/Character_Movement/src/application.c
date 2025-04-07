@@ -90,12 +90,7 @@ void render_application(App* app) {
     glMatrixMode(GL_PROJECTION);
 
     glPushMatrix();
-<<<<<<< HEAD
-    gluLookAt();
-    render_scene(&(app->scene));
-=======
         render_scene(&(app->scene));
->>>>>>> bb540b7 (Uhhhhh cheese)
     glPopMatrix();
 
     SDL_GL_SwapWindow(app->window);
