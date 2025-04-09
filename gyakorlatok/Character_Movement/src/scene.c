@@ -6,6 +6,7 @@
 void init_scene(Scene* scene)
 {
     init_player(&scene->player);
+    init_camera(&scene->camera);
 }
 
 void update_scene(Scene* scene)
@@ -17,8 +18,18 @@ void update_scene(Scene* scene)
 */
 void render_scene(const Scene* scene)
 {
+    gluLookAt(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z, scene->player.position.x, scene->player.position.y, scene->player.position.z, 0, , 0);
     draw_origin();
-    draw_model(&scene->player.player_model);
+    glPushMatrix();
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
+        glRotatef(scene->player.rotation.x, 1.0f, 0.0f, 0.0f);
+        glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
+        glRotatef(scene->player.rotation.z, 0.0f, 0.0f, 1.0f);
+        glScalef(0.01f, 0.01f, 0.01f);
+        draw_player(&(scene->player.player_model));
+    glPopMatrix();
 }
 
 /*

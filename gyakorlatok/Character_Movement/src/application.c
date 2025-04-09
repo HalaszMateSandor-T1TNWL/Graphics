@@ -29,7 +29,6 @@ void init_application(App* app) {
     init_opengl();
     shape_window(1280, 720);
 
-    init_camera(&(app->camera));
     init_scene(&(app->scene));
 
     app->is_running = 1;
@@ -41,8 +40,6 @@ void event_handler(App* app){
 
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
-        case SDL_KEYDOWN:
-            move(&(app->scene.player), event, get_current_time(app));
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
@@ -65,10 +62,15 @@ void event_handler(App* app){
     }
 }
 
+void movement(App* app){
+    move(&(app->scene.player), get_current_time(app));
+}
+
 double get_current_time(App* app) {
     double current_time = (double)SDL_GetTicks() / 1000;
     double delta = current_time - app->uptime;
-    app->uptime = delta;
+    app->uptime += delta;
+    //printf("uptime: %f\n", app->uptime);
     return delta;
 }
 
@@ -85,12 +87,15 @@ void update_application(App* app) {
 }
 
 void render_application(App* app) {
-
+   
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
+    
     glMatrixMode(GL_PROJECTION);
 
+    glLoadIdentity();
     glPushMatrix();
-        render_scene(&(app->scene));
+        render_scene(&app->scene);
     glPopMatrix();
 
     SDL_GL_SwapWindow(app->window);

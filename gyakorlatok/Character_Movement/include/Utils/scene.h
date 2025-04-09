@@ -2,6 +2,7 @@
 #define SCENE_H_
 
 #include "../Environment/player.h"
+#include "../Utils/camera.h"
 
 #include <obj/draw.h>
 #include <GL/gl.h>
@@ -10,6 +11,7 @@
 typedef struct Scene
 {
     Player player;
+    Camera camera;
 } Scene;
 
 void init_scene(Scene* scene);

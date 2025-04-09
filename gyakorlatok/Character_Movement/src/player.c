@@ -32,8 +32,8 @@ void init_player(Player* player){
 *      otherwise once/IF the game starts lagging or running slower the player
 *                           will move slower as well.
 */
-void move(Player* player, SDL_Event event, double speed_FPS){
-    get_speed(player, event);
+void move(Player* player, double speed_FPS){
+    get_speed(player);
 
     increase_rotation(player, 0, player->turn_speed * speed_FPS, 0);
 
@@ -74,38 +74,29 @@ void increase_rotation(Player* player, float dx, float dy, float dz){
 /*
 *       A function for setting the player's speed depending on which button they press
 */
-void get_speed(Player* player, SDL_Event event){
-    switch (event.key.keysym.sym)
-    {
-    case SDLK_w:
+void get_speed(Player* player) {
+    const Uint8 *keyboard = SDL_GetKeyboardState(NULL);
+    player->move_speed = 0;
+    player->turn_speed = 0;
+    
+    if (keyboard[SDL_SCANCODE_W]) {
         player->move_speed = RUN_SPEED;
-        printf("Forward\n");
-        break;
-    case SDLK_s:
+    }
+    if (keyboard[SDL_SCANCODE_S]) {
         player->move_speed = -RUN_SPEED;
-        printf("Backwards\n");
-        break;
-    case SDLK_a:
-        player->turn_speed = TURN_SPEED;
-        printf("Left\n");
-        break;
-    case SDLK_d:
+    }
+    if (keyboard[SDL_SCANCODE_A]) {
         player->turn_speed = -TURN_SPEED;
-        printf("Right\n");
-        break;
-    case SDLK_SPACE:
-        player->is_in_air = true;
-        if(player->jumped < 2){
+    }
+    if (keyboard[SDL_SCANCODE_D]) {
+        player->turn_speed = TURN_SPEED;
+    }
+    if (keyboard[SDL_SCANCODE_SPACE]) {
+        if (player->jumped < 2) {
             player->upwards_speed = JUMP_POWER;
-            player->jumped ++;
-            printf("Jump!\n");
-            printf("Player has jumped: %d times\n", player->jumped);
+            player->is_in_air = true;
+            player->jumped++;
         }
-        break;
-    default:
-        player->move_speed = 0;
-        player->turn_speed = 0;
-        break;
     }
 }
 

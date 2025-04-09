@@ -22,7 +22,6 @@ typedef struct App
     bool is_windowed;
     double uptime;
 
-    Camera camera;
     Scene scene;
 } App;
 
@@ -49,5 +48,7 @@ void shape_window(GLsizei width, GLsizei height);
 
 /* Frees up memory used by application */
 void destroy_application(App* app);
+
+void movement(App* app);
 
 #endif /* APP_H_ */
