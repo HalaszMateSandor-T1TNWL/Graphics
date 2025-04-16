@@ -1,7 +1,8 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include "../Utils/utils.h"
+#include "Utils/utils.h"
+
 
 typedef struct Camera {
 

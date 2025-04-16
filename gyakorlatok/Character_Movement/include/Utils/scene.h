@@ -1,8 +1,8 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-#include "../Environment/player.h"
-#include "../Utils/camera.h"
+#include "Environment/player.h"
+#include "Utils/camera.h"
 
 #include <obj/draw.h>
 #include <GL/gl.h>

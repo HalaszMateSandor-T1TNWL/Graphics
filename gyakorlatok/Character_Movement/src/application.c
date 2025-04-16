@@ -1,4 +1,4 @@
-#include "../include/Utils/application.h"
+#include "Utils/application.h"
 
 void init_application(App* app) {
     int error_code;
@@ -35,7 +35,7 @@ void init_application(App* app) {
     app->uptime = (double)SDL_GetTicks() / 1000;
 }
 
-void event_handler(App* app){
+void event_handler(App* app) {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
@@ -62,15 +62,14 @@ void event_handler(App* app){
     }
 }
 
-void movement(App* app){
+void movement(App* app) {
     move(&(app->scene.player), get_current_time(app));
 }
 
 double get_current_time(App* app) {
-    double current_time = (double)SDL_GetTicks() / 1000;
-    double delta = current_time - app->uptime;
+    float current_time = (double)SDL_GetTicks() / 1000;
+    float delta = current_time - app->uptime;
     app->uptime += delta;
-    //printf("uptime: %f\n", app->uptime);
     return delta;
 }
 

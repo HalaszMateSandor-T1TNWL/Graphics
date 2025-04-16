@@ -1,11 +1,11 @@
-#include "../include/Utils/scene.h"
+#include "Utils/scene.h"
 
 /*
-*       These two do basically nothing, but set the values to zero or smth, idk
+*       Initializes the components necessary to the scene
 */
-void init_scene(Scene* scene)
-{
+void init_scene(Scene* scene) {
     init_player(&scene->player);
+    glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
     init_camera(&scene->camera);
 }
 
@@ -16,18 +16,19 @@ void update_scene(Scene* scene)
 /*
 *           A function for rendering everything necessary to the world
 */
-void render_scene(const Scene* scene)
-{
-    gluLookAt(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z, scene->player.position.x, scene->player.position.y, scene->player.position.z, 0, , 0);
+void render_scene(const Scene* scene) {   
     draw_origin();
     glPushMatrix();
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
+
+        gluLookAt(scene->player.position.x, scene->player.position.y, scene->player.position.z, scene->camera.position.x, scene->camera.position.y, scene->camera.position.z, 0, 0.5, 0);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
-        glRotatef(scene->player.rotation.x, 1.0f, 0.0f, 0.0f);
-        glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
-        glRotatef(scene->player.rotation.z, 0.0f, 0.0f, 1.0f);
-        glScalef(0.01f, 0.01f, 0.01f);
+
+        glRotatef(scene->player.rotation.y, 0.0f, scene->player.rotation.y, 0.0f);
+
+        glScalef(0.005f, 0.005f, 0.005f);
+
         draw_player(&(scene->player.player_model));
     glPopMatrix();
 }
@@ -40,14 +41,16 @@ void init_opengl() {
     glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
+    glFrustum(-10.0f, 10.0f, 0.0f, 10.0f, 5.0f, 100.0f);
 
     glClearColor(0.0f, 0.1f, 0.1f, 1.0f);
 
-    glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
     glEnable(GL_DEPTH_TEST);
     glClearDepth(1.0f);
+
 
     glBegin(GL_TRIANGLES);
 
@@ -65,8 +68,7 @@ void init_opengl() {
 /*
 *                   Placeholder, just so I can see something on the screen
 */
-void draw_origin()
-{
+void draw_origin() {
     glBegin(GL_LINES);
 
         glColor3f(1, 0, 0);
@@ -84,8 +86,7 @@ void draw_origin()
     glEnd();
 }
 
-void draw_player(const Model* model)
-{
+void draw_player(const Model* model) {
     int i, k;
     int vertex_index, texture_index, normal_index;
     float x, y, z, u, v;
