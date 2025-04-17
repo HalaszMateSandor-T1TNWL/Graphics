@@ -1,4 +1,4 @@
-#include "../include/Utils/application.h"
+#include "Utils/application.h"
 
 void init_application(App* app) {
     int error_code;
@@ -29,7 +29,6 @@ void init_application(App* app) {
     init_opengl();
     shape_window(1280, 720);
 
-    init_camera(&(app->camera));
     init_scene(&(app->scene));
 
     app->is_running = 1;
@@ -66,15 +65,13 @@ void event_handler(App* app) {
     }
 }
 
-void movement(App* app){
+void movement(App* app) {
     move(&(app->scene.player), get_current_time(app));
 }
 
 double get_current_time(App* app) {
-
-    double current_time = (double)SDL_GetTicks() / 1000;
-    double delta = current_time - app->uptime;
-
+    float current_time = (double)SDL_GetTicks() / 1000;
+    float delta = current_time - app->uptime;
     app->uptime += delta;
     return delta;
 
@@ -97,15 +94,12 @@ void update_application(App* app) {
 }
 
 void render_application(App* app) {
-
+   
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
+    //glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
     
     glPushMatrix();
-
-        glScalef(0.05f, 0.05f, 0.05f);
-        render_scene(&(app->scene));
-
+        render_scene(&app->scene);
     glPopMatrix();
 
     SDL_GL_SwapWindow(app->window);

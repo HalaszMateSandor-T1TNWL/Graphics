@@ -1,7 +1,8 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-#include "../Environment/player.h"
+#include "Environment/player.h"
+#include "Utils/camera.h"
 
 #include <obj/draw.h>
 #include <GL/gl.h>
@@ -10,7 +11,7 @@
 typedef struct Scene
 {
     Player player;
-    GLuint textureID;
+    Camera camera;
 } Scene;
 
 void init_scene(Scene* scene);

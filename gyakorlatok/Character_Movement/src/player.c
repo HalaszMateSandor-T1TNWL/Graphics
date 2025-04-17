@@ -1,9 +1,9 @@
-#include "../include/Environment/player.h"
+#include "Environment/player.h"
 
 /*
 *                               Self explenatory really
 */
-void init_player(Player* player){
+void init_player(Player* player) {
 
     player->move_speed = 0.0f;
     player->turn_speed = 0.0f;
@@ -22,8 +22,8 @@ void init_player(Player* player){
 
     player->scale = 1;
 
-    init_model(&player->player_model);
     load_player_model(player);
+    print_model_info(&player->player_model);
 }
 
 
@@ -32,11 +32,18 @@ void init_player(Player* player){
 *      otherwise once/IF the game starts lagging or running slower the player
 *                           will move slower as well.
 */
-void move(Player* player, double speed_FPS) {
-
+void move(Player* player, float speed_FPS) {
     get_speed(player);
 
-    increase_rotation(player, 0, player->turn_speed * speed_FPS, 0);
+    // Rotate the player smoothly (to the left or right)
+    player->rotation.y += player->turn_speed * speed_FPS;
+    
+    // Make sure the rotation stays in the range [0, 360) degrees
+    if (player->rotation.y >= 360.0f) {
+        player->rotation.y -= 360.0f;
+    } else if (player->rotation.y < 0.0f) {
+        player->rotation.y += 360.0f;
+    }
 
     float distance = player->move_speed * speed_FPS;
     float dx = distance * sin(degree_to_radian(player->rotation.y));
@@ -53,19 +60,21 @@ void move(Player* player, double speed_FPS) {
         player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
-    printf("Player Position: %f :: %f\nPlayer Vertical Position: %f\nPlayer jumped: %d\n", player->position.x, player->position.z, player->position.y, player->jumped);
+    printf("player vertical position: %f\n", player->position.y);
+    printf("Rotation Y: %f, dx: %f, dz: %f\n", player->rotation.y, dx, dz);
+    printf("Turn Speed: %f, Movespeed: %f\n", player->turn_speed, player->move_speed);
 }
 
 /*
 *              Two simple functions of setting the players positionand rotation
 *           (basically just helper functions, so the move function isn't as cramped)
 */
-void increase_position(Player* player, float dx, float dy, float dz){
+void increase_position(Player* player, float dx, float dy, float dz) {
     player->position.x += dx;
     player->position.y += dy;
     player->position.z += dz;
 }
-void increase_rotation(Player* player, float dx, float dy, float dz){
+void increase_rotation(Player* player, float dx, float dy, float dz) {
     player->rotation.x += dx;
     player->rotation.y += dy;
     player->rotation.z += dz;
@@ -74,14 +83,33 @@ void increase_rotation(Player* player, float dx, float dy, float dz){
 /*
 *       A function for setting the player's speed depending on which button they press
 */
-void get_speed(Player* player){
-    const Uint8* keyboard = SDL_GetKeyboardState(NULL);
-    if(keyboard[SDL_SCANCODE_W]){
-        player->move_speed = TURN_SPEED;
-    } else if(keyboard[SDL_SCANCODE_S]){
-        player->move_speed = -TURN_SPEED;
+void get_speed(Player* player) {
+    const Uint8 *keyboard = SDL_GetKeyboardState(NULL);
+
+    if (keyboard[SDL_SCANCODE_W]) {
+        player->move_speed = RUN_SPEED;
+    } else if (keyboard[SDL_SCANCODE_S]) {
+        player->move_speed = -RUN_SPEED;
     } else{
         player->move_speed = 0;
+    }
+
+    if (keyboard[SDL_SCANCODE_A]) {
+        player->turn_speed = TURN_SPEED;
+    }else if (keyboard[SDL_SCANCODE_D]) {
+        player->turn_speed = -TURN_SPEED;
+    } else{
+        player->turn_speed = 0;
+    }
+
+    if (keyboard[SDL_SCANCODE_SPACE]) {
+        player->is_in_air = true;
+        player->jumped++;
+        player->jumped++;
+        if (player->jumped < 2 && player->is_in_air)
+         {
+            player->upwards_speed = JUMP_POWER;
+        }
     }
 
     if(keyboard[SDL_SCANCODE_D]){

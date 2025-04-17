@@ -1,4 +1,4 @@
-#include "../include/Utils/camera.h"
+#include "Utils/camera.h"
 
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
@@ -16,7 +16,7 @@ void init_camera(Camera* camera){
     camera->angle_around_player = 0.0f;
 }
 
-void update_camera(Camera* camera, float d_wheel, float dy, float dx) {
+void update_camera(Camera* camera, float d_wheel, float dy, float dx) { 
     calculate_zoom(camera, d_wheel);
     set_pitch(camera, dy);
     calculate_angle_around_player(camera, dx);
@@ -60,6 +60,8 @@ void set_pitch(Camera* camera, float dy) {
 *     calculate the angle the camera is looking at AROUND the player
 */
 void calculate_angle_around_player(Camera* camera, float dx) {
-    float angle_change = dx * 0.3f;              // <- This doesn't give us that big of a number, but it's still uncontrolable, so we're multiplying it by 0.3
+    float angle_change = dx * 0.3f; // <- This doesn't give us that big of a number, but it's still uncontrolable, so we're multiplying it by 0.3
     camera->angle_around_player -= angle_change; // Changing this to += will make it go the other direction
 }
+
+

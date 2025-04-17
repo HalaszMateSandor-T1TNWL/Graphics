@@ -1,9 +1,15 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "../Utils/utils.h"
+#include "Utils/utils.h"
+#include "Environment/load_texture.h"
 
 #include <obj/load.h>
+#include <obj/draw.h>
+#include <obj/info.h>
+
+#include <GL/gl.h>
+
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
@@ -17,7 +23,8 @@
 typedef struct Player
 {
     Model player_model;
-    
+    GLuint textureID;
+
     vec3 position;
     vec3 rotation;
 
@@ -35,7 +42,7 @@ typedef struct Player
 void init_player(Player* player);
 
 /* Moves the player around */
-void move(Player* player, double speed_FPS);
+void move(Player* player, float speed_FPS);
 
 /* Moves the player around according to the given values */
 void increase_position(Player* player, float dx, float dy, float dz);
@@ -48,5 +55,6 @@ void get_speed(Player* player);
 
 /* Loads in a model for use */
 void load_player_model(Player* player);
+
 
 #endif /*PLAYER_H_*/
