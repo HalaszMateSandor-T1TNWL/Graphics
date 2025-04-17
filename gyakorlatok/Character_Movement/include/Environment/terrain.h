@@ -3,6 +3,7 @@
 
 #include <obj/model.h>
 #include <GL/gl.h>
+#include <stdlib.h>
 
 #define SIZE 800
 #define VERTEX_COUNT 128

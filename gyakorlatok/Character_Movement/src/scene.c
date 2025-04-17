@@ -9,7 +9,7 @@ void init_scene(Scene* scene) {
     init_player(&scene->player);
     init_camera(&scene->camera);
     init_terrain(&scene->terrain, 100, 100);
-    scene->terrain.textureID = load_texture("../textures/Hatsune_Miku/grass2.png");
+    scene->terrain.textureID = load_texture("../textures/Ground/grass2.png");
 }
 
 void update_scene(Scene* scene) {

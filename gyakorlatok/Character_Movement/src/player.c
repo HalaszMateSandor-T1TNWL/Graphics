@@ -56,7 +56,6 @@ void move(Player* player, float speed_FPS) {
     increase_position(player, 0, player->upwards_speed * speed_FPS, 0);
     
     if (player->position.y < TERRAIN_HEIGHT) {
-    if (player->position.y < TERRAIN_HEIGHT) {
         player->upwards_speed = 0;
         player->is_in_air = false;
         player->jumped = 0;
@@ -85,7 +84,8 @@ void increase_rotation(Player* player, float dx, float dy, float dz) {
 /*
 *       A function for setting the player's speed depending on which button they press
 */
-void get_speed(Player* player) {
+void get_speed(Player* player)
+{
     const Uint8 *keyboard = SDL_GetKeyboardState(NULL);
 
     if (keyboard[SDL_SCANCODE_W]) {
@@ -112,7 +112,6 @@ void get_speed(Player* player) {
             player->upwards_speed = JUMP_POWER;
         }
     }
-
 }
 
 void load_player_model(Player* player) {
