@@ -11,7 +11,7 @@ void init_player(Player* player){
 
     player->position.x = 0.0f;
     player->position.y = 0.0f;
-    player->position.z = -0.5f;
+    player->position.z = 0.5f;
 
     player->rotation.x = 0.0f;
     player->rotation.y = 0.0f;
@@ -23,7 +23,7 @@ void init_player(Player* player){
     player->scale = 1;
 
     init_model(&player->player_model);
-    allocate_model(&player->player_model);
+    load_player_model(player);
 }
 
 
@@ -32,8 +32,9 @@ void init_player(Player* player){
 *      otherwise once/IF the game starts lagging or running slower the player
 *                           will move slower as well.
 */
-void move(Player* player, SDL_Event event, double speed_FPS){
-    get_speed(player, event);
+void move(Player* player, double speed_FPS) {
+
+    get_speed(player);
 
     increase_rotation(player, 0, player->turn_speed * speed_FPS, 0);
 
@@ -42,7 +43,6 @@ void move(Player* player, SDL_Event event, double speed_FPS){
     float dz = distance * cos(degree_to_radian(player->rotation.y));
 
     increase_position(player, dx, 0, dz);
-    printf("player position: %f :: %f\n", player->position.x, player->position.z);
 
     player->upwards_speed += GRAVITY * speed_FPS;
     increase_position(player, 0, player->upwards_speed * speed_FPS, 0);
@@ -53,7 +53,7 @@ void move(Player* player, SDL_Event event, double speed_FPS){
         player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
-    printf("player vertical position: %f\n", player->position.y);
+    printf("Player Position: %f :: %f\nPlayer Vertical Position: %f\nPlayer jumped: %d\n", player->position.x, player->position.z, player->position.y, player->jumped);
 }
 
 /*
@@ -74,41 +74,35 @@ void increase_rotation(Player* player, float dx, float dy, float dz){
 /*
 *       A function for setting the player's speed depending on which button they press
 */
-void get_speed(Player* player, SDL_Event event){
-    switch (event.key.keysym.sym)
-    {
-    case SDLK_w:
-        player->move_speed = RUN_SPEED;
-        printf("Forward\n");
-        break;
-    case SDLK_s:
-        player->move_speed = -RUN_SPEED;
-        printf("Backwards\n");
-        break;
-    case SDLK_a:
-        player->turn_speed = TURN_SPEED;
-        printf("Left\n");
-        break;
-    case SDLK_d:
-        player->turn_speed = -TURN_SPEED;
-        printf("Right\n");
-        break;
-    case SDLK_SPACE:
-        player->is_in_air = true;
-        if(player->jumped < 2){
-            player->upwards_speed = JUMP_POWER;
-            player->jumped ++;
-            printf("Jump!\n");
-            printf("Player has jumped: %d times\n", player->jumped);
-        }
-        break;
-    default:
+void get_speed(Player* player){
+    const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+    if(keyboard[SDL_SCANCODE_W]){
+        player->move_speed = TURN_SPEED;
+    } else if(keyboard[SDL_SCANCODE_S]){
+        player->move_speed = -TURN_SPEED;
+    } else{
         player->move_speed = 0;
-        player->turn_speed = 0;
-        break;
     }
+
+    if(keyboard[SDL_SCANCODE_D]){
+        player->turn_speed = TURN_SPEED;
+    } else if(keyboard[SDL_SCANCODE_A]){
+        player->turn_speed = -TURN_SPEED;
+    } else{
+        player->turn_speed = 0;
+    }
+
+    if(keyboard[SDL_SCANCODE_SPACE]){
+        player->is_in_air = true;
+        player->jumped++;
+        if(player->jumped < 2 && player->is_in_air)
+        {
+            player->upwards_speed = JUMP_POWER;
+        }
+    }
+
 }
 
-void load_player_model(Player* player){
+void load_player_model(Player* player) {
     load_model(&player->player_model, "../textures/Hatsune_Miku/HatsuneMiku.obj");
 }

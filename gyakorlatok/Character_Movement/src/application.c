@@ -13,7 +13,7 @@ void init_application(App* app) {
 
     app->window = SDL_CreateWindow("Character Movement",
                                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-                                    1080,720,
+                                    1980,720,
                                     SDL_WINDOW_OPENGL);
     if(app->window == NULL){
         printf("%s", SDL_GetError());
@@ -36,13 +36,11 @@ void init_application(App* app) {
     app->uptime = (double)SDL_GetTicks() / 1000;
 }
 
-void event_handler(App* app){
+void event_handler(App* app) {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
-        case SDL_KEYDOWN:
-            move(&(app->scene.player), event, get_current_time(app));
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
@@ -56,6 +54,9 @@ void event_handler(App* app){
                 break;
             }
             break;
+        case SDL_MOUSEWHEEL:
+            update_camera(&app->camera, event.wheel.direction, event.wheel.y, event.wheel.x);
+            break;           
         case SDL_QUIT:
             app->is_running = 0;
             break;
@@ -65,39 +66,54 @@ void event_handler(App* app){
     }
 }
 
+void movement(App* app){
+    move(&(app->scene.player), get_current_time(app));
+}
+
 double get_current_time(App* app) {
+
     double current_time = (double)SDL_GetTicks() / 1000;
     double delta = current_time - app->uptime;
-    app->uptime = delta;
+
+    app->uptime += delta;
     return delta;
+
 }
 
 void modular_framerate(App* app) {
+
     Uint32 frameTime = (Uint32)get_current_time(app);
-    if(frameTime < 16){
+    if(frameTime < 16) {
         SDL_Delay(16 - frameTime);
     }
+
 }
 
 void update_application(App* app) {
+
     get_current_time(app);
     update_scene(&(app->scene));
+
 }
 
 void render_application(App* app) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
-
+    
     glPushMatrix();
-    gluLookAt();
-    render_scene(&(app->scene));
+
+        glScalef(0.05f, 0.05f, 0.05f);
+        render_scene(&(app->scene));
+
     glPopMatrix();
 
     SDL_GL_SwapWindow(app->window);
+    
 }
 
 void shape_window(GLsizei width, GLsizei height) {
+
     int x, y, w, h;
     double ratio;
 
@@ -117,6 +133,7 @@ void shape_window(GLsizei width, GLsizei height) {
     glViewport(x, y, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
 }
 
 void destroy_application(App* app) {
@@ -127,4 +144,5 @@ void destroy_application(App* app) {
     free_model(&app->scene.player.player_model);
 
     SDL_Quit();
+
 }

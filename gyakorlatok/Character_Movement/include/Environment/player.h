@@ -17,6 +17,7 @@
 typedef struct Player
 {
     Model player_model;
+    
     vec3 position;
     vec3 rotation;
 
@@ -34,7 +35,7 @@ typedef struct Player
 void init_player(Player* player);
 
 /* Moves the player around */
-void move(Player* player, SDL_Event event, double speed_FPS);
+void move(Player* player, double speed_FPS);
 
 /* Moves the player around according to the given values */
 void increase_position(Player* player, float dx, float dy, float dz);
@@ -43,7 +44,7 @@ void increase_position(Player* player, float dx, float dy, float dz);
 void increase_rotation(Player* player, float dx, float dy, float dz);
 
 /* Gets the input and determines how fast the player will be moving */
-void get_speed(Player* player, SDL_Event event);
+void get_speed(Player* player);
 
 /* Loads in a model for use */
 void load_player_model(Player* player);

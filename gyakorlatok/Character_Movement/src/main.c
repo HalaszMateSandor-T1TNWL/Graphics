@@ -7,6 +7,7 @@ int main(int argc, char* argv[]){
 
     while(app.is_running){
         event_handler(&app);
+        movement(&app);
         update_application(&app);
         render_application(&app);
         modular_framerate(&app);
