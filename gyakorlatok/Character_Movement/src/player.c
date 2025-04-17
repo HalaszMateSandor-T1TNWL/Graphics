@@ -113,5 +113,4 @@ void get_speed(Player* player) {
 
 void load_player_model(Player* player) {
     load_model(&player->player_model, "../textures/Hatsune_Miku/HatsuneMiku.obj");
-    player->textureID = load_texture("../textures/Hatsune_Miku/body.png");
 }

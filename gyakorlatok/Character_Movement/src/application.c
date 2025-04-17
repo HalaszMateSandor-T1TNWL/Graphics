@@ -88,11 +88,8 @@ void update_application(App* app) {
 void render_application(App* app) {
    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
+    //glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
     
-    glMatrixMode(GL_PROJECTION);
-
-    glLoadIdentity();
     glPushMatrix();
         render_scene(&app->scene);
     glPopMatrix();

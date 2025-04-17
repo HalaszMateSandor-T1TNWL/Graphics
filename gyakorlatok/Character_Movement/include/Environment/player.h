@@ -1,7 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "../Utils/utils.h"
+#include "Utils/utils.h"
 #include "Environment/load_texture.h"
 
 #include <obj/load.h>
