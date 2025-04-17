@@ -52,7 +52,7 @@ void event_handler(App* app) {
             default:
                 break;
             }
-            break;           
+            break;         
         case SDL_QUIT:
             app->is_running = 0;
             break;

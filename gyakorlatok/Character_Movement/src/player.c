@@ -56,12 +56,13 @@ void move(Player* player, float speed_FPS) {
     increase_position(player, 0, player->upwards_speed * speed_FPS, 0);
     
     if (player->position.y < TERRAIN_HEIGHT) {
+    if (player->position.y < TERRAIN_HEIGHT) {
         player->upwards_speed = 0;
         player->is_in_air = false;
         player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
-    printf("player vertical position: %f\n", player->position.y);
+    printf("Player vertical position: %f\n", player->position.y);
     printf("Rotation Y: %f, dx: %f, dz: %f\n", player->rotation.y, dx, dz);
     printf("Turn Speed: %f, Movespeed: %f\n", player->turn_speed, player->move_speed);
 }
@@ -103,7 +104,7 @@ void get_speed(Player* player) {
         player->turn_speed = 0;
     }
 
-    if(keyboard[SDL_SCANCODE_SPACE]) {
+    if(keyboard[SDL_SCANCODE_SPACE]){
         player->is_in_air = true;
         player->jumped++;
         if(player->jumped < 2 && player->is_in_air)
