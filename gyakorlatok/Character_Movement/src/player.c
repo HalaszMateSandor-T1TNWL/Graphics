@@ -33,6 +33,7 @@ void init_player(Player* player) {
 *                           will move slower as well.
 */
 void move(Player* player, float speed_FPS) {
+    // Gets user input and converts them to movement
     get_speed(player);
 
     // Rotate the player smoothly (to the left or right)
@@ -54,7 +55,7 @@ void move(Player* player, float speed_FPS) {
     player->upwards_speed += GRAVITY * speed_FPS;
     increase_position(player, 0, player->upwards_speed * speed_FPS, 0);
     
-    if (player->position.y < TERRAIN_HEIGHT){
+    if (player->position.y < TERRAIN_HEIGHT) {
         player->upwards_speed = 0;
         player->is_in_air = false;
         player->jumped = 0;
@@ -102,25 +103,7 @@ void get_speed(Player* player) {
         player->turn_speed = 0;
     }
 
-    if (keyboard[SDL_SCANCODE_SPACE]) {
-        player->is_in_air = true;
-        player->jumped++;
-        player->jumped++;
-        if (player->jumped < 2 && player->is_in_air)
-         {
-            player->upwards_speed = JUMP_POWER;
-        }
-    }
-
-    if(keyboard[SDL_SCANCODE_D]){
-        player->turn_speed = TURN_SPEED;
-    } else if(keyboard[SDL_SCANCODE_A]){
-        player->turn_speed = -TURN_SPEED;
-    } else{
-        player->turn_speed = 0;
-    }
-
-    if(keyboard[SDL_SCANCODE_SPACE]){
+    if(keyboard[SDL_SCANCODE_SPACE]) {
         player->is_in_air = true;
         player->jumped++;
         if(player->jumped < 2 && player->is_in_air)

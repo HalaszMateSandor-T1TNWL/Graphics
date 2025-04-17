@@ -2,6 +2,8 @@
 #define TEXTURE_LOADER_
 
 #include <GL/gl.h>
+#include <GL/glu.h>
+
 #include "obj/model.h"
 
 typedef GLubyte Pixel[3];

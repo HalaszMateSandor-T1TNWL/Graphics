@@ -52,9 +52,6 @@ void event_handler(App* app) {
             default:
                 break;
             }
-            break;
-        case SDL_MOUSEWHEEL:
-            update_camera(&app->camera, event.wheel.direction, event.wheel.y, event.wheel.x);
             break;           
         case SDL_QUIT:
             app->is_running = 0;
@@ -89,7 +86,7 @@ void modular_framerate(App* app) {
 void update_application(App* app) {
 
     get_current_time(app);
-    update_scene(&(app->scene));
+    update_scene(&app->scene);
 
 }
 
@@ -97,10 +94,12 @@ void render_application(App* app) {
    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
-    
+
     glPushMatrix();
         render_scene(&app->scene);
+        //terrain_renderer(&app->scene);
     glPopMatrix();
+
 
     SDL_GL_SwapWindow(app->window);
     

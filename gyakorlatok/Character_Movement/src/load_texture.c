@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-/*GLuint load_texture(char* filename)
+GLuint load_texture(char* filename)
 {
     SDL_Surface* surface;
     GLuint texture_name;
@@ -22,9 +22,9 @@
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     return texture_name;
-}*/
+}
 
-GLuint load_texture(char* filename){
+/*GLuint load_texture(char* filename){
 
     SDL_Surface* surface = IMG_Load(filename);
     if(!surface){
@@ -63,4 +63,4 @@ GLuint load_texture(char* filename){
     SDL_FreeSurface(surface);
 
     return textureID;
-}
+}*/
