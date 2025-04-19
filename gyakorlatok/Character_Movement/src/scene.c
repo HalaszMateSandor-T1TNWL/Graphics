@@ -6,10 +6,15 @@
 void init_scene(Scene* scene) {
     scene->player.textureID = load_texture("../textures/Ground/grass2.png");
     printf("TextureID: %d\n", scene->player.textureID);
+
     init_player(&scene->player);
     init_camera(&scene->camera);
+
     init_terrain(&scene->terrain, 100, 100);
-    scene->terrain.textureID = load_texture("../textures/Hatsune_Miku/grass2.png");
+    scene->terrain.textureID[0] = load_texture("../textures/Ground/grass2.png");
+
+    load_model(&scene->terrain.models[0] ,"../textures/Stone_Pillar/o1190_1.obj");
+    scene->terrain.textureID[1] = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
 }
 
 void update_scene(Scene* scene) {
@@ -31,7 +36,7 @@ void render_scene(Scene* scene) {
     /* Setting the projection matrix at the beginning of each frame */
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(20.0f, 1.0f, 0.1f, 100.0f);
+    gluPerspective(45.0f, 1.0f, 0.1f, 100.0f);
 
     /* Then switching to a modelview for rendering everything */
     glMatrixMode(GL_MODELVIEW);
@@ -53,10 +58,10 @@ void render_scene(Scene* scene) {
         GLfloat light_position[] = {1.0, 1.0, 0.0, 0.0};
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-        GLfloat material[] = {0.0, 0.0, 1.0, 0.5};
+        GLfloat material[] = {1.0, 1.0, 1.0, 0.5};
         glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
 
-        GLfloat material2[] = {1.0, 0.0, 0.0, 1.0};
+        GLfloat material2[] = {1.0, 1.0, 1.0, 1.0};
         glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
 
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
@@ -68,7 +73,8 @@ void render_scene(Scene* scene) {
 
     /* Rendering the terrain */
     glPushMatrix();
-        glEnable(GL_LIGHT1);
+        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
+        glEnable(GL_TEXTURE_2D);
 
         GLfloat grass_mat_diff[] = {1.0, 1.0, 1.0, 1.0};
         glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
@@ -76,8 +82,24 @@ void render_scene(Scene* scene) {
         GLfloat grass_mat_amb[] = {1.0, 1.0, 1.0, 1.0};
         glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
 
-        glScalef(0.05f, 0.05f, 0.05f);
+        glScalef(0.25f, 0.25f, 0.25f);
         render_terrain(&scene->terrain);
+    glPopMatrix();
+
+    /* Rendering the a model */
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[1]);
+        glEnable(GL_TEXTURE_2D);
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
+
+        glTranslatef(10.0f, 0.0f, 10.0f);
+        glScalef(0.5f, 0.5f, 0.5f);
+        draw_model(&scene->terrain.models[0]);
     glPopMatrix();
 }
 
@@ -86,24 +108,19 @@ void terrain_renderer(Scene* scene) {
     glLoadIdentity();
 
     glPushMatrix();
-        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID);
+        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
         glEnable(GL_TEXTURE_2D);
 
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
 
-        GLfloat light_position[] = {1.0, 1.0, 0.0, 0.0};
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        GLfloat grass_mat_diff[] = {1.0, 1.0, 1.0, 1.0};
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
 
-        GLfloat material[] = {0.0, 0.0, 1.0, 0.5};
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
+        GLfloat grass_mat_amb[] = {1.0, 1.0, 1.0, 1.0};
+        glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
 
-        GLfloat material2[] = {1.0, 0.0, 0.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
-
-        glTranslatef(scene->terrain.x, 1.0f, scene->terrain.z);
-        glRotatef(90.0f, 10.0f, 10.0f, 10.0f);
-
+        glScalef(0.05f, 0.05f, 0.05f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 }
@@ -147,9 +164,8 @@ void draw_player(const Model* model) {
 
     glBegin(GL_TRIANGLES);
 
-    for (i = 0; i < model->n_triangles; ++i) {
-        for (k = 0; k < 3; ++k) {
-
+    for (i = 0; i < model->n_triangles; i++) {
+        for (k = 0; k < 3; k++) {
             normal_index = model->triangles[i].points[k].normal_index;
             x = model->normals[normal_index].x;
             y = model->normals[normal_index].y;

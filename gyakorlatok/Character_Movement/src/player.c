@@ -9,9 +9,9 @@ void init_player(Player* player) {
     player->turn_speed = 0.0f;
     player->upwards_speed = 0.0f;
 
-    player->position.x = 0.0f;
+    player->position.x = 10.0f;
     player->position.y = 0.0f;
-    player->position.z = 0.5f;
+    player->position.z = 10.0f;
 
     player->rotation.x = 0.0f;
     player->rotation.y = 0.0f;
@@ -61,7 +61,7 @@ void move(Player* player, float speed_FPS) {
         player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
-    printf("player vertical position: %f\n", player->position.y);
+    printf("Player vertical position: %f\n", player->position.y);
     printf("Rotation Y: %f, dx: %f, dz: %f\n", player->rotation.y, dx, dz);
     printf("Turn Speed: %f, Movespeed: %f\n", player->turn_speed, player->move_speed);
 }
@@ -84,7 +84,8 @@ void increase_rotation(Player* player, float dx, float dy, float dz) {
 /*
 *       A function for setting the player's speed depending on which button they press
 */
-void get_speed(Player* player) {
+void get_speed(Player* player)
+{
     const Uint8 *keyboard = SDL_GetKeyboardState(NULL);
 
     if (keyboard[SDL_SCANCODE_W]) {
@@ -103,7 +104,7 @@ void get_speed(Player* player) {
         player->turn_speed = 0;
     }
 
-    if(keyboard[SDL_SCANCODE_SPACE]) {
+    if(keyboard[SDL_SCANCODE_SPACE]){
         player->is_in_air = true;
         player->jumped++;
         if(player->jumped < 2 && player->is_in_air)
@@ -111,7 +112,6 @@ void get_speed(Player* player) {
             player->upwards_speed = JUMP_POWER;
         }
     }
-
 }
 
 void load_player_model(Player* player) {

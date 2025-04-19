@@ -11,9 +11,10 @@ void init_application(App* app) {
         return;
     }
 
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     app->window = SDL_CreateWindow("Character Movement",
                                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-                                    1980,720,
+                                    1280,720,
                                     SDL_WINDOW_OPENGL);
     if(app->window == NULL){
         printf("%s", SDL_GetError());
@@ -52,7 +53,7 @@ void event_handler(App* app) {
             default:
                 break;
             }
-            break;           
+            break;         
         case SDL_QUIT:
             app->is_running = 0;
             break;
@@ -135,7 +136,8 @@ void destroy_application(App* app) {
     SDL_GL_DeleteContext(app->gl_context);
 
     free_model(&app->scene.player.player_model);
-
+    free_terrain(&app->scene.terrain);
+    
     SDL_Quit();
 
 }

@@ -2,8 +2,9 @@
 #include "Environment/load_texture.h"
 
 void init_terrain(struct Terrain* terrain, int gridX, int gridZ) {
-    terrain -> textureID = 0;
+    terrain -> textureID = malloc(sizeof(GLuint)*2);
 
+    terrain -> models = malloc(sizeof(Model));
     terrain -> indices = malloc(sizeof(int)*6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1));
     terrain -> vertices = malloc(sizeof(float)*COUNT*3);
     terrain -> normals = malloc(sizeof(float)*COUNT*3);
@@ -11,7 +12,6 @@ void init_terrain(struct Terrain* terrain, int gridX, int gridZ) {
 
     terrain -> x = gridX * SIZE;
     terrain -> z = gridZ * SIZE;
-
 }
 
 void generate_terrain(struct Terrain* terrain) {
@@ -81,4 +81,13 @@ void render_terrain(struct Terrain* terrain) {
 
         glEnd();
     }
+}
+
+void free_terrain(struct Terrain* terrain) {
+    free(terrain->indices);
+    free(terrain->vertices);
+    free(terrain->normals);
+    free(terrain->texture_coords);
+
+    init_terrain(terrain, 0, 0);
 }

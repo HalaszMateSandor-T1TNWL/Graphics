@@ -3,6 +3,7 @@
 
 #include <obj/model.h>
 #include <GL/gl.h>
+#include <stdlib.h>
 
 #define SIZE 800
 #define VERTEX_COUNT 128
@@ -10,7 +11,8 @@
 
 typedef struct Terrain {
 
-    GLuint textureID;
+    Model* models;
+    GLuint* textureID;
 
     int* indices;
     float* vertices;
@@ -28,5 +30,6 @@ void generate_terrain(struct Terrain* terrain);
 
 void render_terrain(struct Terrain* terrain);
 
+void free_terrain(struct Terrain* terrain);
 
 #endif /* TERRAIN_ */
