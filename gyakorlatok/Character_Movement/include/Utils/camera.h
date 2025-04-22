@@ -2,16 +2,19 @@
 #define CAMERA_H_
 
 #include "Utils/utils.h"
-
+#include "Environment/player.h"
 
 typedef struct Camera {
 
     vec3 position;
-    float distance_from_player;
-    float angle_around_player;
     float pitch;
     float yaw;
     float roll;
+    float zoom_level;
+    int dx;
+    int dy;
+    float distance_from_player;
+    float angle_around_player;
     
 } Camera;
 
@@ -19,7 +22,10 @@ typedef struct Camera {
 void init_camera(Camera* camera);
 
 /* For updating the position of the camera */
-void update_camera(Camera* camera, float d_wheel, float dy, float dx);
+void move_camera(Camera* camera, Player* player);
+
+/* For calculating the camera's position relative to the player */
+void calculate_position(Camera* camera, Player* player, float horizontal, float vertical);
 
 /* Calculates the horizontal distance from player model */
 float calculate_horizontal(Camera* camera);

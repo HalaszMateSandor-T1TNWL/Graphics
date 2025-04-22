@@ -14,7 +14,7 @@ void init_application(App* app) {
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     app->window = SDL_CreateWindow("Character Movement",
                                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-                                    1280,720,
+                                    1280, 720,
                                     SDL_WINDOW_OPENGL);
     if(app->window == NULL){
         printf("%s", SDL_GetError());
@@ -39,8 +39,32 @@ void init_application(App* app) {
 void event_handler(App* app) {
     SDL_Event event;
 
+    static int is_mouse_down = 0;
+    
+    static int x;
+    static int y;    
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
+        case SDL_MOUSEWHEEL:
+            calculate_zoom(&app->scene.camera, event.wheel.y);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            is_mouse_down = 1;
+            break;
+        case SDL_MOUSEMOTION:
+            if(is_mouse_down) {
+                //SDL_GetMouseState(&x, &y); <-This shit don't work, I genuinely don't understand what's up with it, every time I try to use it, it freaks out
+
+                y = event.motion.yrel; // relative mouse motion my beloved <3
+                x = event.motion.xrel; //
+                
+                set_pitch(&app->scene.camera, y);
+                calculate_angle_around_player(&app->scene.camera, x);
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            is_mouse_down = 0;
+            break;
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
@@ -65,7 +89,9 @@ void event_handler(App* app) {
 
 void movement(App* app) {
     move(&(app->scene.player), get_current_time(app));
+    move_camera(&app->scene.camera, &app->scene.player);
 }
+
 
 double get_current_time(App* app) {
     float current_time = (double)SDL_GetTicks() / 1000;
@@ -98,7 +124,6 @@ void render_application(App* app) {
 
     glPushMatrix();
         render_scene(&app->scene);
-        //terrain_renderer(&app->scene);
     glPopMatrix();
 
 
@@ -108,23 +133,7 @@ void render_application(App* app) {
 
 void shape_window(GLsizei width, GLsizei height) {
 
-    int x, y, w, h;
-    double ratio;
-
-    ratio = (double)width / height;
-    if(ratio > VIEWPORT_RATIO){
-        w = (int)((double)height * VIEWPORT_RATIO);
-        h = height;
-        x = (width - w) / 2;
-        y = 0;
-    } else{
-        w = width;
-        h = (int)((double)width / VIEWPORT_RATIO);
-        x = 0;
-        y = (height - h) / 2;
-    }
-
-    glViewport(x, y, w, h);
+    glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
@@ -135,9 +144,9 @@ void destroy_application(App* app) {
     SDL_DestroyWindow(app->window);
     SDL_GL_DeleteContext(app->gl_context);
 
-    free_model(&app->scene.player.player_model);
+    free_player(&app->scene.player);
     free_terrain(&app->scene.terrain);
-    
+
     SDL_Quit();
 
 }

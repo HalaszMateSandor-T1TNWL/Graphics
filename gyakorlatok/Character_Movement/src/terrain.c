@@ -88,6 +88,7 @@ void free_terrain(struct Terrain* terrain) {
     free(terrain->vertices);
     free(terrain->normals);
     free(terrain->texture_coords);
+    glDeleteTextures(1, terrain->textureID);
 
     init_terrain(terrain, 0, 0);
 }

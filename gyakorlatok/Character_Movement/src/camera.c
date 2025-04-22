@@ -14,31 +14,32 @@ void init_camera(Camera* camera){
     camera->roll = 0.0f;
     camera->distance_from_player = 15.0f;
     camera->angle_around_player = 0.0f;
+    camera->dx = 0;
+    camera->dy = 0;
 }
 
-void update_camera(Camera* camera, float d_wheel, float dy, float dx) {
-    
-    calculate_zoom(camera, d_wheel);
-    set_pitch(camera, dy);
-    calculate_angle_around_player(camera, dx);
+void move_camera(Camera* camera, Player* player) {
+
+    //set_pitch(camera, camera->dy);
+    //calculate_angle_around_player(camera, camera->dx);
 
     float horizontal_distance = calculate_horizontal(camera);
     float vertical_distance = calculate_vertical(camera);
 
     camera->position.x = horizontal_distance;
     camera->position.z = vertical_distance;
-
-    printf("Horizontal Distance: %f\nVertical Distance: %f\n",horizontal_distance, vertical_distance);
+    calculate_position(camera, player,horizontal_distance, vertical_distance);
 }
 
-void get_dwheel(const SDL_Event* event, float dwheel[]) {
-    switch (event->type)
-    {
-        case SDL_MOUSEWHEEL:
-            dwheel[0] = event->wheel.x;
-            dwheel[1] = event->wheel.y;
-            break;
-    }
+void calculate_position(Camera* camera, Player* player, float horizontal, float vertical) {
+    float theta = player->rotation.y + camera->angle_around_player;
+
+    float offsetX = (float)(horizontal * sin(degree_to_radian(theta)));
+    float offsetZ = (float)(horizontal * cos(degree_to_radian(theta)));
+
+    camera->position.x = player->position.x - offsetX;
+    camera->position.y = player->position.y + vertical;
+    camera->position.z = player->position.z - offsetZ;
 }
 
 /*
@@ -57,7 +58,7 @@ float calculate_vertical(Camera* camera) {
 *                       the camera's distance from the player model
 */
 void calculate_zoom(Camera* camera, float d_wheel) {
-    float zoom_level = d_wheel * 0.1f;          // <- Multiplying it here, because it gives us a HUGE number
+    float zoom_level = d_wheel;                 // <- Multiplying it here, because it gives us a HUGE number
     camera->distance_from_player -= zoom_level; // If you want it to zoom OUT when scrolling UP change this to +=
 }
 
@@ -77,6 +78,7 @@ void set_pitch(Camera* camera, float dy) {
 void calculate_angle_around_player(Camera* camera, float dx) {
     float angle_change = dx * 0.3f;              // <- This doesn't give us that big of a number, but it's still uncontrolable, so we're multiplying it by 0.3
     camera->angle_around_player -= angle_change; // Changing this to += will make it go the other direction
+    //printf("Angle around player: %f\n", camera->angle_around_player);
 }
 
 

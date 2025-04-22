@@ -4,7 +4,7 @@
 *       Initializes the components necessary to the scene
 */
 void init_scene(Scene* scene) {
-    scene->player.textureID = load_texture("../textures/Ground/grass2.png");
+    scene->player.textureID = load_texture("../textures/Hatsune_Miku/test.png");
     printf("TextureID: %d\n", scene->player.textureID);
 
     init_player(&scene->player);
@@ -13,12 +13,13 @@ void init_scene(Scene* scene) {
     init_terrain(&scene->terrain, 100, 100);
     scene->terrain.textureID[0] = load_texture("../textures/Ground/grass2.png");
 
-    load_model(&scene->terrain.models[0] ,"../textures/Stone_Pillar/o1190_1.obj");
+    load_model(&scene->terrain.models[0] ,"../textures/Cheese_Goat/cheese_goat.obj");
     scene->terrain.textureID[1] = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
+
+    init_skybox(scene);
 }
 
 void update_scene(Scene* scene) {
-    update_camera(&scene->camera, 0, 0, 0);
 }
 
 /*
@@ -29,21 +30,21 @@ void render_scene(Scene* scene) {
     float playerY = scene->player.position.y;
     float playerZ = scene->player.position.z;
 
-    float cameraX = playerX;
-    float cameraY = playerY + scene->camera.position.z;
-    float cameraZ = playerZ + scene->camera.distance_from_player;
+    float cameraX = scene->camera.position.x;
+    float cameraY = scene->camera.position.y;
+    float cameraZ = scene->camera.position.z;
 
     /* Setting the projection matrix at the beginning of each frame */
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f, 1.0f, 0.1f, 100.0f);
+    gluPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 5000.0f);
 
     /* Then switching to a modelview for rendering everything */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
         cameraX, cameraY, cameraZ,
-        playerX, playerY, playerZ,
+        playerX, playerY + 4, playerZ + 2,
         0.0f, 1.0f, 0.0f
     );
 
@@ -55,7 +56,7 @@ void render_scene(Scene* scene) {
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
 
-        GLfloat light_position[] = {1.0, 1.0, 0.0, 0.0};
+        GLfloat light_position[] = {100.0, 100.0, 100.0, 0.5};
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
         GLfloat material[] = {1.0, 1.0, 1.0, 0.5};
@@ -66,7 +67,7 @@ void render_scene(Scene* scene) {
 
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
-        glScalef(0.005f, 0.005f, 0.005f);
+        glScalef(0.025f, 0.025f, 0.025f);
 
         draw_player(&(scene->player.player_model));
     glPopMatrix();
@@ -81,12 +82,12 @@ void render_scene(Scene* scene) {
 
         GLfloat grass_mat_amb[] = {1.0, 1.0, 1.0, 1.0};
         glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
-
+        
         glScalef(0.25f, 0.25f, 0.25f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 
-    /* Rendering the a model */
+    /* Rendering a model */
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[1]);
         glEnable(GL_TEXTURE_2D);
@@ -97,9 +98,13 @@ void render_scene(Scene* scene) {
         glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
         glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
 
-        glTranslatef(10.0f, 0.0f, 10.0f);
-        glScalef(0.5f, 0.5f, 0.5f);
+        glTranslatef(100.0f, 0.0f, 100.0f);
+        glScalef(1.0f, 1.0f, 1.0f);
         draw_model(&scene->terrain.models[0]);
+    glPopMatrix();
+
+    glPushMatrix();
+        draw_skybox(scene, 1000);
     glPopMatrix();
 }
 
@@ -186,4 +191,97 @@ void draw_player(const Model* model) {
     }
 
     glEnd();
+}
+
+void init_skybox(Scene* scene) {
+    scene->skybox[SKY_LEFT] = load_texture("../textures/Skybox/left.png");
+    scene->skybox[SKY_BACK] = load_texture("../textures/Skybox/back.png");
+    scene->skybox[SKY_RIGHT] = load_texture("../textures/Skybox/right.png");
+    scene->skybox[SKY_FRONT] = load_texture("../textures/Skybox/front.png");
+    scene->skybox[SKY_TOP] = load_texture("../textures/Skybox/top.png");
+    scene->skybox[SKY_BOTTOM] = load_texture("../textures/Skybox/down.png");
+}
+
+void draw_skybox(Scene* scene, float size) {
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BACK]);
+    //back face
+    glBegin(GL_QUADS);
+        glTexCoord2f(0,0);
+        glVertex3f(size/2,size/2,size/2);
+        glTexCoord2f(1,0);
+        glVertex3f(-size/2,size/2,size/2);
+        glTexCoord2f(1,1);
+        glVertex3f(-size/2,-size/2,size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(size/2,-size/2,size/2);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_LEFT]);
+    //left face
+    glBegin(GL_QUADS);
+        glTexCoord2f(0,0);
+        glVertex3f(-size/2,size/2,size/2);
+        glTexCoord2f(1,0);
+        glVertex3f(-size/2,size/2,-size/2);
+        glTexCoord2f(1,1);
+        glVertex3f(-size/2,-size/2,-size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(-size/2,-size/2,size/2);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_FRONT]);
+    //front face
+    glBegin(GL_QUADS);
+        glTexCoord2f(1,0);
+        glVertex3f(size/2,size/2,-size/2);
+        glTexCoord2f(0,0);
+        glVertex3f(-size/2,size/2,-size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(-size/2,-size/2,-size/2);
+        glTexCoord2f(1,1);
+        glVertex3f(size/2,-size/2,-size/2);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D,scene->skybox[SKY_RIGHT]);
+    //right face
+    glBegin(GL_QUADS);  
+        glTexCoord2f(0,0);
+        glVertex3f(size/2,size/2,-size/2);
+        glTexCoord2f(1,0);
+        glVertex3f(size/2,size/2,size/2);
+        glTexCoord2f(1,1);
+        glVertex3f(size/2,-size/2,size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(size/2,-size/2,-size/2);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_TOP]);
+    //top face   
+    glBegin(GL_QUADS);
+        glTexCoord2f(1,0);
+        glVertex3f(size/2,size/2,size/2);
+        glTexCoord2f(0,0);
+        glVertex3f(-size/2,size/2,size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(-size/2,size/2,-size/2);
+        glTexCoord2f(1,1);
+        glVertex3f(size/2,size/2,-size/2);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BOTTOM]);        
+    //bottom face
+    glBegin(GL_QUADS);  
+        glTexCoord2f(1,1);
+        glVertex3f(size/2,-size/2,size/2);
+        glTexCoord2f(0,1);
+        glVertex3f(-size/2,-size/2,size/2);
+        glTexCoord2f(0,0);
+        glVertex3f(-size/2,-size/2,-size/2);
+        glTexCoord2f(1,0);
+        glVertex3f(size/2,-size/2,-size/2);
+    glEnd();
+}
+
+void free_skybox(Scene* scene) {
+    glDeleteTextures(6, &scene->skybox[0]);
 }

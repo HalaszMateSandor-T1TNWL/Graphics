@@ -16,8 +16,4 @@ typedef struct Material {
 
 GLuint load_texture(char* filename);
 
-void load_MTL(const char* filename, Material* materials, int* material_count);
-
-void apply_material(const Material* mtl);
-
 #endif

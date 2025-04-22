@@ -9,9 +9,9 @@ void init_player(Player* player) {
     player->turn_speed = 0.0f;
     player->upwards_speed = 0.0f;
 
-    player->position.x = 10.0f;
+    player->position.x = 100.0f;
     player->position.y = 0.0f;
-    player->position.z = 10.0f;
+    player->position.z = 100.0f;
 
     player->rotation.x = 0.0f;
     player->rotation.y = 0.0f;
@@ -38,13 +38,6 @@ void move(Player* player, float speed_FPS) {
 
     // Rotate the player smoothly (to the left or right)
     player->rotation.y += player->turn_speed * speed_FPS;
-    
-    // Make sure the rotation stays in the range [0, 360) degrees
-    if (player->rotation.y >= 360.0f) {
-        player->rotation.y -= 360.0f;
-    } else if (player->rotation.y < 0.0f) {
-        player->rotation.y += 360.0f;
-    }
 
     float distance = player->move_speed * speed_FPS;
     float dx = distance * sin(degree_to_radian(player->rotation.y));
@@ -61,9 +54,9 @@ void move(Player* player, float speed_FPS) {
         player->jumped = 0;
         player->position.y = TERRAIN_HEIGHT;
     }
-    printf("Player vertical position: %f\n", player->position.y);
+    /*printf("Player vertical position: %f\n", player->position.y);
     printf("Rotation Y: %f, dx: %f, dz: %f\n", player->rotation.y, dx, dz);
-    printf("Turn Speed: %f, Movespeed: %f\n", player->turn_speed, player->move_speed);
+    printf("Turn Speed: %f, Movespeed: %f\n", player->turn_speed, player->move_speed);*/
 }
 
 /*
@@ -86,8 +79,8 @@ void increase_rotation(Player* player, float dx, float dy, float dz) {
 */
 void get_speed(Player* player)
 {
-    const Uint8 *keyboard = SDL_GetKeyboardState(NULL);
-
+    const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+    
     if (keyboard[SDL_SCANCODE_W]) {
         player->move_speed = RUN_SPEED;
     } else if (keyboard[SDL_SCANCODE_S]) {
@@ -104,16 +97,26 @@ void get_speed(Player* player)
         player->turn_speed = 0;
     }
 
+    /* This is a really cheaty way of solving double jumping, but I couldn't think of anything else :[ */
     if(keyboard[SDL_SCANCODE_SPACE]){
-        player->is_in_air = true;
-        player->jumped++;
-        if(player->jumped < 2 && player->is_in_air)
-        {
+        if(player->jumped == 0){
+            player->is_in_air = true;
+            player->jumped++;
             player->upwards_speed = JUMP_POWER;
+            //printf("Jumping\nJumped: %d\n", player->jumped);
+        } else if(/*player->jumped < 6 &&*/ player->is_in_air) {
+            player->jumped++;
+            player->upwards_speed = JUMP_POWER;
+            //printf("Jumping\nJumped: %d\n", player->jumped);
         }
     }
 }
 
 void load_player_model(Player* player) {
-    load_model(&player->player_model, "../textures/Hatsune_Miku/HatsuneMiku.obj");
+    load_model(&player->player_model, "../textures/Hatsune_Miku/test.obj");
+}
+
+void free_player(Player* player) {
+    free_model(&player->player_model);
+    glDeleteTextures(1, &player->textureID);
 }

@@ -19,44 +19,16 @@ GLuint load_texture(char* filename) {
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     SDL_FreeSurface(surface);
-
+    
     return texture_name;
-}
-
-void load_MTL(const char* filename, Material* materials, int* material_count) {
-    FILE* file = fopen(filename, "r");
-    if (!file) return;
-
-    Material* current = NULL;
-    char line[256];
-    while (fgets(line, sizeof(line), file)) {
-        if (strncmp(line, "newmtl ", 7) == 0) {
-            current = &materials[(*material_count)++];
-            sscanf(line + 7, "%s", current->name);
-            current->ambient[3] = current->diffuse[3] = current->specular[3] = 1.0f;
-        } else if (current && strncmp(line, "Ka ", 3) == 0) {
-            sscanf(line + 3, "%f %f %f", &current->ambient[0], &current->ambient[1], &current->ambient[2]);
-        } else if (current && strncmp(line, "Kd ", 3) == 0) {
-            sscanf(line + 3, "%f %f %f", &current->diffuse[0], &current->diffuse[1], &current->diffuse[2]);
-        } else if (current && strncmp(line, "Ks ", 3) == 0) {
-            sscanf(line + 3, "%f %f %f", &current->specular[0], &current->specular[1], &current->specular[2]);
-        } else if (current && strncmp(line, "Ns ", 3) == 0) {
-            sscanf(line + 3, "%f", &current->shininess);
-        }
-    }
-
-    fclose(file);
-}
-
-void apply_material(const Material* mtl) {
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mtl->ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mtl->diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mtl->specular);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mtl->shininess);
 }
 
 #if 0 /* This one doesn't work anymore for what I'm doing */

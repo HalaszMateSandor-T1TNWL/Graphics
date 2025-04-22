@@ -12,16 +12,16 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include <time.h>
 
-#define RUN_SPEED 20     //}
+#define RUN_SPEED 100     //}
 #define GRAVITY -50      //} <- Ticks per second
-#define JUMP_POWER 20    //}
+#define JUMP_POWER 25    //}
 #define TURN_SPEED 160   //<- Degrees per second
 #define TERRAIN_HEIGHT 0 // This is a placeholder, will implement an actual ground searching algorithm thingamajig
 
 
-typedef struct Player
-{
+typedef struct Player {
     Model player_model;
     GLuint textureID;
 
@@ -55,6 +55,9 @@ void get_speed(Player* player);
 
 /* Loads in a model for use */
 void load_player_model(Player* player);
+
+/* Frees up memory allocated towards the player entity */
+void free_player(Player* player);
 
 
 #endif /*PLAYER_H_*/
