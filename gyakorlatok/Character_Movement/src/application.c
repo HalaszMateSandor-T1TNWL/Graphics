@@ -16,7 +16,7 @@ void init_application(App* app) {
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     app->window = SDL_CreateWindow("Character Movement",
                                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-                                    1280, 720,
+                                    1280,720,
                                     SDL_WINDOW_OPENGL);
     if(app->window == NULL){
         printf("%s", SDL_GetError());
