@@ -6,12 +6,14 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <stdbool.h>
 #include <stdio.h>
 
 #define VIEWPORT_RATIO (4.0 / 3.0)
 #define VIEWPORT_ASPECT 50.0
+#define N_MENUS 2
 
 typedef struct App
 {
@@ -52,6 +54,7 @@ void shape_window(GLsizei width, GLsizei height);
 /* Frees up memory used by application */
 void destroy_application(App* app);
 
+/* Wrapper function for movement, so it can be called in main */
 void movement(App* app);
 
 #endif /* APP_H_ */

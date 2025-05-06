@@ -2,7 +2,7 @@
 #define CAMERA_H_
 
 #include "Utils/utils.h"
-#include "Environment/player.h"
+#include "Environment/entity.h"
 
 typedef struct Camera {
 
@@ -22,10 +22,10 @@ typedef struct Camera {
 void init_camera(Camera* camera);
 
 /* For updating the position of the camera */
-void move_camera(Camera* camera, Player* player);
+void move_camera(Camera* camera, Entity* player);
 
 /* For calculating the camera's position relative to the player */
-void calculate_position(Camera* camera, Player* player, float horizontal, float vertical);
+void calculate_position(Camera* camera, Entity* player, float horizontal, float vertical);
 
 /* Calculates the horizontal distance from player model */
 float calculate_horizontal(Camera* camera);

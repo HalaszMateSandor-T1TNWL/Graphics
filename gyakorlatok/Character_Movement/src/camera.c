@@ -18,7 +18,7 @@ void init_camera(Camera* camera){
     camera->dy = 0;
 }
 
-void move_camera(Camera* camera, Player* player) {
+void move_camera(Camera* camera, Entity* player) {
 
     //set_pitch(camera, camera->dy);
     //calculate_angle_around_player(camera, camera->dx);
@@ -31,7 +31,7 @@ void move_camera(Camera* camera, Player* player) {
     calculate_position(camera, player,horizontal_distance, vertical_distance);
 }
 
-void calculate_position(Camera* camera, Player* player, float horizontal, float vertical) {
+void calculate_position(Camera* camera, Entity* player, float horizontal, float vertical) {
     float theta = player->rotation.y + camera->angle_around_player;
 
     float offsetX = (float)(horizontal * sin(degree_to_radian(theta)));

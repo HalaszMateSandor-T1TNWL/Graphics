@@ -9,6 +9,8 @@ void init_application(App* app) {
     if(error_code != 0){
         printf("%s", SDL_GetError());
         return;
+    } else{
+        printf("Successfully initialized everything!\nReady for work~\n");
     }
 
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
@@ -19,12 +21,25 @@ void init_application(App* app) {
     if(app->window == NULL){
         printf("%s", SDL_GetError());
         return;
+    } else{
+        printf("Window successfully created!\n");
     }
 
     app->gl_context = SDL_GL_CreateContext(app->window);
     if(app->gl_context == NULL){
         printf("%s", SDL_GetError());
         return;
+    } else{
+        printf("OpenGL Context successfully established!\n");
+    }
+
+    TTF_Init();
+    TTF_Font* font = TTF_OpenFont("../fonts/Pixelletters.ttf", 24);
+    if(!font) {
+        printf("Couldn't load Font: %s\n", TTF_GetError());
+        return;
+    } else {
+        printf("Font successfully loaded~\n");
     }
 
     init_opengl();
@@ -53,8 +68,6 @@ void event_handler(App* app) {
             break;
         case SDL_MOUSEMOTION:
             if(is_mouse_down) {
-                //SDL_GetMouseState(&x, &y); <-This shit don't work, I genuinely don't understand what's up with it, every time I try to use it, it freaks out
-
                 y = event.motion.yrel; // relative mouse motion my beloved <3
                 x = event.motion.xrel; //
                 
@@ -120,7 +133,6 @@ void update_application(App* app) {
 void render_application(App* app) {
    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glClearColor(0.4f, 0.1f, 0.2f, 1.0f);
 
     glPushMatrix();
         render_scene(&app->scene);
@@ -144,7 +156,7 @@ void destroy_application(App* app) {
     SDL_DestroyWindow(app->window);
     SDL_GL_DeleteContext(app->gl_context);
 
-    free_player(&app->scene.player);
+    free_entity(&app->scene.player);
     free_terrain(&app->scene.terrain);
 
     SDL_Quit();

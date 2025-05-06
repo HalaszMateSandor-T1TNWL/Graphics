@@ -4,17 +4,31 @@
 *       Initializes the components necessary to the scene
 */
 void init_scene(Scene* scene) {
+    scene->objects = malloc(sizeof(Entity));
+
     scene->player.textureID = load_texture("../textures/Hatsune_Miku/test.png");
     printf("TextureID: %d\n", scene->player.textureID);
 
-    init_player(&scene->player);
+    init_entity(&scene->player);
+    if(load_model(&scene->player.model, "../textures/Hatsune_Miku/test.obj") == 0){
+        return;
+    }
+    calculate_bounding_box(&scene->player);
     init_camera(&scene->camera);
 
     init_terrain(&scene->terrain, 100, 100);
     scene->terrain.textureID[0] = load_texture("../textures/Ground/grass2.png");
 
+    init_entity(&scene->objects[0]);
+    load_model(&scene->objects[0].model, "../textures/Fatass/fatass.obj");
+    scene->objects[0].textureID = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
+    calculate_bounding_box(&scene->objects[0]);
+
     load_model(&scene->terrain.models[0] ,"../textures/Cheese_Goat/cheese_goat.obj");
     scene->terrain.textureID[1] = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
+
+    load_model(&scene->terrain.models[1], "../textures/Fatass/fatass.obj");
+    scene->terrain.textureID[2] = load_texture("../textures/Fatass/eye.png");
 
     init_skybox(scene);
 }
@@ -42,7 +56,7 @@ void render_scene(Scene* scene) {
     /* Then switching to a modelview for rendering everything */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(
+    gluLookAt (
         cameraX, cameraY, cameraZ,
         playerX, playerY + 4, playerZ + 2,
         0.0f, 1.0f, 0.0f
@@ -69,7 +83,46 @@ void render_scene(Scene* scene) {
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
         glScalef(0.025f, 0.025f, 0.025f);
 
-        draw_player(&(scene->player.player_model));
+        draw_player(&(scene->player.model));
+        draw_bounding_box(&scene->player);
+    glPopMatrix();
+
+    /* Rendering a model */
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[1]);
+        glEnable(GL_TEXTURE_2D);
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
+
+        glTranslatef(100.0f, 0.0f, 100.0f);
+        glScalef(1.0f, 1.0f, 1.0f);
+        draw_model(&scene->terrain.models[0]);
+    glPopMatrix();
+
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->objects[0].textureID);
+        draw_model(&scene->objects[0].model);
+        draw_bounding_box(&scene->objects[0]);
+    glPopMatrix();
+
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[2]);
+        glEnable(GL_TEXTURE_2D);
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
+
+        glTranslatef(110.0f, 0.0f, 100.0f);
+        glScalef(0.25f, 0.25f, 0.25f);
+
+        draw_model(&scene->terrain.models[1]);
     glPopMatrix();
 
     /* Rendering the terrain */
@@ -85,22 +138,6 @@ void render_scene(Scene* scene) {
         
         glScalef(0.25f, 0.25f, 0.25f);
         render_terrain(&scene->terrain);
-    glPopMatrix();
-
-    /* Rendering a model */
-    glPushMatrix();
-        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[1]);
-        glEnable(GL_TEXTURE_2D);
-
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
-        glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
-
-        glTranslatef(100.0f, 0.0f, 100.0f);
-        glScalef(1.0f, 1.0f, 1.0f);
-        draw_model(&scene->terrain.models[0]);
     glPopMatrix();
 
     glPushMatrix();
@@ -155,6 +192,7 @@ void init_opengl() {
 
     glEnable(GL_DEPTH_TEST);
     glClearDepth(1.0f);
+
 }
 
 
@@ -284,4 +322,29 @@ void draw_skybox(Scene* scene, float size) {
 
 void free_skybox(Scene* scene) {
     glDeleteTextures(6, &scene->skybox[0]);
+}
+
+void draw_bounding_box(const Entity* entity) {
+
+    GLfloat vertices[] = {
+        entity->box.min_x, entity->box.min_y, entity->box.min_z,
+        entity->box.max_x, entity->box.min_y, entity->box.min_z,
+        entity->box.max_x, entity->box.max_y, entity->box.min_z,
+        entity->box.min_x, entity->box.max_y, entity->box.min_z,
+        entity->box.min_x, entity->box.min_y, entity->box.max_z,
+        entity->box.max_x, entity->box.min_y, entity->box.max_z,
+        entity->box.max_x, entity->box.max_y, entity->box.max_z,
+        entity->box.min_x, entity->box.max_y, entity->box.max_z
+    };
+
+    GLuint indices[] = {
+        0, 1, 1, 2, 2, 3, 3, 0,
+        4, 5, 5, 6, 6, 7, 7, 4,
+        0, 4, 1, 5, 2, 6, 3, 7
+    };
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, indices);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }

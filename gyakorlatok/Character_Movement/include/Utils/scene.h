@@ -1,7 +1,7 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-#include "Environment/player.h"
+#include "Environment/entity.h"
 #include "Utils/camera.h"
 #include "Environment/terrain.h"
 
@@ -21,7 +21,8 @@ enum {
 
 typedef struct Scene {
 
-    Player player;
+    Entity player;
+    Entity* objects;
     Camera camera;
     Terrain terrain;
     GLuint skybox[6];
@@ -46,5 +47,7 @@ void draw_skybox(Scene* scene, float size);
 void free_skybox(Scene* scene);
 
 void draw_player(const Model* model);
+
+void draw_bounding_box(const Entity* entity);
 
 #endif /* SCENE_H_ */

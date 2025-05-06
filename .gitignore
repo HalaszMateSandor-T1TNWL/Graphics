@@ -1,5 +1,7 @@
 *.json
 
+*.blend*
+
 *.cmake
 
 build/

@@ -1,0 +1,62 @@
+#include "Utils/bounding_box.h"
+
+void init_bounding_box(Bounding_Box* box){
+    box->center.x = box->center.y = box->center.z = 0;
+    box->size.x = box->size.y = box->size.z = 0;
+
+    box->min_x = box->min_y = box->min_z = 0;
+    box->max_x = box->max_y = box->max_z = 0;
+
+    box->position.x = 0.0f;
+    box->position.y = 0.0f;
+    box->position.z = 0.0f;
+}
+
+void debug_bounding_box(const Bounding_Box* box) {
+    
+    GLfloat vertices[] = {
+        box->min_x,      box->min_y,     box->min_z,
+        box->max_x,      box->min_y,     box->min_z,
+        box->max_x,      box->max_y,     box->min_z,
+        box->min_x,      box->max_y,     box->min_z,
+        box->min_x,      box->min_y,     box->max_z,
+        box->max_x,      box->min_y,     box->max_z,
+        box->max_x,      box->max_y,     box->max_z,
+        box->min_x,      box->max_y,     box->max_z
+    };
+
+    GLuint indices[] = {
+        0, 1, 1, 2, 2, 3, 3, 0,
+        4, 5, 5, 6, 6, 7, 7, 4,
+        0, 4, 1, 5, 2, 6, 3, 7
+    };
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, indices);
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void update_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
+    box->center.x = (box->max_x + box->min_x) / 2;
+    box->center.y = (box->max_y + box->min_y) / 2;
+    box->center.z = (box->max_z + box->min_z) / 2;
+    box->size = size;
+
+    box->min_x = position.x - size.x / 2;
+    box->max_x = position.x + size.x / 2;
+    box->min_y = position.y - size.y / 2;
+    box->max_y = position.y + size.y / 2;
+    box->min_z = position.z - size.z / 2;
+    box->max_z = position.z + size.z / 2;
+}
+
+bool check_collision(Bounding_Box* player, Bounding_Box* environment) {
+    bool overlap_x = player->max_x >= environment->min_x && player->min_x <= environment->max_x;
+
+    bool overlap_y = player->max_y >= environment->min_y && player->min_y <= environment->max_y;
+
+    bool overlap_z = player->max_z >= environment->min_z && player->min_z <= environment->max_z;
+
+    return overlap_x && overlap_y && overlap_z;
+}
