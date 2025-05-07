@@ -107,17 +107,17 @@ void movement(App* app) {
         app->scene.player.position.y = TERRAIN_HEIGHT;
         app->scene.player.is_in_air = false;
         app->scene.player.jumped = 0;
+        update_bounding_box(&app->scene.player.box, app->scene.player.position, app->scene.player.size);
     }
     move_camera(&app->scene.camera, &app->scene.player);
 }
 
 
-double get_current_time(App* app) {
-    float current_time = (double)SDL_GetTicks() / 1000;
+float get_current_time(App* app) {
+    float current_time = (float)SDL_GetTicks() / 1000;
     float delta = current_time - app->uptime;
     app->uptime += delta;
     return delta;
-
 }
 
 void modular_framerate(App* app) {
@@ -130,10 +130,8 @@ void modular_framerate(App* app) {
 }
 
 void update_application(App* app) {
-
     get_current_time(app);
-    update_scene(&app->scene);
-
+    update_scene(&app->scene, get_current_time(app));
 }
 
 void render_application(App* app) {
@@ -169,6 +167,7 @@ void destroy_application(App* app) {
     free_entity(&app->scene.objects[1]);
     free_entity(&app->scene.objects[2]);
     free_terrain(&app->scene.terrain);
+    free_skybox(&app->scene);
 
     SDL_Quit();
 

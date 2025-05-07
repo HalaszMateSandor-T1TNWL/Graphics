@@ -60,8 +60,6 @@ void generate_terrain(struct Terrain* terrain) {
 void render_terrain(struct Terrain* terrain) {
     int index_count = 6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1);
 
-    generate_terrain(terrain);
-
     for (int i = 0; i < index_count; i += 3)
     {
         int index0 = terrain -> indices[i];

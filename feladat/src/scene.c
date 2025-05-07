@@ -40,9 +40,18 @@ void init_scene(Scene* scene) {
     calculate_bounding_box(&scene->objects[3]);
 
     init_skybox(scene);
+    generate_terrain(&scene->terrain);
+
+    scene->light_pos.x = 100.0f;
+    scene->light_pos.y = 100.0f;
+    scene->light_pos.z = 100.0f;
 }
 
-void update_scene(Scene* scene) {
+void update_scene(Scene* scene, float speedFPS) {
+    scene->light_pos.x += sin(degree_to_radian(scene->light_pos.x));
+    scene->light_pos.z += cos(degree_to_radian(scene->light_pos.z));
+    printf("Light position:\nX: %f\nZ: %f\n",
+            scene->light_pos.x, scene->light_pos.z);
 }
 
 /*
@@ -71,33 +80,39 @@ void render_scene(Scene* scene) {
         0.0f, 1.0f, 0.0f
     );
 
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    GLfloat light_position[] = {scene->light_pos.x, scene->light_pos.y, scene->light_pos.z, 0.5};
+
     /*  Rendering the player */
     glPushMatrix();
-        glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
         glEnable(GL_TEXTURE_2D);
 
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-
-        GLfloat light_position[] = {1000.0, 1000.0, 1000.0, 0.5};
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
+        glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
+
         GLfloat material[] = {1.0, 1.0, 1.0, 0.5};
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, material);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
 
         GLfloat material2[] = {1.0, 1.0, 1.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_AMBIENT, material2);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
+        debug_bounding_box(&scene->player.box);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
         glScalef(0.025f, 0.025f, 0.025f);
 
         draw_player(&(scene->player.model));
-        debug_bounding_box(&scene->player.box);
     glPopMatrix();
 
     /* Rendering objects from the scene */
     glPushMatrix();
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
+
         glBindTexture(GL_TEXTURE_2D, scene->objects[3].textureID);
         scene->objects[3].position.x = 10.0f;
         scene->objects[3].position.y = 0.0f;
@@ -105,9 +120,27 @@ void render_scene(Scene* scene) {
         scene->objects[3].size.x = 20.0f;
         scene->objects[3].size.y = 20.0f;
         scene->objects[3].size.z = 20.0f;
+        debug_bounding_box(&scene->objects[3].box);
         glTranslatef(10.0f, 0.0f, 100.0f);
         draw_model(&scene->objects[3].model);
-        debug_bounding_box(&scene->objects[3].box);
+    glPopMatrix();
+    
+    glPushMatrix();
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
+
+        glBindTexture(GL_TEXTURE_2D, scene->objects[1].textureID);
+        scene->objects[1].position.x = 100.0f; 
+        scene->objects[1].position.y = 0.0f;
+        scene->objects[1].position.z = 100.0f;
+
+        scene->objects[1].size.x = 1.0f;
+        scene->objects[1].size.y = 1.0f;
+        scene->objects[1].size.z = 1.0f;
+
+        debug_bounding_box(&scene->objects[1].box);
+        glTranslatef(100.0f, 0.0f, 100.0f);
+        draw_model(&scene->objects[1].model);
     glPopMatrix();
 
     /* Rendering the terrain */
@@ -115,40 +148,17 @@ void render_scene(Scene* scene) {
         glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
         glEnable(GL_TEXTURE_2D);
 
-        GLfloat grass_mat_diff[] = {1.0, 1.0, 1.0, 1.0};
+        GLfloat grass_mat_diff[] = {10.0, 1.0, 1.0, 1.0};
         glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
 
-        GLfloat grass_mat_amb[] = {1.0, 1.0, 1.0, 1.0};
+        GLfloat grass_mat_amb[] = {1.0, 1.0, 5.0, 1.0};
         glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
         
-        glScalef(0.25f, 0.25f, 0.25f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 
     glPushMatrix();
         draw_skybox(scene, 1000);
-    glPopMatrix();
-}
-
-void terrain_renderer(Scene* scene) {
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glPushMatrix();
-        glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
-        glEnable(GL_TEXTURE_2D);
-
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-
-        GLfloat grass_mat_diff[] = {1.0, 1.0, 1.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
-
-        GLfloat grass_mat_amb[] = {1.0, 1.0, 1.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
-
-        glScalef(0.05f, 0.05f, 0.05f);
-        render_terrain(&scene->terrain);
     glPopMatrix();
 }
 
@@ -176,7 +186,7 @@ void init_opengl() {
     );
 
     glEnable(GL_DEPTH_TEST);
-    glClearDepth(1.0f);
+    glClearDepth(5.0f);
 
 }
 

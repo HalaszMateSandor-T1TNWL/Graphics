@@ -27,11 +27,13 @@ typedef struct Scene {
     Terrain terrain;
     GLuint skybox[6];
 
+    vec3 light_pos;
+
 } Scene;
 
 void init_scene(Scene* scene);
 
-void update_scene(Scene* scene);
+void update_scene(Scene* scene, float speedFPS);
 
 void render_scene(Scene* scene);
 

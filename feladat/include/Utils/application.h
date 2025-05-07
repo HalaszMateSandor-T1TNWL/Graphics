@@ -40,7 +40,7 @@ void event_handler(App* app);
 void movement(App* app);
 
 /* Gives back time in miliseconds */
-double get_current_time(App* app);
+float get_current_time(App* app);
 
 /* Makes it so we have enough time between frame renders */
 void modular_framerate(App* app);

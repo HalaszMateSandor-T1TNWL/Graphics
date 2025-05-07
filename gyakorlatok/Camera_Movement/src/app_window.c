@@ -46,9 +46,9 @@ void init_window(App_window* appwindow, int width, int height)
 
     init_camera(&(appwindow->camera));
     init_scene(&(appwindow->scene));      
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    /*SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, 0);
-    SDL_WarpMouseInWindow(appwindow->window, 1080/2, 720/2);
+    SDL_WarpMouseInWindow(appwindow->window, 1080/2, 720/2); */
 
     appwindow->is_running = 1;
     appwindow->uptime = (double)SDL_GetTicks() / 1000;
@@ -165,9 +165,12 @@ void eventhandler(App_window* appwindow)
             is_mouse_down = 1;
         case SDL_MOUSEMOTION:
             SDL_SetRelativeMouseMode(SDL_TRUE);
-            SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, 0);
-            SDL_GetMouseState( &x, &y );
+            //SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, 0);
+            //SDL_GetMouseState( &x, &y );
             
+            x = event.motion.xrel;
+            y = event.motion.yrel;
+
             rotate_camera(&(appwindow->camera), -x + mouse_x, -y + mouse_y);
             //using event.motion.xrel/yrel kinda works, but it's also inconsistent and choppy :/
 
@@ -175,14 +178,14 @@ void eventhandler(App_window* appwindow)
             mouse_y = y;
 
             printf("%d :: %d\n", mouse_x, mouse_y);
-            if(mouse_x == 0 || mouse_y == 0){
+            /*if(mouse_x == 0 || mouse_y == 0){
                 SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_WARP_MOTION, 0);
                 SDL_WarpMouseInWindow(appwindow->window, 1080/2, 720/2);
             }
             if(mouse_x == 1079 || mouse_y == 719){
                 SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_WARP, 0);
                 SDL_WarpMouseInWindow(appwindow->window, 1080/2, 720/2);
-            }
+            }*/
             break;
         case SDL_MOUSEBUTTONUP:
             printf("A mouse button has been released\n");
