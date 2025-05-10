@@ -19,13 +19,13 @@ typedef struct Bounding_Box {
 void init_bounding_box(Bounding_Box* box);
 
 /* Updating the bounding box, so it always has fresh numbers to work with */
-void update_bounding_box(Bounding_Box* box, vec3 position, vec3 size);
+void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size);
+void update_bounding_box(Bounding_Box* box, vec3 offset, float speedFPS);
 
 /* Drawing out the box for debugging reasons */
 void debug_bounding_box(const Bounding_Box* box);
 
 /* The fun part~ */
 bool check_collision(Bounding_Box* player, Bounding_Box* environment);
-
 
 #endif

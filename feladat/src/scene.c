@@ -19,25 +19,18 @@ void init_scene(Scene* scene) {
     init_terrain(&scene->terrain, 100, 100);
     scene->terrain.textureID[0] = load_texture("../textures/Ground/grass2.png");
 
-    init_entity(&scene->objects[0]);
-    load_model(&scene->objects[0].model, "../textures/Fatass/fatass.obj");
-    scene->objects[0].textureID = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
+    for(int i = 0; i < 4; i++) {
+        init_entity(&scene->objects[i]);
+    }
+
+    load_model(&scene->objects[0].model, "../textures/Map/Building.obj");
+    scene->objects[0].textureID = load_texture("../textures/Stone_Pillar/pillar.png");
     calculate_bounding_box(&scene->objects[0]);
 
-    init_entity(&scene->objects[1]);
-    load_model(&scene->objects[1].model, "../textures/Cheese_Goat/cheese_goat.obj");
-    scene->objects[1].textureID = load_texture("../textures/Ground/grass2.png");
+    load_model(&scene->objects[1].model, "../textures/Fatass/fatass02.obj");
+    scene->objects[1].textureID = load_texture("../textures/Fatass/eye.png");
     calculate_bounding_box(&scene->objects[1]);
 
-    init_entity(&scene->objects[2]);
-    load_model(&scene->objects[2].model, "../textures/Stone_Pillar/stone_pillar.obj");
-    scene->objects[2].textureID = load_texture("../textures/Stone_Pillar/m10_wall_stone.png");
-    calculate_bounding_box(&scene->objects[2]);
-
-    init_entity(&scene->objects[3]);
-    load_model(&scene->objects[3].model, "../textures/Map/Building.obj");
-    scene->objects[3].textureID = load_texture("../textures/Ground/grass2.png");
-    calculate_bounding_box(&scene->objects[3]);
 
     init_skybox(scene);
     generate_terrain(&scene->terrain);
@@ -48,10 +41,8 @@ void init_scene(Scene* scene) {
 }
 
 void update_scene(Scene* scene, float speedFPS) {
-    scene->light_pos.x += sin(degree_to_radian(scene->light_pos.x));
-    scene->light_pos.z += cos(degree_to_radian(scene->light_pos.z));
-    printf("Light position:\nX: %f\nZ: %f\n",
-            scene->light_pos.x, scene->light_pos.z);
+
+
 }
 
 /*
@@ -69,7 +60,7 @@ void render_scene(Scene* scene) {
     /* Setting the projection matrix at the beginning of each frame */
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 5000.0f);
+    gluPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 6000.0f);
 
     /* Then switching to a modelview for rendering everything */
     glMatrixMode(GL_MODELVIEW);
@@ -84,12 +75,11 @@ void render_scene(Scene* scene) {
     glEnable(GL_LIGHT0);
 
     GLfloat light_position[] = {scene->light_pos.x, scene->light_pos.y, scene->light_pos.z, 0.5};
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
     /*  Rendering the player */
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
-
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
         glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
 
@@ -102,29 +92,31 @@ void render_scene(Scene* scene) {
         debug_bounding_box(&scene->player.box);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
-        glScalef(0.025f, 0.025f, 0.025f);
+        glScalef(0.025, 0.025, 0.025);
 
         draw_player(&(scene->player.model));
     glPopMatrix();
 
     /* Rendering objects from the scene */
+    /* A grass house thingy */
     glPushMatrix();
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
 
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
-        glBindTexture(GL_TEXTURE_2D, scene->objects[3].textureID);
-        scene->objects[3].position.x = 10.0f;
-        scene->objects[3].position.y = 0.0f;
-        scene->objects[3].position.z = 100.0f;
-        scene->objects[3].size.x = 20.0f;
-        scene->objects[3].size.y = 20.0f;
-        scene->objects[3].size.z = 20.0f;
-        debug_bounding_box(&scene->objects[3].box);
+        glBindTexture(GL_TEXTURE_2D, scene->objects[0].textureID);
+        scene->objects[0].position.x = 10.0f;
+        scene->objects[0].position.y = 0.0f;
+        scene->objects[0].position.z = 100.0f;
+        scene->objects[0].size.x = 20.0f;
+        scene->objects[0].size.y = 20.0f;
+        scene->objects[0].size.z = 20.0f;
+        debug_bounding_box(&scene->objects[0].box);
         glTranslatef(10.0f, 0.0f, 100.0f);
-        draw_model(&scene->objects[3].model);
+        draw_model(&scene->objects[0].model);
     glPopMatrix();
     
+    /* A cheese goat, a goat cheese if you will */
     glPushMatrix();
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
@@ -134,9 +126,9 @@ void render_scene(Scene* scene) {
         scene->objects[1].position.y = 0.0f;
         scene->objects[1].position.z = 100.0f;
 
-        scene->objects[1].size.x = 1.0f;
-        scene->objects[1].size.y = 1.0f;
-        scene->objects[1].size.z = 1.0f;
+        scene->objects[1].size.x = 5.0f;
+        scene->objects[1].size.y = 15.0f;
+        scene->objects[1].size.z = 5.0f;
 
         debug_bounding_box(&scene->objects[1].box);
         glTranslatef(100.0f, 0.0f, 100.0f);
@@ -154,11 +146,12 @@ void render_scene(Scene* scene) {
         GLfloat grass_mat_amb[] = {1.0, 1.0, 5.0, 1.0};
         glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
         
+        //glTranslatef(-650.0f, 0.0f, -650.0f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 
     glPushMatrix();
-        draw_skybox(scene, 1000);
+        draw_skybox(scene, 5000);
     glPopMatrix();
 }
 
@@ -186,7 +179,7 @@ void init_opengl() {
     );
 
     glEnable(GL_DEPTH_TEST);
-    glClearDepth(5.0f);
+    glClearDepth(10.0f);
 
 }
 

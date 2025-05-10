@@ -42,9 +42,9 @@ void init_player(Entity* entity) {
     entity->rotation.y = 0.0f;
     entity->rotation.z = 0.0f;
 
-    entity->size.x = 1.0f;
-    entity->size.y = 1.0f;
-    entity->size.z = 1.0f;
+    entity->size.x = 1.5f;
+    entity->size.y = 1.5f;
+    entity->size.z = 1.5f;
 
     entity->is_in_air = false;
     entity->jumped = 0;
@@ -67,11 +67,18 @@ void move(Entity* entity, float speed_FPS) {
     float distance = entity->move_speed * speed_FPS;
     float dx = distance * sin(degree_to_radian(entity->rotation.y));
     float dz = distance * cos(degree_to_radian(entity->rotation.y));
-
+	float dy = GRAVITY * speed_FPS;
     increase_position(entity, dx, 0, dz);
 
-    entity->upwards_speed += GRAVITY * speed_FPS;
+    entity->upwards_speed += dy;
     increase_position(entity, 0, entity->upwards_speed * speed_FPS, 0);
+	
+	vec3 offset;
+	offset.x = dx;
+	offset.y = 0.0f;
+	offset.z = dz;
+	
+	update_bounding_box(&entity->box, offset, speed_FPS);
 }
 
 void handle_collision(Entity* object, Entity* player) {
@@ -104,7 +111,7 @@ void handle_collision(Entity* object, Entity* player) {
 }
 
 /*
-*              Two simple functions of setting the entitys positionand rotation
+*              Two simple functions of setting the entitys position and rotation
 *           (basically just helper functions, so the move function isn't as cramped)
 */
 void increase_position(Entity* entity, float dx, float dy, float dz) {
@@ -156,7 +163,7 @@ void get_speed(Entity* entity)
     }
 }
 
-/*void calculate_bounding_box(Entity* entity) {
+void calculate_bounding_box(Entity* entity) {
     if(&entity->model == NULL || entity->model.vertices == NULL || entity->model.n_vertices <= 0){
         fprintf(stderr, "Model doesn't exist\n");
         return;
@@ -171,17 +178,15 @@ void get_speed(Entity* entity)
 
         if(entity->model.vertices[i].x < entity->box.min_x) entity->box.min_x = entity->model.vertices[i].x;
         if(entity->model.vertices[i].x > entity->box.max_x) entity->box.max_x = entity->model.vertices[i].x;
-
         if(entity->model.vertices[i].y < entity->box.min_y) entity->box.min_y = entity->model.vertices[i].y;
         if(entity->model.vertices[i].y > entity->box.max_y) entity->box.max_y = entity->model.vertices[i].y;
-
         if(entity->model.vertices[i].z < entity->box.min_z) entity->box.min_z = entity->model.vertices[i].z;
         if(entity->model.vertices[i].z > entity->box.max_z) entity->box.max_z = entity->model.vertices[i].z;
     }
 
-    entity->box.size.x = entity->box.max_x - entity->box.min_x;
-    entity->box.size.y = entity->box.max_y - entity->box.min_y;
-    entity->box.size.z = entity->box.max_z - entity->box.min_z;
+    entity->box.size.x = (entity->box.max_x - entity->box.min_x);
+    entity->box.size.y = (entity->box.max_y - entity->box.min_y);
+    entity->box.size.z = (entity->box.max_z - entity->box.min_z);
 
     entity->box.center.x = (entity->box.max_x + entity->box.min_x) / 2;
     entity->box.center.y = (entity->box.max_y + entity->box.min_y) / 2;
@@ -192,55 +197,6 @@ void get_speed(Entity* entity)
            entity->box.max_x, entity->box.max_y, entity->box.max_z);
 
     
-}*/
-
-void calculate_bounding_box(Entity* entity) {
-    if (entity->model.vertices == NULL || entity->model.n_vertices <= 0) {
-        fprintf(stderr, "Model doesn't exist or has no vertices\n");
-        return;
-    }
-
-    // Reset bounding box values
-    entity->box.min_x = entity->box.min_y = entity->box.min_z = 0;
-    entity->box.max_x = entity->box.max_y = entity->box.max_z = 0;
-
-    for (int i = 0; i < entity->model.n_vertices; i++) {
-        // Apply scaling to the vertices
-        float scaled_x = entity->model.vertices[i].x * entity->size.x;
-        float scaled_y = entity->model.vertices[i].y * entity->size.y;
-        float scaled_z = entity->model.vertices[i].z * entity->size.z;
-
-        // Update bounding box min/max values
-        if (scaled_x < entity->box.min_x) entity->box.min_x = scaled_x;
-        if (scaled_x > entity->box.max_x) entity->box.max_x = scaled_x;
-
-        if (scaled_y < entity->box.min_y) entity->box.min_y = scaled_y;
-        if (scaled_y > entity->box.max_y) entity->box.max_y = scaled_y;
-
-        if (scaled_z < entity->box.min_z) entity->box.min_z = scaled_z;
-        if (scaled_z > entity->box.max_z) entity->box.max_z = scaled_z;
-    }
-
-    // Apply translation to the bounding box
-    entity->box.min_x += entity->position.x;
-    entity->box.max_x += entity->position.x;
-    entity->box.min_y += entity->position.y;
-    entity->box.max_y += entity->position.y;
-    entity->box.min_z += entity->position.z;
-    entity->box.max_z += entity->position.z;
-
-    // Calculate the center and size of the bounding box
-    entity->box.size.x = entity->box.max_x - entity->box.min_x;
-    entity->box.size.y = entity->box.max_y - entity->box.min_y;
-    entity->box.size.z = entity->box.max_z - entity->box.min_z;
-
-    entity->box.center.x = (entity->box.max_x + entity->box.min_x) / 2;
-    entity->box.center.y = (entity->box.max_y + entity->box.min_y) / 2;
-    entity->box.center.z = (entity->box.max_z + entity->box.min_z) / 2;
-
-    printf("Bounding Box: Min(%f, %f, %f), Max(%f, %f, %f)\n",
-           entity->box.min_x, entity->box.min_y, entity->box.min_z,
-           entity->box.max_x, entity->box.max_y, entity->box.max_z);
 }
 
 void free_entity(Entity* entity) {
