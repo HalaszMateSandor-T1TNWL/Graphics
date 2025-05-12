@@ -62,6 +62,11 @@ void update_bounding_box(Bounding_Box* box, vec3 offset, float speedFPS) {
 	box->max_y += offset.y;
 	box->min_z += offset.z * speedFPS;
 	box->max_z += offset.z * speedFPS;
+	
+	box->position.x += offset.x * speedFPS;
+	box->position.y += offset.y * speedFPS;
+	box->position.z += offset.z * speedFPS;
+	
 	printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
            box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);
 }

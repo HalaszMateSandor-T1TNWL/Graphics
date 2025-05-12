@@ -34,9 +34,9 @@ void init_player(Entity* entity) {
     entity->turn_speed = 0.0f;
     entity->upwards_speed = 0.0f;
 
-    entity->position.x = 10.0f;
-    entity->position.y = 10.0f;
-    entity->position.z = 100.0f;
+    entity->position.x = entity->box.position.x = 10.0f;
+    entity->position.y = entity->box.position.y = 10.0f;
+    entity->position.z = entity->box.position.z = 100.0f;
 
     entity->rotation.x = 0.0f;
     entity->rotation.y = 0.0f;
@@ -86,28 +86,28 @@ void handle_collision(Entity* object, Entity* player) {
     float overlapY = fmin(player->box.max_y, object->box.max_y) - fmax(player->box.min_y, object->box.min_y);
     float overlapZ = fmin(player->box.max_z, object->box.max_z) - fmax(player->box.min_z, object->box.min_z);
 
-    if(overlapX < overlapY && overlapX < overlapZ) {
-        if(player->position.x < object->position.x) {
-            player->position.x -= overlapX;
-        } else{
-            player->position.x += overlapX;
-        }
-    } else if (overlapY < overlapZ) {
-        if(player->position.y < object->position.y) {
-            player->position.y -= overlapY;
-        } else{
-            player->position.y += overlapY;
-            player->upwards_speed = 0;
-            player->is_in_air = false;
-            player->jumped = 0;
-        }
-    } else{
-        if(player->position.z < object->position.z) {
-            player->position.z -= overlapZ;
-        } else{
-            player->position.z += overlapZ;
-        }
-    }
+	if(overlapX < overlapY && overlapX < overlapZ) {
+		if(player->position.x < object->position.x) {
+			player->position.x -= overlapX;
+		} else{
+			player->position.x += overlapX;
+		}
+	} else if (overlapY < overlapZ) {
+		if(player->position.y < object->position.y) {
+			player->position.y -= overlapY;
+		} else{
+			player->position.y += overlapY;
+			player->upwards_speed = 0;
+			player->is_in_air = false;
+			player->jumped = 0;
+		}
+	} else{
+		if(player->position.z < object->position.z) {
+			player->position.z -= overlapZ;
+		} else{
+			player->position.z += overlapZ;
+		}
+	}
 }
 
 /*

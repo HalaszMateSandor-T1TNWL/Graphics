@@ -105,9 +105,10 @@ void render_scene(Scene* scene) {
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
         glBindTexture(GL_TEXTURE_2D, scene->objects[0].textureID);
-        scene->objects[0].position.x = 10.0f;
-        scene->objects[0].position.y = 0.0f;
-        scene->objects[0].position.z = 100.0f;
+        scene->objects[0].position.x = scene->objects[0].position.x = 10.0f;
+        scene->objects[0].position.y = scene->objects[0].position.y = 0.0f;
+        scene->objects[0].position.z = scene->objects[0].position.z = 100.0f;
+		
         scene->objects[0].size.x = 20.0f;
         scene->objects[0].size.y = 20.0f;
         scene->objects[0].size.z = 20.0f;
@@ -122,9 +123,9 @@ void render_scene(Scene* scene) {
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
         glBindTexture(GL_TEXTURE_2D, scene->objects[1].textureID);
-        scene->objects[1].position.x = 100.0f; 
-        scene->objects[1].position.y = 0.0f;
-        scene->objects[1].position.z = 100.0f;
+        scene->objects[1].position.x = scene->objects[1].box.position.x = 100.0f; 
+        scene->objects[1].position.y = scene->objects[1].box.position.y = 0.0f;
+        scene->objects[1].position.z = scene->objects[1].box.position.z = 100.0f;
 
         scene->objects[1].size.x = 5.0f;
         scene->objects[1].size.y = 15.0f;
