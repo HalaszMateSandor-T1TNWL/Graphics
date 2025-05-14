@@ -8,7 +8,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 find_package(OpenGL REQUIRED)
 find_package(SDL2_image REQUIRED)
 
-add_executable(The_Pillars src/main.c src/application.c src/camera.c src/scene.c src/utils.c src/entity.c src/load_texture.c src/terrain.c src/bounding_box.c src/reader.c)
+add_executable(The_Pillars src/main.c src/application.c src/camera.c src/scene.c src/utils.c src/entity.c src/load_texture.c src/terrain.c src/bounding_box.c )
 target_include_directories(The_Pillars PUBLIC include)
 
 if(WIN32)

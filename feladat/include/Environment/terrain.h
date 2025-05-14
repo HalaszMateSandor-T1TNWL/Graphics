@@ -5,7 +5,6 @@
 #include <GL/gl.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include "../Utils/reader.h"
 
 #define SIZE 1000
 #define VERTEX_COUNT 120

@@ -18,14 +18,6 @@ void init_terrain(struct Terrain* terrain, int gridX, int gridZ) {
     terrain -> heightmap_data = NULL;
 }
 
-void load_heightmap(Terrain* terrain, const char* filename) {
-    terrain -> heightmap_data = IMG_Load("../textures/Ground/grass2.png");
-    if(terrain -> heightmap_data) {
-        printf("(%s)Heightmap loaded in successfully\n Height: %d\tWidth:%d\n", filename, terrain -> heightmap_data -> h, terrain -> heightmap_data -> w);
-    } else {
-        printf("(%s)Loading failed, please check if filename and path are correct\n", filename);
-    }
-}
 
 void generate_terrain(struct Terrain* terrain) {
     

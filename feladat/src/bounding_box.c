@@ -49,8 +49,10 @@ void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
 
     box->max_x = position.x + box->size.x;
     box->min_x = position.x - box->size.x;
+
     box->min_y = position.y - box->size.y;
     box->max_y = position.y + box->size.y;
+    
     box->min_z = position.z - box->size.z;
     box->max_z = position.z + box->size.z;
 

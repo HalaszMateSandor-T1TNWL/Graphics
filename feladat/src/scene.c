@@ -33,7 +33,6 @@ void init_scene(Scene* scene) {
     scene->objects[1].textureID = load_texture("../textures/Fatass/eye.png");
     calculate_bounding_box(&scene->objects[1]);
 
-
     init_skybox(scene);
     generate_terrain(&scene->terrain);
 
@@ -65,20 +64,9 @@ void render_scene(Scene* scene) {
     if(cameraY < 0.0f) {
         cameraY = 1.0f;
     }
-
-    /* Setting the projection matrix at the beginning of each frame */
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 6000.0f);
-
-    /* Then switching to a modelview for rendering everything */
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt (
-        cameraX, cameraY, cameraZ,
-        playerX, playerY + 4, playerZ + 2,
-        0.0f, 1.0f, 0.0f
-    );
+    if (scene->camera.distance_from_player < 5.0f) {
+        scene->camera.distance_from_player = 5.0f;
+    }
 
     GLfloat light_position[] = {scene->light_pos.x, scene->light_pos.y, scene->light_pos.z, 1.0f};
 
@@ -94,6 +82,20 @@ void render_scene(Scene* scene) {
     GLfloat emission_mat[] = {0.0f, 0.0f, 0.0f, 0.0f};
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec_mat);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission_mat);
+
+    /* Setting the projection matrix at the beginning of each frame */
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, 1280.0f / 720.0f, 1.0f, 6000.0f);
+
+    /* Then switching to a modelview for rendering everything */
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt (
+        cameraX, cameraY, cameraZ,
+        playerX, playerY + 4, playerZ + 2,
+        0.0f, 1.0f, 0.0f
+    );
 
     /*  Rendering the player */
     glPushMatrix();
