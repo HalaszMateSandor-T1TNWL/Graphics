@@ -95,15 +95,9 @@ void event_handler(App* app) {
 
 void movement(App* app) {
     move(&app->scene.player, get_current_time(app));
-    //update_player_bounding_box(&app->scene.player.box, app->scene.player.position, app->scene.player.size);
 
     for (int i = 0; i < 2; i++) {
-        //update_player_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
-		vec3 offset;
-		offset.x = 0;
-		offset.y = 0;
-		offset.z = 0;
-		update_bounding_box(&app->scene.objects[i].box, offset, get_current_time(app));
+		update_player_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
             handle_collision(&app->scene.objects[i], &app->scene.player);
         }
@@ -136,7 +130,7 @@ void modular_framerate(App* app) {
 
 void update_application(App* app) {
     get_current_time(app);
-    //update_scene(&app->scene, get_current_time(app));
+    update_scene(&app->scene, get_current_time(app));
 }
 
 void render_application(App* app) {

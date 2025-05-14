@@ -28,4 +28,4 @@ void debug_bounding_box(const Bounding_Box* box);
 /* The fun part~ */
 bool check_collision(Bounding_Box* player, Bounding_Box* environment);
 
-#endif
+#endif /* BOUNDING_BOX_H_ */

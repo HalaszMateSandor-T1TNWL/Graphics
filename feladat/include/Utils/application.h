@@ -6,7 +6,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_ttf.h>
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -15,8 +14,7 @@
 #define VIEWPORT_ASPECT 50.0
 #define N_MENUS 2
 
-typedef struct App
-{
+typedef struct App {
     SDL_Window* window;
     SDL_GLContext gl_context;
     

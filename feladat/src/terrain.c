@@ -15,25 +15,37 @@ void init_terrain(struct Terrain* terrain, int gridX, int gridZ) {
 
     terrain -> x = gridX * SIZE;
     terrain -> z = gridZ * SIZE;
+    terrain -> heightmap_data = NULL;
+}
+
+void load_heightmap(Terrain* terrain, const char* filename) {
+    terrain -> heightmap_data = IMG_Load("../textures/Ground/grass2.png");
+    if(terrain -> heightmap_data) {
+        printf("(%s)Heightmap loaded in successfully\n Height: %d\tWidth:%d\n", filename, terrain -> heightmap_data -> h, terrain -> heightmap_data -> w);
+    } else {
+        printf("(%s)Loading failed, please check if filename and path are correct\n", filename);
+    }
 }
 
 void generate_terrain(struct Terrain* terrain) {
     
     int vertex_pointer = 0;
     for (int i = 0; i < VERTEX_COUNT; i++) {
+        float height_index = 0.0f;
         for (int j = 0; j < VERTEX_COUNT; j++) {
-            terrain -> vertices[vertex_pointer*3] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
-            terrain -> vertices[vertex_pointer*3+1] = 0.0f;
-            terrain -> vertices[vertex_pointer*3+2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+            terrain -> vertices[vertex_pointer * 3] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
+            terrain -> vertices[vertex_pointer * 3 + 1] = 0.0f;
+            terrain -> vertices[vertex_pointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
 
-            terrain -> normals[vertex_pointer*3] = 0;
-            terrain -> normals[vertex_pointer*3+1] = 1;
-            terrain -> normals[vertex_pointer*3+2] = 0;
+            terrain -> normals[vertex_pointer * 3] = 0;
+            terrain -> normals[vertex_pointer * 3 + 1] = 1;
+            terrain -> normals[vertex_pointer * 3 + 2] = 0;
 
-            terrain -> texture_coords[vertex_pointer*2]   = (float)j / ((float)VERTEX_COUNT - 1);
-            terrain -> texture_coords[vertex_pointer*2+1] = (float)i / ((float)VERTEX_COUNT - 1);
+            terrain -> texture_coords[vertex_pointer * 2]   = (float)j / ((float)VERTEX_COUNT - 1);
+            terrain -> texture_coords[vertex_pointer * 2 + 1] = (float)i / ((float)VERTEX_COUNT - 1);
 
             vertex_pointer++;
+            height_index += 1;
         }
     }
 

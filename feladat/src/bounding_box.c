@@ -42,14 +42,17 @@ void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
     box->center.x = (box->max_x + box->min_x) / 2;
     box->center.y = (box->max_y + box->min_y) / 2;
     box->center.z = (box->max_z + box->min_z) / 2;
-    box->size = size;
 
-    box->min_x = position.x - size.x / 2;
-    box->max_x = position.x + size.x / 2;
-    box->min_y = (position.y - size.y / 2);
-    box->max_y = (position.y + size.y / 2);
-    box->min_z = position.z - size.z / 2;
-    box->max_z = position.z + size.z / 2;
+    box->size.x = size.x;
+    box->size.y = size.y;
+    box->size.z = size.z;
+
+    box->max_x = position.x + box->size.x;
+    box->min_x = position.x - box->size.x;
+    box->min_y = position.y - box->size.y;
+    box->max_y = position.y + box->size.y;
+    box->min_z = position.z - box->size.z;
+    box->max_z = position.z + box->size.z;
 
     printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
            box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);
