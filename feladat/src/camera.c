@@ -55,7 +55,7 @@ float calculate_vertical(Camera* camera) {
 *                       the camera's distance from the player model
 */
 void calculate_zoom(Camera* camera, float d_wheel) {
-    float zoom_level = d_wheel;                 // <- Multiplying it here, because it gives us a HUGE number
+    float zoom_level = d_wheel * 2;
     camera->distance_from_player -= zoom_level; // If you want it to zoom OUT when scrolling UP change this to +=
 }
 

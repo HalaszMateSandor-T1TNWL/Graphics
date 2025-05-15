@@ -15,6 +15,9 @@ typedef struct Material {
 
 } Material;
 
+/* Loads in a picture (usually PNG) and turns it into something OpenGl can use for texturing
+*      (returns an unsigned integer with the ID of the texture that was loaded in)
+*/
 GLuint load_texture(char* filename);
 
 #endif

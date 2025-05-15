@@ -48,9 +48,11 @@ void event_handler(App* app) {
     SDL_Event event;
 
     static int is_mouse_down = 0;
-    
-    static int x;
-    static int y;    
+
+    static int r_shift = 0, l_shift = 0;
+
+    static int x, y;
+
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEWHEEL:
@@ -70,6 +72,8 @@ void event_handler(App* app) {
             break;
         case SDL_MOUSEBUTTONUP:
             is_mouse_down = 0;
+            break;
+        case SDL_KEYDOWN:
             break;
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
@@ -97,7 +101,7 @@ void movement(App* app) {
     move(&app->scene.player, get_current_time(app));
 
     for (int i = 0; i < 2; i++) {
-		update_player_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
+		update_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
             handle_collision(&app->scene.objects[i], &app->scene.player);
         }
@@ -106,7 +110,7 @@ void movement(App* app) {
         app->scene.player.position.y = TERRAIN_HEIGHT;
         app->scene.player.is_in_air = false;
         app->scene.player.jumped = 0;
-        //update_player_bounding_box(&app->scene.player.box, app->scene.player.position, app->scene.player.size);
+        update_player_bounding_box(&app->scene.player.box, app->scene.player.position, app->scene.player.size);
     }
     move_camera(&app->scene.camera, &app->scene.player);
 }

@@ -78,8 +78,7 @@ void move(Entity* entity, float speed_FPS) {
     entity->upwards_speed += dy;
     increase_position(entity, 0, entity->upwards_speed * speed_FPS, 0);
 	
-	//update_player_bounding_box(&entity->box, entity->position, entity->size);
-    update_bounding_box(&entity->box, offset, speed_FPS);
+    update_player_bounding_box(&entity->box, entity->position, entity->size);
 }
 
 void handle_collision(Entity* object, Entity* player) {

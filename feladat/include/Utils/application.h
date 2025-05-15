@@ -34,7 +34,7 @@ void init_application(App* app);
 /* Handles the running of the window and the events happening inside it */
 void event_handler(App* app);
 
-/* A wrapper function for move(), so I can call it in main seperately */
+/* Handles the moving of the player model and the collision with terrain and objects */
 void movement(App* app);
 
 /* Gives back time in miliseconds */

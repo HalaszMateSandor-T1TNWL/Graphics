@@ -41,10 +41,13 @@ typedef struct Entity {
 
 /* Initializes the entity with default values */
 void init_entity(Entity* entity);
+/* Does the same thing as init_entity(), but with pre-set values only for the player */
 void init_player(Entity* entity);
 
 /* Moves the entity around */
 void move(Entity* entity, float speed_FPS);
+
+/* Calculates overlaps between planes and treats them accordingly */
 void handle_collision(Entity* object, Entity* player);
 
 /* Moves the entity around according to the given values */
@@ -62,8 +65,7 @@ void load_entity_model(Entity* entity);
 /* Calculating the bounds of the box surrounding the model */
 void calculate_bounding_box(Entity* entity);
 
-/* Frees up memory allocated towards the entity entity */
+/* Frees up memory allocated towards the entity */
 void free_entity(Entity* entity);
-
 
 #endif /*PLAYER_H_*/

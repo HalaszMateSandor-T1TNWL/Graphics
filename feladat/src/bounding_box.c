@@ -38,7 +38,7 @@ void debug_bounding_box(const Bounding_Box* box) {
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
+void update_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
     box->center.x = (box->max_x + box->min_x) / 2;
     box->center.y = (box->max_y + box->min_y) / 2;
     box->center.z = (box->max_z + box->min_z) / 2;
@@ -49,31 +49,33 @@ void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
 
     box->max_x = position.x + box->size.x;
     box->min_x = position.x - box->size.x;
-
     box->min_y = position.y - box->size.y;
     box->max_y = position.y + box->size.y;
-    
     box->min_z = position.z - box->size.z;
     box->max_z = position.z + box->size.z;
 
-    printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
-           box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);
+    /*printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
+           box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);*/
 }
 
-void update_bounding_box(Bounding_Box* box, vec3 offset, float speedFPS) {
-	box->min_x += offset.x * speedFPS;
-	box->max_x += offset.x * speedFPS;
-	box->min_y += offset.y;
-	box->max_y += offset.y;
-	box->min_z += offset.z * speedFPS;
-	box->max_z += offset.z * speedFPS;
-	
-	box->position.x += offset.x * speedFPS;
-	box->position.y += offset.y * speedFPS;
-	box->position.z += offset.z * speedFPS;
-	
-	printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
-           box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);
+void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
+	box->center.x = (box->max_x + box->min_x) / 2;
+    box->center.y = (box->max_y + box->min_y) / 2;
+    box->center.z = (box->max_z + box->min_z) / 2;
+
+    box->size.x = size.x * 30;
+    box->size.y = size.y * 95;
+    box->size.z = size.z * 25;
+
+    box->max_x = position.x + box->size.x;
+    box->min_x = position.x - box->size.x;
+    box->min_y = (position.y - box->size.y) + 2.35;
+    box->max_y = (position.y + box->size.y) + 2.35;
+    box->min_z = position.z - box->size.z;
+    box->max_z = position.z + box->size.z;
+
+    /*printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
+           box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);*/
 }
 
 bool check_collision(Bounding_Box* player, Bounding_Box* environment) {
