@@ -105,7 +105,7 @@ void movement(App* app) {
 		offset.z = 0;
 		update_bounding_box(&app->scene.objects[i].box, offset, get_current_time(app));
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
-            handle_collision(&app->scene.objects[i], &app->scene.player);
+            //handle_collision(&app->scene.objects[i], &app->scene.player);
         }
     }
     if(app->scene.player.position.y < TERRAIN_HEIGHT) {
