@@ -161,6 +161,12 @@ void get_speed(Entity* entity)
             entity->upwards_speed = JUMP_POWER;
         }
     }
+    if(keyboard[SDL_SCANCODE_LSHIFT]){
+        if(entity->is_in_air) {
+            entity->position.x += 5 * sin(degree_to_radian(entity->rotation.y));
+            entity->position.z += 5 * cos(degree_to_radian(entity->rotation.y));
+        }
+    }
 }
 
 void calculate_bounding_box(Entity* entity) {
