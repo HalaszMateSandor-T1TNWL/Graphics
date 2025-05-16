@@ -1,5 +1,7 @@
 #include "Utils/scene.h"
 
+float theta = 45;
+
 /*
 *       Initializes the components necessary to the scene
 */
@@ -31,23 +33,46 @@ void init_scene(Scene* scene) {
     scene->objects[1].textureID = load_texture("../textures/Fatass/eye.png");
     calculate_bounding_box(&scene->objects[1]);
 
-
     init_skybox(scene);
     generate_terrain(&scene->terrain);
 
-    scene->light_pos.x = 100.0f;
+    scene->light_pos.x = 10.0f;
     scene->light_pos.y = 100.0f;
-    scene->light_pos.z = 100.0f;
+    scene->light_pos.z = 10.0f;
+    scene->brightness = 0.2f;
+    scene->is_fog = false;
 }
 
 void update_scene(Scene* scene, float speedFPS) {
+    scene -> light_pos.x = scene -> light_pos.y * cos(degree_to_radian(theta)) * sin(degree_to_radian(theta));
+    scene -> light_pos.z = scene -> light_pos.y * cos(degree_to_radian(theta)) * sin(degree_to_radian(theta));
+    theta += 0.1;
 
-
+    change_scene_settings(scene);
+    //printf("Light source:\tx: %f\tz: %f\n", scene -> light_pos.x, scene -> light_pos.z);
 }
 
-/*
-*           A function for rendering everything necessary to the world
-*/
+void change_scene_settings(Scene* scene) {
+    const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
+    float previous = scene->brightness;
+
+    if(keyboard_state[SDL_SCANCODE_KP_PLUS]) {
+        if((scene->brightness += 0.05) > 2.0) {
+            scene->brightness = previous;
+        }
+        printf("Brightness: %f\n", scene->brightness);
+    } else if(keyboard_state[SDL_SCANCODE_KP_MINUS]) {
+        if((scene->brightness -= 0.05) < 0.2){
+            scene->brightness = previous;
+        }
+        printf("Brightness: %f\n", scene->brightness);
+    }
+    if(keyboard_state[SDL_SCANCODE_LCTRL] && keyboard_state[SDL_SCANCODE_K]) {
+        scene->is_fog = !scene->is_fog;
+        printf("Fog changed to: %b\n", scene->is_fog);
+    }
+}
+
 void render_scene(Scene* scene) {
     float playerX = scene->player.position.x;
     float playerY = scene->player.position.y;
@@ -57,70 +82,89 @@ void render_scene(Scene* scene) {
     float cameraY = scene->camera.position.y;
     float cameraZ = scene->camera.position.z;
 
+    if(cameraY < 0.0f) {
+        cameraY = 1.0f;
+    }
+    if (scene->camera.distance_from_player < 5.0f) {
+        scene->camera.distance_from_player = 5.0f;
+    }
+
+    if(scene->is_fog){
+        glEnable(GL_FOG);
+        float fogColor[4] = {0.8, 0.8, 0.8, 1};
+        glFogi(GL_FOG_MODE, GL_LINEAR);
+        glFogfv(GL_FOG_COLOR, fogColor);
+        glFogf(GL_FOG_DENSITY, 0.8);
+        glHint(GL_FOG_HINT, GL_NICEST);
+        glFogf(GL_FOG_START, 15.0f);
+        glFogf(GL_FOG_END, 200);
+    } else {
+        glDisable(GL_FOG);
+    }
+
+    GLfloat light_model[] = {scene->brightness, scene->brightness, scene->brightness, 1.0f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_model);
+
+    GLfloat light_position[] = {scene->light_pos.x, scene->light_pos.y, scene->light_pos.z, 1.0f};
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
+
+    GLfloat spec_mat[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat emission_mat[] = {0.0f, 0.0f, 0.0f, 0.0f};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec_mat);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission_mat);
+
     /* Setting the projection matrix at the beginning of each frame */
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 6000.0f);
+    gluPerspective(45.0f, 1280.0f / 720.0f, 1.0f, 6000.0f);
 
     /* Then switching to a modelview for rendering everything */
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt (
         cameraX, cameraY, cameraZ,
-        playerX, playerY + 4, playerZ + 2,
+        playerX + 1, playerY + 4, playerZ + 1.5,
         0.0f, 1.0f, 0.0f
     );
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
-    GLfloat light_position[] = {scene->light_pos.x, scene->light_pos.y, scene->light_pos.z, 0.5};
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
     /*  Rendering the player */
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
-
         glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
-
-        GLfloat material[] = {1.0, 1.0, 1.0, 0.5};
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
-
-        GLfloat material2[] = {1.0, 1.0, 1.0, 1.0};
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
         debug_bounding_box(&scene->player.box);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
-        glScalef(0.025, 0.025, 0.025);
+        glScalef(scene->player.size.x, scene->player.size.y, scene->player.size.z);
 
-        draw_player(&(scene->player.model));
+        draw_model(&(scene->player.model));
     glPopMatrix();
 
     /* Rendering objects from the scene */
-    /* A grass house thingy */
+    /* A house thingy */
     glPushMatrix();
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
-
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
         glBindTexture(GL_TEXTURE_2D, scene->objects[0].textureID);
-        scene->objects[0].position.x = scene->objects[0].position.x = 10.0f;
+        scene->objects[0].position.x = scene->objects[0].position.x = 100.0f;
         scene->objects[0].position.y = scene->objects[0].position.y = 0.0f;
         scene->objects[0].position.z = scene->objects[0].position.z = 100.0f;
 		
-        scene->objects[0].size.x = 20.0f;
-        scene->objects[0].size.y = 20.0f;
-        scene->objects[0].size.z = 20.0f;
+        scene->objects[0].size.x = 10.0f;
+        scene->objects[0].size.y = 10.0f;
+        scene->objects[0].size.z = 10.0f;
+
         debug_bounding_box(&scene->objects[0].box);
-        glTranslatef(10.0f, 0.0f, 100.0f);
+        glTranslatef(100.0f, 0.0f, 100.0f);
+        glScalef(scene->objects[0].size.x, scene->objects[0].size.y, scene->objects[0].size.z);
         draw_model(&scene->objects[0].model);
     glPopMatrix();
     
-    /* A cheese goat, a goat cheese if you will */
+
     glPushMatrix();
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material2);
 
         glBindTexture(GL_TEXTURE_2D, scene->objects[1].textureID);
         scene->objects[1].position.x = scene->objects[1].box.position.x = 100.0f; 
@@ -140,30 +184,24 @@ void render_scene(Scene* scene) {
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
         glEnable(GL_TEXTURE_2D);
-
-        GLfloat grass_mat_diff[] = {10.0, 1.0, 1.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, grass_mat_diff);
-
-        GLfloat grass_mat_amb[] = {1.0, 1.0, 5.0, 1.0};
-        glMaterialfv(GL_FRONT, GL_AMBIENT, grass_mat_amb);
-        
-        //glTranslatef(-650.0f, 0.0f, -650.0f);
+        glTranslatef(-650.0f, 0.0f, -650.0f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 
     glPushMatrix();
+
+        glTranslatef(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
+
         draw_skybox(scene, 5000);
     glPopMatrix();
 }
 
-/*
-*                  Basic OpenGL settings compacted into one function
-*/
 void init_opengl() {
 
-    glShadeModel(GL_SMOOTH);
+    // glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
+    glEnable(GL_LIGHTING);
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -173,51 +211,11 @@ void init_opengl() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(
-        0.0f, 5.0f, 10.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f
-    );
+
 
     glEnable(GL_DEPTH_TEST);
-    glClearDepth(10.0f);
+    glClearDepth(1.0f);
 
-}
-
-
-/*
-*                       A function for drawing the loaded in player model 
-*                           by itterating over each read in vertex
-*/
-void draw_player(const Model* model) {
-    int i, k;
-    int vertex_index, texture_index, normal_index;
-    float x, y, z, u, v;
-
-    glBegin(GL_TRIANGLES);
-
-    for (i = 0; i < model->n_triangles; i++) {
-        for (k = 0; k < 3; k++) {
-            normal_index = model->triangles[i].points[k].normal_index;
-            x = model->normals[normal_index].x;
-            y = model->normals[normal_index].y;
-            z = model->normals[normal_index].z;
-            glNormal3f(x, y, z);
-
-            texture_index = model->triangles[i].points[k].texture_index;
-            u = model->texture_vertices[texture_index].u;
-            v = model->texture_vertices[texture_index].v;
-            glTexCoord2f(u, 1.0 - v);
-
-            vertex_index = model->triangles[i].points[k].vertex_index;
-            x = model->vertices[vertex_index].x;
-            y = model->vertices[vertex_index].y;
-            z = model->vertices[vertex_index].z;
-            glVertex3f(x, y, z);
-        }
-    }
-
-    glEnd();
 }
 
 void init_skybox(Scene* scene) {
@@ -243,7 +241,7 @@ void draw_skybox(Scene* scene, float size) {
         glVertex3f(size/2,-size/2,size/2);
     glEnd();
 
-    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_LEFT]);
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_RIGHT]);
     //left face
     glBegin(GL_QUADS);
         glTexCoord2f(0,0);
@@ -269,7 +267,7 @@ void draw_skybox(Scene* scene, float size) {
         glVertex3f(size/2,-size/2,-size/2);
     glEnd();
 
-    glBindTexture(GL_TEXTURE_2D,scene->skybox[SKY_RIGHT]);
+    glBindTexture(GL_TEXTURE_2D,scene->skybox[SKY_LEFT]);
     //right face
     glBegin(GL_QUADS);  
         glTexCoord2f(0,0);
@@ -282,7 +280,7 @@ void draw_skybox(Scene* scene, float size) {
         glVertex3f(size/2,-size/2,-size/2);
     glEnd();
 
-    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_TOP]);
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BOTTOM]);
     //top face   
     glBegin(GL_QUADS);
         glTexCoord2f(1,0);
@@ -295,7 +293,7 @@ void draw_skybox(Scene* scene, float size) {
         glVertex3f(size/2,size/2,-size/2);
     glEnd();
 
-    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BOTTOM]);        
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_TOP]);
     //bottom face
     glBegin(GL_QUADS);  
         glTexCoord2f(1,1);

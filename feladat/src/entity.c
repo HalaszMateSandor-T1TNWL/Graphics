@@ -42,9 +42,9 @@ void init_player(Entity* entity) {
     entity->rotation.y = 0.0f;
     entity->rotation.z = 0.0f;
 
-    entity->size.x = 1.5f;
-    entity->size.y = 1.5f;
-    entity->size.z = 1.5f;
+    entity->size.x = 0.025f;
+    entity->size.y = 0.025f;
+    entity->size.z = 0.025f;
 
     entity->is_in_air = false;
     entity->jumped = 0;
@@ -70,15 +70,15 @@ void move(Entity* entity, float speed_FPS) {
 	float dy = GRAVITY * speed_FPS;
     increase_position(entity, dx, 0, dz);
 
+    vec3 offset;
+    offset.x = dx;
+    offset.y = dy;
+    offset.z = dz;
+
     entity->upwards_speed += dy;
     increase_position(entity, 0, entity->upwards_speed * speed_FPS, 0);
 	
-	vec3 offset;
-	offset.x = dx;
-	offset.y = 0.0f;
-	offset.z = dz;
-	
-	update_bounding_box(&entity->box, offset, speed_FPS);
+    update_player_bounding_box(&entity->box, entity->position, entity->size);
 }
 
 void handle_collision(Entity* object, Entity* player) {
@@ -178,8 +178,10 @@ void calculate_bounding_box(Entity* entity) {
 
         if(entity->model.vertices[i].x < entity->box.min_x) entity->box.min_x = entity->model.vertices[i].x;
         if(entity->model.vertices[i].x > entity->box.max_x) entity->box.max_x = entity->model.vertices[i].x;
+
         if(entity->model.vertices[i].y < entity->box.min_y) entity->box.min_y = entity->model.vertices[i].y;
         if(entity->model.vertices[i].y > entity->box.max_y) entity->box.max_y = entity->model.vertices[i].y;
+
         if(entity->model.vertices[i].z < entity->box.min_z) entity->box.min_z = entity->model.vertices[i].z;
         if(entity->model.vertices[i].z > entity->box.max_z) entity->box.max_z = entity->model.vertices[i].z;
     }

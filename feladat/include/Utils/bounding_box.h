@@ -20,7 +20,7 @@ void init_bounding_box(Bounding_Box* box);
 
 /* Updating the bounding box, so it always has fresh numbers to work with */
 void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size);
-void update_bounding_box(Bounding_Box* box, vec3 offset, float speedFPS);
+void update_bounding_box(Bounding_Box* box, vec3 position, vec3 size);
 
 /* Drawing out the box for debugging reasons */
 void debug_bounding_box(const Bounding_Box* box);
@@ -28,4 +28,4 @@ void debug_bounding_box(const Bounding_Box* box);
 /* The fun part~ */
 bool check_collision(Bounding_Box* player, Bounding_Box* environment);
 
-#endif
+#endif /* BOUNDING_BOX_H_ */
