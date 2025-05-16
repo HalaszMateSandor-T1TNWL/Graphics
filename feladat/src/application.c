@@ -74,6 +74,11 @@ void event_handler(App* app) {
             is_mouse_down = 0;
             break;
         case SDL_KEYDOWN:
+            switch(event.key.keysym.scancode) {}
+            case SDL_SCANCODE_KP_PLUS:
+                app->scene.brightness += 0.25;
+                printf("Adjusted brightness:\t%f\n", app->scene.brightness);
+                break;
             break;
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
