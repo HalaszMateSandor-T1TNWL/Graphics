@@ -48,19 +48,18 @@ void event_handler(App* app) {
     SDL_Event event;
 
     static int is_mouse_down = 0;
-
     static int r_shift = 0, l_shift = 0;
-
+    static int l_ctrl = 0;
     static int x, y;
 
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEWHEEL:
             calculate_zoom(&app->scene.camera, event.wheel.y);
-            break;
+        break;
         case SDL_MOUSEBUTTONDOWN:
             is_mouse_down = 1;
-            break;
+        break;
         case SDL_MOUSEMOTION:
             if(is_mouse_down) {
                 y = event.motion.yrel; // relative mouse motion my beloved <3
@@ -69,30 +68,47 @@ void event_handler(App* app) {
                 set_pitch(&app->scene.camera, y);
                 calculate_angle_around_player(&app->scene.camera, x);
             }
-            break;
+        break;
         case SDL_MOUSEBUTTONUP:
             is_mouse_down = 0;
-            break;
+        break;
         case SDL_KEYDOWN:
-            switch(event.key.keysym.scancode) {}
-            case SDL_SCANCODE_KP_PLUS:
-                app->scene.brightness += 0.25;
-                printf("Adjusted brightness:\t%f\n", app->scene.brightness);
+            switch(event.key.keysym.scancode) {
+                case SDL_SCANCODE_LCTRL:
+                    l_ctrl = 1;
                 break;
-            break;
+                default:
+                    break;
+            }
+        break;
         case SDL_KEYUP:
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
                 app->is_running = 0;
-                break;
+            break;
             case SDLK_f:
                 app->is_windowed = !app->is_windowed;
                 SDL_SetWindowFullscreen(app->window, app->is_windowed ? SDL_TRUE : SDL_FALSE);
-                break;
+            break;
             default:
                 break;
             }
-            break;         
+            /* Switched to using scancode for this, because sym didn't recognize some keys */
+            switch(event.key.keysym.scancode) {
+                case SDL_SCANCODE_LCTRL:
+                    l_ctrl = 0;
+                break;
+                case SDL_SCANCODE_KP_PLUS:
+                    app->scene.brightness += 0.01;
+                break;
+                case SDL_SCANCODE_KP_MINUS:
+                    app->scene.brightness -= 0.01;
+                break;
+                case SDL_SCANCODE_K:
+                    if(l_ctrl) app->scene.is_fog = !app->scene.is_fog;
+                break;
+            }
+        break;      
         case SDL_QUIT:
             app->is_running = 0;
             break;
@@ -108,13 +124,14 @@ void movement(App* app) {
     for (int i = 0; i < 2; i++) {
 		update_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
-            //handle_collision(&app->scene.objects[i], &app->scene.player);
+            handle_collision(&app->scene.objects[i], &app->scene.player);
         }
     }
     if(app->scene.player.position.y < TERRAIN_HEIGHT) {
         app->scene.player.position.y = TERRAIN_HEIGHT;
         app->scene.player.is_in_air = false;
         app->scene.player.jumped = 0;
+        app->scene.player.dashed = 0;
         update_player_bounding_box(&app->scene.player.box, app->scene.player.position, app->scene.player.size);
     }
     move_camera(&app->scene.camera, &app->scene.player);
@@ -171,9 +188,9 @@ void destroy_application(App* app) {
     SDL_GL_DeleteContext(app->gl_context);
 
     free_entity(&app->scene.player);
-    free_entity(&app->scene.objects[0]);
-    free_entity(&app->scene.objects[1]);
-    free_entity(&app->scene.objects[2]);
+    for(int i = 0; i < 4; i++){
+        free_entity(&app->scene.objects[i]);
+    }
     free_terrain(&app->scene.terrain);
     free_skybox(&app->scene);
 

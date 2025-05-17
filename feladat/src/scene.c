@@ -25,6 +25,9 @@ void init_scene(Scene* scene) {
         init_entity(&scene->objects[i]);
     }
 
+    init_skybox(scene);
+    generate_terrain(&scene->terrain);
+
     load_model(&scene->objects[0].model, "../textures/Map/Building.obj");
     scene->objects[0].textureID = load_texture("../textures/Stone_Pillar/pillar.png");
     calculate_bounding_box(&scene->objects[0]);
@@ -33,12 +36,9 @@ void init_scene(Scene* scene) {
     scene->objects[1].textureID = load_texture("../textures/Fatass/eye.png");
     calculate_bounding_box(&scene->objects[1]);
 
-    init_skybox(scene);
-    generate_terrain(&scene->terrain);
-
-    scene->light_pos.x = 0.0f;
+    scene->light_pos.x = 10.0f;
     scene->light_pos.y = 100.0f;
-    scene->light_pos.z = 0.0f;
+    scene->light_pos.z = 10.0f;
     scene->brightness = 0.2f;
     scene->is_fog = false;
 }
@@ -48,30 +48,9 @@ void update_scene(Scene* scene, float speedFPS) {
     scene -> light_pos.z = scene -> light_pos.y * cos(degree_to_radian(theta)) * sin(degree_to_radian(theta));
     theta += 0.01;
 
-    //change_scene_settings(scene);
-    printf("Light source:\tx: %f\tz: %f\n", scene -> light_pos.x, scene -> light_pos.z);
+    //printf("Light source:\tx: %f\tz: %f\n", scene -> light_pos.x, scene -> light_pos.z);
 }
 
-void change_scene_settings(Scene* scene) {
-    const Uint8* keyboard_state = SDL_GetKeyboardState(NULL);
-    float previous = scene->brightness;
-
-    if(keyboard_state[SDL_SCANCODE_KP_PLUS]) {
-        if((scene->brightness += 0.05) > 2.0) {
-            scene->brightness = previous;
-        }
-        printf("Brightness: %f\n", scene->brightness);
-    } else if(keyboard_state[SDL_SCANCODE_KP_MINUS]) {
-        if((scene->brightness -= 0.05) < 0.2){
-            scene->brightness = previous;
-        }
-        printf("Brightness: %f\n", scene->brightness);
-    }
-    if(keyboard_state[SDL_SCANCODE_LCTRL] && keyboard_state[SDL_SCANCODE_K]) {
-        scene->is_fog = !scene->is_fog;
-        printf("Fog changed to: %b\n", scene->is_fog);
-    }
-}
 
 void render_scene(Scene* scene) {
     float playerX = scene->player.position.x;
@@ -82,20 +61,24 @@ void render_scene(Scene* scene) {
     float cameraY = scene->camera.position.y;
     float cameraZ = scene->camera.position.z;
 
-    /*if(cameraY < 0.0f) {
+    if(cameraY < 0.0f) {
         cameraY = 1.0f;
-    }*/
+    }
     if (scene->camera.distance_from_player < 5.0f) {
         scene->camera.distance_from_player = 5.0f;
     }
 
     if(scene->is_fog){
         glEnable(GL_FOG);
+
         float fogColor[4] = {0.8, 0.8, 0.8, 0.2};
+
         glFogi(GL_FOG_MODE, GL_LINEAR);
         glFogfv(GL_FOG_COLOR, fogColor);
+
         glFogf(GL_FOG_DENSITY, 0.5);
         glHint(GL_FOG_HINT, GL_NICEST);
+
         glFogf(GL_FOG_START, 100.0f);
         glFogf(GL_FOG_END, 200);
     } else {
@@ -130,6 +113,8 @@ void render_scene(Scene* scene) {
         0.0f, 1.0f, 0.0f
     );
 
+
+    /* Making sure I enable lighting AFTER setting everything, so it doesn't get all funky */
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diff_col);
@@ -204,7 +189,7 @@ void render_scene(Scene* scene) {
 
 void init_opengl() {
 
-    // glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_LIGHTING);

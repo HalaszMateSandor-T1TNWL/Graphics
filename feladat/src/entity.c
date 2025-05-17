@@ -23,6 +23,7 @@ void init_entity(Entity* entity) {
 
     entity->is_in_air = false;
     entity->jumped = 0;
+    entity->dashed = 0;
 
     init_bounding_box(&entity->box);
     init_model(&entity->model);
@@ -48,6 +49,7 @@ void init_player(Entity* entity) {
 
     entity->is_in_air = false;
     entity->jumped = 0;
+    entity->dashed = 0;
 
     init_bounding_box(&entity->box);
     init_model(&entity->model);
@@ -100,6 +102,7 @@ void handle_collision(Entity* object, Entity* player) {
 			player->upwards_speed = 0;
 			player->is_in_air = false;
 			player->jumped = 0;
+            player->dashed = 0;
 		}
 	} else{
 		if(player->position.z < object->position.z) {
@@ -139,7 +142,6 @@ void get_speed(Entity* entity)
     } else{
         entity->move_speed = 0;
     }
-
     if (keyboard[SDL_SCANCODE_A]) {
         entity->turn_speed = TURN_SPEED;
     }else if (keyboard[SDL_SCANCODE_D]) {
@@ -161,10 +163,18 @@ void get_speed(Entity* entity)
             entity->upwards_speed = JUMP_POWER;
         }
     }
-    if(keyboard[SDL_SCANCODE_LSHIFT]){
-        if(entity->is_in_air) {
+    /* Dash depending on which direction the player wants to move in */
+    if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed > 0){
+        entity->dashed += 1;
+        if(entity->dashed < 3 && entity->is_in_air) {
             entity->position.x += 5 * sin(degree_to_radian(entity->rotation.y));
             entity->position.z += 5 * cos(degree_to_radian(entity->rotation.y));
+        }
+    } else if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed < 0){
+        entity->dashed += 1;
+        if(entity->dashed < 3 && entity->is_in_air) {
+            entity->position.x -= 5 * sin(degree_to_radian(entity->rotation.y));
+            entity->position.z -= 5 * cos(degree_to_radian(entity->rotation.y));
         }
     }
 }

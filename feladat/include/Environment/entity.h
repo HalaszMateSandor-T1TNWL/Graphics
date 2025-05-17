@@ -34,6 +34,8 @@ typedef struct Entity {
     float upwards_speed;
     
     int jumped;
+    int dashed;
+    
     bool is_in_air;
     Bounding_Box box;
 
