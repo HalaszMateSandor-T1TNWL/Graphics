@@ -25,9 +25,9 @@ void generate_terrain(struct Terrain* terrain) {
     for (int i = 0; i < VERTEX_COUNT; i++) {
         float height_index = 0.0f;
         for (int j = 0; j < VERTEX_COUNT; j++) {
-            terrain -> vertices[vertex_pointer * 3] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
+            terrain -> vertices[vertex_pointer * 3] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE - (SIZE / 2.0f);
             terrain -> vertices[vertex_pointer * 3 + 1] = 0.0f;
-            terrain -> vertices[vertex_pointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+            terrain -> vertices[vertex_pointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE - (SIZE / 2.0f);
 
             terrain -> normals[vertex_pointer * 3] = 0;
             terrain -> normals[vertex_pointer * 3 + 1] = 1;

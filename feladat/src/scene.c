@@ -6,35 +6,44 @@ float theta = 45;
 *       Initializes the components necessary to the scene
 */
 void init_scene(Scene* scene) {
-    scene->objects = malloc(sizeof(Entity) * 4);
+    scene->objects = malloc(sizeof(Entity) * MAX_OBJECTS);
 
     init_player(&scene->player);
-    if(load_model(&scene->player.model, "../textures/Hatsune_Miku/test.obj") == 0) {
+    if(load_model(&scene->player.model, "../assets/Hatsune_Miku/test.obj") == 0) {
         return;
     }
-    scene->player.textureID = load_texture("../textures/Hatsune_Miku/test.png");
+    scene->player.textureID = load_texture("../assets/Hatsune_Miku/test.png");
     printf("TextureID: %d\n", scene->player.textureID);
     calculate_bounding_box(&scene->player);
 
     init_camera(&scene->camera);
 
     init_terrain(&scene->terrain, 100, 100);
-    scene->terrain.textureID[0] = load_texture("../textures/Ground/grass2.png");
+    scene->terrain.textureID[0] = load_texture("../assets/Ground/grass2.png");
 
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < MAX_OBJECTS; i++) {
         init_entity(&scene->objects[i]);
     }
 
     init_skybox(scene);
     generate_terrain(&scene->terrain);
 
-    load_model(&scene->objects[0].model, "../textures/Map/Building.obj");
-    scene->objects[0].textureID = load_texture("../textures/Stone_Pillar/pillar.png");
+    load_model(&scene->objects[0].model, "../assets/Map/Building.obj");
+    scene->objects[0].textureID = load_texture("../assets/Stone_Pillar/pillar.png");
     calculate_bounding_box(&scene->objects[0]);
 
-    load_model(&scene->objects[1].model, "../textures/Fatass/fatass02.obj");
-    scene->objects[1].textureID = load_texture("../textures/Fatass/eye.png");
+    load_model(&scene->objects[1].model, "../assets/Fatass/fatass.obj");
+    scene->objects[1].textureID = load_texture("../assets/Fatass/eye.png");
     calculate_bounding_box(&scene->objects[1]);
+
+    load_model(&scene->objects[2].model, "../assets/Map/stone_formation.obj");
+    scene->objects[2].textureID = load_texture("../assets/Stone_Pillar/pillar.png");
+    calculate_bounding_box(&scene->objects[2]);
+
+    load_model(&scene->objects[3].model, "../assets/Map/Pillar/set_piece.obj");
+    scene->objects[3].textureID = load_texture("../assets/Stone_Pillar/pillar.png");
+    load_model(&scene->objects[4].model, "../assets/Map/Pillar/PILL_main_pillar.obj");
+    calculate_bounding_box(&scene->objects[4]);
 
     scene->light_pos.x = 10.0f;
     scene->light_pos.y = 100.0f;
@@ -61,9 +70,9 @@ void render_scene(Scene* scene) {
     float cameraY = scene->camera.position.y;
     float cameraZ = scene->camera.position.z;
 
-    if(cameraY < 0.0f) {
+    /*if(cameraY < 0.0f) {
         cameraY = 1.0f;
-    }
+    }*/
     if (scene->camera.distance_from_player < 5.0f) {
         scene->camera.distance_from_player = 5.0f;
     }
@@ -113,7 +122,6 @@ void render_scene(Scene* scene) {
         0.0f, 1.0f, 0.0f
     );
 
-
     /* Making sure I enable lighting AFTER setting everything, so it doesn't get all funky */
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -138,27 +146,24 @@ void render_scene(Scene* scene) {
     /* Rendering objects from the scene */
     /* A house thingy */
     glPushMatrix();
-
         glBindTexture(GL_TEXTURE_2D, scene->objects[0].textureID);
-        scene->objects[0].position.x = scene->objects[0].position.x = 100.0f;
-        scene->objects[0].position.y = scene->objects[0].position.y = 0.0f;
-        scene->objects[0].position.z = scene->objects[0].position.z = 100.0f;
+        scene->objects[0].position.x = scene->objects[0].box.position.x = 150.0f;
+        scene->objects[0].position.y = scene->objects[0].box.position.y = 0.0f;
+        scene->objects[0].position.z = scene->objects[0].box.position.z = 200.0f;
 		
         scene->objects[0].size.x = 10.0f;
         scene->objects[0].size.y = 10.0f;
         scene->objects[0].size.z = 10.0f;
 
         debug_bounding_box(&scene->objects[0].box);
-        glTranslatef(100.0f, 0.0f, 100.0f);
-        glScalef(scene->objects[0].size.x, scene->objects[0].size.y, scene->objects[0].size.z);
-        //draw_model(&scene->objects[0].model);
+        glTranslatef(150.0f, 0.0f, 200.0f);
+        draw_model(&scene->objects[0].model);
     glPopMatrix();
     
     /*Fatass Teto plush*/
     glPushMatrix();
-
         glBindTexture(GL_TEXTURE_2D, scene->objects[1].textureID);
-        scene->objects[1].position.x = scene->objects[1].box.position.x = 100.0f; 
+        scene->objects[1].position.x = scene->objects[1].box.position.x = 100.0f;
         scene->objects[1].position.y = scene->objects[1].box.position.y = 0.0f;
         scene->objects[1].position.z = scene->objects[1].box.position.z = 100.0f;
 
@@ -171,18 +176,47 @@ void render_scene(Scene* scene) {
         draw_model(&scene->objects[1].model);
     glPopMatrix();
 
+    /* Ominous pillar */
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->objects[2].textureID);
+        scene->objects[2].position.x = scene->objects[2].box.position.x = 110.0f;
+        scene->objects[2].position.y = scene->objects[2].box.position.y = 0.0f;
+        scene->objects[2].position.z = scene->objects[2].box.position.z = 110.0f;
+
+        scene->objects[2].size.x = 2.5f;
+        scene->objects[2].size.y = 45.0f;
+        scene->objects[2].size.z = 2.5f;
+
+        debug_bounding_box(&scene->objects[2].box);
+        glTranslatef(110.0f, 0.0f, 110.0f);
+        draw_model(&scene->objects[2].model);
+    glPopMatrix();
+
+    /* Rendering a set piece pillar (no collison) */
+    glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->objects[3].textureID);
+        scene->objects[3].position.x = scene->objects[4].box.position.x = 150.0f;
+        scene->objects[3].position.y = scene->objects[4].box.position.y = 0.0f;
+        scene->objects[3].position.z = scene->objects[4].box.position.z = 100.0f;
+
+        scene->objects[3].size.x = 2.5f;
+        scene->objects[3].size.y = 45.0f;
+        scene->objects[3].size.z = 2.5f;
+
+        glTranslatef(150.0f, 0.0f, 100.0f);
+        draw_model(&scene->objects[3].model);
+    glPopMatrix();
+
     /* Rendering the terrain */
     glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, scene->terrain.textureID[0]);
         glEnable(GL_TEXTURE_2D);
-        glTranslatef(-650.0f, 0.0f, -650.0f);
         render_terrain(&scene->terrain);
     glPopMatrix();
 
+    /* Rendering the skybox and making sure it follows the camera so you can never leave it */
     glPushMatrix();
-
         glTranslatef(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
-
         draw_skybox(scene, 5000);
     glPopMatrix();
 }
@@ -210,17 +244,16 @@ void init_opengl() {
 }
 
 void init_skybox(Scene* scene) {
-    scene->skybox[SKY_LEFT] = load_texture("../textures/Skybox/left.png");
-    scene->skybox[SKY_BACK] = load_texture("../textures/Skybox/back.png");
-    scene->skybox[SKY_RIGHT] = load_texture("../textures/Skybox/right.png");
-    scene->skybox[SKY_FRONT] = load_texture("../textures/Skybox/front.png");
-    scene->skybox[SKY_TOP] = load_texture("../textures/Skybox/top.png");
-    scene->skybox[SKY_BOTTOM] = load_texture("../textures/Skybox/down.png");
+    scene->skybox[SKY_LEFT] = load_texture("../assets/Skybox/left.png");
+    scene->skybox[SKY_BACK] = load_texture("../assets/Skybox/back.png");
+    scene->skybox[SKY_RIGHT] = load_texture("../assets/Skybox/right.png");
+    scene->skybox[SKY_FRONT] = load_texture("../assets/Skybox/front.png");
+    scene->skybox[SKY_TOP] = load_texture("../assets/Skybox/top.png");
+    scene->skybox[SKY_BOTTOM] = load_texture("../assets/Skybox/down.png");
 }
 
 void draw_skybox(Scene* scene, float size) {
     glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BOTTOM]);
-    //back face
     glBegin(GL_QUADS);
         glTexCoord2f(0,0);
         glVertex3f(size/2,size/2,size/2);
@@ -233,7 +266,6 @@ void draw_skybox(Scene* scene, float size) {
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_RIGHT]);
-    //left face
     glBegin(GL_QUADS);
         glTexCoord2f(0,0);
         glVertex3f(-size/2,size/2,size/2);
@@ -246,7 +278,6 @@ void draw_skybox(Scene* scene, float size) {
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_FRONT]);
-    //front face
     glBegin(GL_QUADS);
         glTexCoord2f(1,0);
         glVertex3f(size/2,size/2,-size/2);
@@ -259,7 +290,6 @@ void draw_skybox(Scene* scene, float size) {
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D,scene->skybox[SKY_LEFT]);
-    //right face
     glBegin(GL_QUADS);  
         glTexCoord2f(0,0);
         glVertex3f(size/2,size/2,-size/2);
@@ -271,8 +301,7 @@ void draw_skybox(Scene* scene, float size) {
         glVertex3f(size/2,-size/2,-size/2);
     glEnd();
 
-    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_TOP]);
-    //top face   
+    glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_TOP]); 
     glBegin(GL_QUADS);
         glTexCoord2f(1,0);
         glVertex3f(size/2,size/2,size/2);
@@ -285,7 +314,6 @@ void draw_skybox(Scene* scene, float size) {
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, scene->skybox[SKY_BACK]);
-    //bottom face
     glBegin(GL_QUADS);  
         glTexCoord2f(1,1);
         glVertex3f(size/2,-size/2,size/2);

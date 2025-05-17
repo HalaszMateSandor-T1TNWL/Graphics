@@ -76,7 +76,7 @@ void update_player_bounding_box(Bounding_Box* box, vec3 position, vec3 size) {
 
     /*printf("X: (%f, %f)\nY: (%f, %f)\nZ: (%f, %f)\n",
            box->min_x, box->max_x, box->min_y, box->max_y, box->min_z, box->max_z);*/
-}
+}   
 
 bool check_collision(Bounding_Box* player, Bounding_Box* environment) {
     bool overlap_x = player->max_x >= environment->min_x && player->min_x <= environment->max_x;

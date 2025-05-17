@@ -153,7 +153,7 @@ void get_speed(Entity* entity)
     /* This is a really cheaty way of solving double jumping, but I couldn't think of anything else :[ 
     *           EDIT: nvm, you actually have long jumps with this, this was intentional
     */
-    if(keyboard[SDL_SCANCODE_SPACE]){
+    if(keyboard[SDL_SCANCODE_SPACE]) {
         if(entity->jumped == 0){
             entity->is_in_air = true;
             entity->jumped++;
@@ -164,13 +164,13 @@ void get_speed(Entity* entity)
         }
     }
     /* Dash depending on which direction the player wants to move in */
-    if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed > 0){
+    if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed > 0) {
         entity->dashed += 1;
         if(entity->dashed < 3 && entity->is_in_air) {
             entity->position.x += 5 * sin(degree_to_radian(entity->rotation.y));
             entity->position.z += 5 * cos(degree_to_radian(entity->rotation.y));
         }
-    } else if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed < 0){
+    } else if(keyboard[SDL_SCANCODE_LSHIFT] && entity->move_speed < 0) {
         entity->dashed += 1;
         if(entity->dashed < 3 && entity->is_in_air) {
             entity->position.x -= 5 * sin(degree_to_radian(entity->rotation.y));

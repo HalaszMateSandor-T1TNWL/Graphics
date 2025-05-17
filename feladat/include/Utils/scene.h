@@ -10,6 +10,8 @@
 #include <GL/glu.h>
 #include <GL/glext.h>
 
+#define MAX_OBJECTS 30
+
 enum {
     SKY_LEFT = 0,
     SKY_BACK,

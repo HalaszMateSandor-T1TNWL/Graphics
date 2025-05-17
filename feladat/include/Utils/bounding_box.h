@@ -4,6 +4,7 @@
 #include "Utils/utils.h"
 #include <stdbool.h>
 #include <GL/gl.h>
+#include <obj/model.h>
 
 typedef struct Bounding_Box {
 

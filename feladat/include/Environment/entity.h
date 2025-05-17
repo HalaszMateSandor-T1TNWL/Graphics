@@ -35,7 +35,7 @@ typedef struct Entity {
     
     int jumped;
     int dashed;
-    
+
     bool is_in_air;
     Bounding_Box box;
 
@@ -66,6 +66,7 @@ void load_entity_model(Entity* entity);
 
 /* Calculating the bounds of the box surrounding the model */
 void calculate_bounding_box(Entity* entity);
+void bounding_volume_hierarchy(Vertex* vertices, int n_leafs, int max_num_leaf, Entity* entity);
 
 /* Frees up memory allocated towards the entity */
 void free_entity(Entity* entity);

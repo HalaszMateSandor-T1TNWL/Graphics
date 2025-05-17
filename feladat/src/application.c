@@ -121,7 +121,7 @@ void event_handler(App* app) {
 void movement(App* app) {
     move(&app->scene.player, get_current_time(app));
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 5; i++) {
 		update_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
             handle_collision(&app->scene.objects[i], &app->scene.player);
@@ -188,12 +188,14 @@ void destroy_application(App* app) {
     SDL_GL_DeleteContext(app->gl_context);
 
     free_entity(&app->scene.player);
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < MAX_OBJECTS; i++) {
         free_entity(&app->scene.objects[i]);
+        printf("Free'd object: %d\n", i);
     }
     free_terrain(&app->scene.terrain);
     free_skybox(&app->scene);
 
-    SDL_Quit();
+    printf("Successfully free'd all resources\nExiting...\n");
 
+    SDL_Quit();
 }
