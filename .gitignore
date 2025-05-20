@@ -13,3 +13,5 @@ grafika
 *.exe
 
 *.vscode
+
+*.kra*
