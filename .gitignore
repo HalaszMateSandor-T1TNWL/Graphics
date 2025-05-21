@@ -14,6 +14,6 @@ grafika
 
 *.vscode
 
-assests/*
+assets/
 
 *.kra*
