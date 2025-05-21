@@ -51,6 +51,7 @@ void event_handler(App* app) {
     static int r_shift = 0, l_shift = 0;
     static int l_ctrl = 0;
     static int x, y;
+    float previous = app->scene.brightness;
 
     while(SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -99,13 +100,24 @@ void event_handler(App* app) {
                     l_ctrl = 0;
                 break;
                 case SDL_SCANCODE_KP_PLUS:
-                    app->scene.brightness += 0.01;
+                    if((app->scene.brightness += 0.05) > 1.5){
+                        app->scene.brightness = previous;
+                    } else{
+                        app->scene.brightness += 0.05;
+                    }
                 break;
                 case SDL_SCANCODE_KP_MINUS:
-                    app->scene.brightness -= 0.01;
+                    if((app->scene.brightness -= 0.05) < 0.05){
+                        app->scene.brightness = previous;
+                    } else{
+                        app->scene.brightness -= 0.05;
+                    }
                 break;
                 case SDL_SCANCODE_K:
                     if(l_ctrl) app->scene.is_fog = !app->scene.is_fog;
+                break;
+                case SDL_SCANCODE_F3:
+                    app->scene.box_shown = !app->scene.box_shown;
                 break;
             }
         break;      

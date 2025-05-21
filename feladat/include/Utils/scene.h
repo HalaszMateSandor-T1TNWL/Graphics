@@ -32,6 +32,7 @@ typedef struct Scene {
     vec3 light_pos;
     GLfloat brightness;
     bool is_fog;
+    bool box_shown;
 
 } Scene;
 

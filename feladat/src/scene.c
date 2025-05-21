@@ -50,6 +50,7 @@ void init_scene(Scene* scene) {
     scene->light_pos.z = 10.0f;
     scene->brightness = 0.2f;
     scene->is_fog = false;
+    scene->box_shown = false;
 }
 
 void update_scene(Scene* scene, float speedFPS) {
@@ -135,7 +136,7 @@ void render_scene(Scene* scene) {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
 
-        debug_bounding_box(&scene->player.box);
+        //debug_bounding_box(&scene->player.box);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
         glScalef(scene->player.size.x, scene->player.size.y, scene->player.size.z);
@@ -155,7 +156,7 @@ void render_scene(Scene* scene) {
         scene->objects[0].size.y = 10.0f;
         scene->objects[0].size.z = 10.0f;
 
-        debug_bounding_box(&scene->objects[0].box);
+        //debug_bounding_box(&scene->objects[0].box);
         glTranslatef(150.0f, 0.0f, 200.0f);
         draw_model(&scene->objects[0].model);
     glPopMatrix();
@@ -171,7 +172,7 @@ void render_scene(Scene* scene) {
         scene->objects[1].size.y = 15.0f;
         scene->objects[1].size.z = 5.0f;
 
-        debug_bounding_box(&scene->objects[1].box);
+        //debug_bounding_box(&scene->objects[1].box);
         glTranslatef(100.0f, 0.0f, 100.0f);
         draw_model(&scene->objects[1].model);
     glPopMatrix();
@@ -187,7 +188,7 @@ void render_scene(Scene* scene) {
         scene->objects[2].size.y = 45.0f;
         scene->objects[2].size.z = 2.5f;
 
-        debug_bounding_box(&scene->objects[2].box);
+        //debug_bounding_box(&scene->objects[2].box);
         glTranslatef(110.0f, 0.0f, 110.0f);
         draw_model(&scene->objects[2].model);
     glPopMatrix();
@@ -219,6 +220,15 @@ void render_scene(Scene* scene) {
         glTranslatef(scene->camera.position.x, scene->camera.position.y, scene->camera.position.z);
         draw_skybox(scene, 5000);
     glPopMatrix();
+
+    if(scene->box_shown){
+        glPushMatrix();
+            for (int i = 0; i < MAX_OBJECTS; i++) {
+                debug_bounding_box(&scene->objects[i].box);
+            }
+            debug_bounding_box(&scene->player.box);
+        glPopMatrix();
+    }
 }
 
 void init_opengl() {
@@ -236,7 +246,6 @@ void init_opengl() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
 
     glEnable(GL_DEPTH_TEST);
     glClearDepth(1.0f);
