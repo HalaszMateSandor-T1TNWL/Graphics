@@ -4,6 +4,8 @@
 
 *.cmake
 
+assets/
+
 build/
 
 *fbx
@@ -13,7 +15,5 @@ grafika
 *.exe
 
 *.vscode
-
-assets/
 
 *.kra*
