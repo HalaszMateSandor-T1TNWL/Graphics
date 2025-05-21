@@ -42,8 +42,8 @@ void init_scene(Scene* scene) {
 
     load_model(&scene->objects[3].model, "../assets/Map/Pillar/set_piece.obj");
     scene->objects[3].textureID = load_texture("../assets/Stone_Pillar/pillar.png");
-    load_model(&scene->objects[4].model, "../assets/Map/Pillar/PILL_main_pillar.obj");
-    calculate_bounding_box(&scene->objects[4]);
+    //load_model(&scene->objects[3].model, "../assets/Map/Pillar/PILL_main_pillar.obj");
+    calculate_bounding_box(&scene->objects[3]);
 
     scene->light_pos.x = 10.0f;
     scene->light_pos.y = 100.0f;
@@ -71,9 +71,9 @@ void render_scene(Scene* scene) {
     float cameraY = scene->camera.position.y;
     float cameraZ = scene->camera.position.z;
 
-    /*if(cameraY < 0.0f) {
+    if(cameraY < 0.0f) {
         cameraY = 1.0f;
-    }*/
+    }
     if (scene->camera.distance_from_player < 5.0f) {
         scene->camera.distance_from_player = 5.0f;
     }
@@ -136,7 +136,6 @@ void render_scene(Scene* scene) {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, scene->player.textureID);
 
-        //debug_bounding_box(&scene->player.box);
         glTranslatef(scene->player.position.x, scene->player.position.y, scene->player.position.z);
         glRotatef(scene->player.rotation.y, 0.0f, 1.0f, 0.0f);
         glScalef(scene->player.size.x, scene->player.size.y, scene->player.size.z);
@@ -156,7 +155,6 @@ void render_scene(Scene* scene) {
         scene->objects[0].size.y = 10.0f;
         scene->objects[0].size.z = 10.0f;
 
-        //debug_bounding_box(&scene->objects[0].box);
         glTranslatef(150.0f, 0.0f, 200.0f);
         draw_model(&scene->objects[0].model);
     glPopMatrix();
@@ -172,7 +170,6 @@ void render_scene(Scene* scene) {
         scene->objects[1].size.y = 15.0f;
         scene->objects[1].size.z = 5.0f;
 
-        //debug_bounding_box(&scene->objects[1].box);
         glTranslatef(100.0f, 0.0f, 100.0f);
         draw_model(&scene->objects[1].model);
     glPopMatrix();
@@ -221,6 +218,7 @@ void render_scene(Scene* scene) {
         draw_skybox(scene, 5000);
     glPopMatrix();
 
+    /* When turned on renders bounding boxes for debugging purposes */
     if(scene->box_shown){
         glPushMatrix();
             for (int i = 0; i < MAX_OBJECTS; i++) {
@@ -249,7 +247,6 @@ void init_opengl() {
 
     glEnable(GL_DEPTH_TEST);
     glClearDepth(1.0f);
-
 }
 
 void init_skybox(Scene* scene) {

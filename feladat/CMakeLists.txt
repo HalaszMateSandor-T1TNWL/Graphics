@@ -12,7 +12,7 @@ add_executable(The_Pillars src/main.c src/application.c src/camera.c src/scene.c
 target_include_directories(The_Pillars PUBLIC include)
 
 if(WIN32)
-    target_link_libraries(The_Pillars PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image SDL2_ttf obj)
+    target_link_libraries(The_Pillars PUBLIC mingw32 ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} SDL2_image::SDL2_image obj)
 endif(WIN32)
 
 if(UNIX)

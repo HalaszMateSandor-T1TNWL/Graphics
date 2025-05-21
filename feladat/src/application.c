@@ -133,7 +133,7 @@ void event_handler(App* app) {
 void movement(App* app) {
     move(&app->scene.player, get_current_time(app));
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < MAX_OBJECTS; i++) {
 		update_bounding_box(&app->scene.objects[i].box, app->scene.objects[i].position, app->scene.objects[i].size);
         if (check_collision(&app->scene.player.box, &app->scene.objects[i].box)) {
             handle_collision(&app->scene.objects[i], &app->scene.player);
