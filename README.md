@@ -25,3 +25,4 @@
    - SDL2
    - SDL2_image
    - obj, amit [Piller Imre repoján](https://gitlab.com/imre-piller/me-courses/-/tree/master/grafika/utils/obj?ref_type=heads) megtalálhattok
+   - Valamint Cmake-et használtam a build-eléshez
