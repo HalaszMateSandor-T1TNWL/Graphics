@@ -29,6 +29,6 @@
 # Hogyan buildelem a projektet?
  - Ahhoz, hogy buildeld pullold (töltsd le) a repoban található "feladat" mappát, a Dropboxon található "assets" mappával együtt, helyezd el az "assets" mappát a "feladat" mappán belül (NE készíts új mappákat dolgoknak és legyen minden egymás mellett, magának a játéknak csinálhatsz egy külön mappát, de azon belül ne rakosgass semmit).
  - Miután van egy "include", "assets", "src" mappád és egy CMakeLists.txt fájlod, hozz létre egy "build" mappát, fontos máskülönben mindent szét fog dobálni a CMake
- - Utána nyisd meg a "build" mappát egy parancsablakon belül és add ki a $cmake .. -G "MinGW Makefiles" ($-jel nélkül) parancsot (ha Windows-on), vagy a $cmake .. -G "Unix Makefiles" parancsot
+ - Utána nyisd meg a "build" mappát egy parancsablakon belül és add ki a $cmake .. -G "MinGW Makefiles"$ parancsot (ha Windows-on), vagy a $cmake .. -G "Unix Makefiles"$ parancsot
  - Miután az lefut egy szimpla $make paranccsal buildelted is a projektet.
  - A "build" mappán belül lesz majd a futtatható állomány (.exe)
