@@ -4,6 +4,8 @@
 
 *.cmake
 
+assets/
+
 build/
 
 *fbx
