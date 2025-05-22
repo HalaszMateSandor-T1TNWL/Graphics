@@ -123,7 +123,7 @@ void event_handler(App* app) {
         break;      
         case SDL_QUIT:
             app->is_running = 0;
-            break;
+        break;
         default:
             break;
         }

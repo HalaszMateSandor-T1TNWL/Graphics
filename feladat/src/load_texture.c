@@ -27,7 +27,7 @@ GLuint load_texture(char* filename) {
     return texture_name;
 }
 
-#if 0 /* This one doesn't work anymore for what I'm doing */
+#if true /* This one doesn't work anymore for what I'm doing */
 GLuint load_texture(char* filename){
 
     SDL_Surface* surface = IMG_Load(filename);
